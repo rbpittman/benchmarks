@@ -1,0 +1,275 @@
+TensorFlow:  1.10
+Model:       resnet50
+Dataset:     imagenet (synthetic)
+Mode:        training
+SingleSess:  False
+Batch size:  32 global
+             32.0 per device
+Num batches: 100
+Num epochs:  0.00
+Devices:     ['/gpu:0']
+Data format: NCHW
+Layout optimizer: False
+Optimizer:   sgd
+Variables:   parameter_server
+==========
+Generating model
+W0614 13:03:25.495981 140357909575424 tf_logging.py:125] From /home/ubuntu/benchmarks/scripts/tf_cnn_benchmarks/benchmark_cnn.py:1678: Supervisor.__init__ (from tensorflow.python.training.supervisor) is deprecated and will be removed in a future version.
+Instructions for updating:
+Please switch to tf.train.MonitoredTrainingSession
+2018-06-14 13:03:26.986122: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+==17395== NVPROF is profiling process 17395, command: python3 tf_cnn_benchmarks.py --num_gpus=1 --batch_size=32 --model=resnet50 --variable_update=parameter_server
+2018-06-14 13:03:27.683652: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:883] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-06-14 13:03:27.684153: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1392] Found device 0 with properties: 
+name: Tesla K80 major: 3 minor: 7 memoryClockRate(GHz): 0.562
+pciBusID: 0000:00:1e.0
+totalMemory: 11.17GiB freeMemory: 11.09GiB
+2018-06-14 13:03:27.684193: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1471] Adding visible gpu devices: 0
+2018-06-14 13:04:45.207394: I tensorflow/core/common_runtime/gpu/gpu_device.cc:952] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-06-14 13:04:45.207441: I tensorflow/core/common_runtime/gpu/gpu_device.cc:958]      0 
+2018-06-14 13:04:45.207454: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] 0:   N 
+2018-06-14 13:04:45.209884: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1084] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10753 MB memory) -> physical GPU (device: 0, name: Tesla K80, pci bus id: 0000:00:1e.0, compute capability: 3.7)
+I0614 13:04:46.883389 140357909575424 tf_logging.py:115] Running local_init_op.
+I0614 13:04:47.095751 140357909575424 tf_logging.py:115] Done running local_init_op.
+Running warm up
+Done warm up
+Step	Img/sec	total_loss
+1	images/sec: 3.4 +/- 0.0 (jitter = 0.0)	8.136
+10	images/sec: 3.4 +/- 0.0 (jitter = 0.0)	8.154
+20	images/sec: 3.4 +/- 0.0 (jitter = 0.0)	8.059
+30	images/sec: 3.4 +/- 0.0 (jitter = 0.0)	8.232
+40	images/sec: 3.4 +/- 0.0 (jitter = 0.0)	8.379
+50	images/sec: 3.4 +/- 0.0 (jitter = 0.0)	8.173
+60	images/sec: 3.4 +/- 0.0 (jitter = 0.0)	8.494
+70	images/sec: 3.4 +/- 0.0 (jitter = 0.0)	8.146
+80	images/sec: 3.4 +/- 0.0 (jitter = 0.0)	7.961
+90	images/sec: 3.4 +/- 0.0 (jitter = 0.0)	8.260
+100	images/sec: 3.4 +/- 0.0 (jitter = 0.0)	8.286
+----------------------------------------------------------------
+total images/sec: 3.38
+----------------------------------------------------------------
+==17395== Profiling application: python3 tf_cnn_benchmarks.py --num_gpus=1 --batch_size=32 --model=resnet50 --variable_update=parameter_server
+==17395== Profiling result:
+==17395== Metric result:
+Invocations                               Metric Name                        Metric Description         Min         Max         Avg
+Device "Tesla K80 (0)"
+    Kernel: void Eigen::internal::EigenMetaKernel<Eigen::TensorEvaluator<Eigen::TensorAssignOp<Eigen::TensorMap<Eigen::Tensor<float, int=1, int=1, int>, int=16, Eigen::MakePointer>, Eigen::TensorCwiseUnaryOp<Eigen::internal::scalar_right<float, float, Eigen::internal::scalar_product_op<float, float>>, Eigen::TensorMap<Eigen::Tensor<float const , int=1, int=1, int>, int=16, Eigen::MakePointer> const > const > const , Eigen::GpuDevice>, int>(float, int=1)
+      29865                             sm_efficiency                   Multiprocessor Activity       1.01%      96.17%      12.10%
+    Kernel: _ZN5Eigen8internal15EigenMetaKernelINS_15TensorEvaluatorIKNS_14TensorAssignOpINS_9TensorMapINS_6TensorIfLi1ELi1ElEELi16ENS_11MakePointerEEEKNS_19TensorCwiseBinaryOpINS0_20scalar_difference_opIffEEKS8_KNS9_INS0_17scalar_product_opIKfSE_EEKNS_20TensorBroadcastingOpIKNS_5arrayIlLm1EEEKNS_17TensorReshapingOpIKNS_5SizesIJLl1EEEEKNS4_INS_15TensorFixedSizeISE_NSL_IJEEELi1ElEELi16ES7_EEEEEEKNS4_INS5_ISE_Li1ELi1ElEELi16ES7_EEEEEEEENS_9GpuDeviceEEElEEvT_T0_
+      17710                             sm_efficiency                   Multiprocessor Activity       1.51%      95.60%      22.99%
+    Kernel: cudnn_convolve_sgemm_sm35_ldg_nn_64x16x64x16x16
+         20                             sm_efficiency                   Multiprocessor Activity      85.70%      99.75%      97.51%
+    Kernel: _ZN5Eigen8internal20InnerReductionKernelILi128ENS_15TensorEvaluatorIKNS_17TensorReductionOpINS0_10MaxReducerIfEEKNS_9IndexListINS_10type2indexILl1EEEJEEEKNS_9TensorMapINS_6TensorIKfLi2ELi1EiEELi16ENS_11MakePointerEEESF_EENS_9GpuDeviceEEES5_iEEvT1_T0_T2_SO_PNSN_15CoeffReturnTypeE
+        110                             sm_efficiency                   Multiprocessor Activity       7.44%       7.47%       7.45%
+    Kernel: void flip_filter<float, float>(float*, float const *, int, int, int, int)
+         26                             sm_efficiency                   Multiprocessor Activity      76.35%      99.87%      96.15%
+    Kernel: void cudnn::winograd_nonfused::winogradWgradDelta4x4<float, float>(cudnn::winograd_nonfused::WinogradDeltaParams<float, float>)
+          4                             sm_efficiency                   Multiprocessor Activity      92.26%      98.55%      95.64%
+    Kernel: void Eigen::internal::EigenMetaKernel<Eigen::TensorEvaluator<Eigen::TensorAssignOp<Eigen::TensorMap<Eigen::Tensor<float, int=1, int=1, int>, int=16, Eigen::MakePointer>, Eigen::TensorCwiseBinaryOp<Eigen::internal::scalar_difference_op<float, float>, Eigen::TensorMap<Eigen::Tensor<float const , int=1, int=1, int>, int=16, Eigen::MakePointer> const , Eigen::TensorMap<Eigen::Tensor<float const , int=1, int=1, long>, int=16, Eigen::MakePointer> const > const > const , Eigen::GpuDevice>, long>(float, int=1)
+      11660                             sm_efficiency                   Multiprocessor Activity       1.42%       4.33%       2.17%
+    Kernel: void cudnn::winograd_nonfused::winogradWgradData4x4<float, float>(cudnn::winograd_nonfused::WinogradDataParams<float, float>)
+          4                             sm_efficiency                   Multiprocessor Activity      93.33%      98.73%      96.18%
+    Kernel: void cudnn::detail::dgrad_alg1_engine<float, int=128, int=6, int=7, int=3, int=3, int=5, bool=1, bool=0>(int, int, int, float const *, int, float const , int, cudnn::detail::dgrad_alg1_engine<float, int=128, int=6, int=7, int=3, int=3, int=5, bool=1, bool=0>*, kernel_grad_params, int, int, float, int)
+          2                             sm_efficiency                   Multiprocessor Activity      95.02%      95.15%      95.09%
+    Kernel: void cudnn::detail::dgrad_alg1_engine<float, int=128, int=6, int=8, int=3, int=3, int=5, bool=1, bool=0>(int, int, int, float const *, int, float const , int, cudnn::detail::dgrad_alg1_engine<float, int=128, int=6, int=8, int=3, int=3, int=5, bool=1, bool=0>*, kernel_grad_params, int, int, float, int)
+       2098                             sm_efficiency                   Multiprocessor Activity      89.97%      99.63%      95.15%
+    Kernel: sgemm_sm35_ldg_nt_64x16x128x8x32
+        110                             sm_efficiency                   Multiprocessor Activity      68.14%      77.99%      71.94%
+    Kernel: void cudnn::detail::wgrad_alg0_engine<float, int=512, int=6, int=5, int=3, int=3, int=3, bool=1, int=512>(int, int, int, float const *, int, cudnn::detail::wgrad_alg0_engine<float, int=512, int=6, int=5, int=3, int=3, int=3, bool=1, int=512>*, float const , kernel_grad_params, int, float, int, int, int, int)
+        778                             sm_efficiency                   Multiprocessor Activity      90.76%      99.61%      98.04%
+    Kernel: void scalePackedTensor_kernel<float, float>(cudnnTensor4dStruct, float*, float)
+       4438                             sm_efficiency                   Multiprocessor Activity      74.88%      98.98%      91.43%
+    Kernel: void fermiPlusCgemmLDS128_batched<bool=1, bool=0, bool=0, bool=0, int=4, int=4, int=4, int=3, int=3, bool=1, bool=0>(float2* const *, float2* const *, float2* const *, float2*, float2 const *, float2 const *, int, int, int, int, int, int, __int64, __int64, __int64, float2 const *, float2 const *, float2, float2, int)
+         19                             sm_efficiency                   Multiprocessor Activity      99.20%      99.95%      99.66%
+    Kernel: void pointwise_mult_and_sum_complex<float2, int=8, int=4>(float2*, float2*, float2*, int, int, int, int, int, float2)
+         12                             sm_efficiency                   Multiprocessor Activity      90.44%      98.49%      93.71%
+    Kernel: void tensorflow::BiasNHWCKernel<float>(int, float const *, float const , tensorflow::BiasNHWCKernel<float>*, int)
+        110                             sm_efficiency                   Multiprocessor Activity      39.66%      41.57%      40.50%
+    Kernel: void cudnn::detail::bn_fw_tr_1C11_singleread<float, int=512, bool=1, int=1, int=2, int=0>(cudnnTensorStruct, float const *, cudnn::detail::bn_fw_tr_1C11_singleread<float, int=512, bool=1, int=1, int=2, int=0>, cudnnTensorStruct*, float const *, float const , float, float, float*, float const *, float const *, float const *, float, float, cudnn::reduced_divisor, int, float*, cudnn::detail::bnFwPersistentState*, int, float, float, float, int, float, float, cudnnStatus_t*, bool)
+       1100                             sm_efficiency                   Multiprocessor Activity      89.84%      98.43%      95.38%
+    Kernel: void Eigen::internal::EigenMetaKernel<Eigen::TensorEvaluator<Eigen::TensorAssignOp<Eigen::TensorMap<Eigen::Tensor<float, int=1, int=1, long>, int=16, Eigen::MakePointer>, Eigen::TensorCwiseBinaryOp<Eigen::internal::scalar_sum_op<float const , float const >, Eigen::TensorMap<Eigen::Tensor<float const , int=1, int=1, long>, int=16, Eigen::MakePointer> const , Eigen::TensorMap<Eigen::Tensor<float const , int=1, int=1, long>, int=16, Eigen::MakePointer> const > const > const , Eigen::GpuDevice>, long>(float, int=1)
+      19470                             sm_efficiency                   Multiprocessor Activity       1.61%      97.79%      29.31%
+    Kernel: void Eigen::internal::EigenMetaKernel<Eigen::TensorEvaluator<Eigen::TensorAssignOp<Eigen::TensorMap<Eigen::Tensor<float, int=1, int=1, int>, int=16, Eigen::MakePointer>, Eigen::TensorCwiseUnaryOp<Eigen::internal::scalar_right<float, float, Eigen::internal::scalar_sum_op<float, float>>, Eigen::TensorMap<Eigen::Tensor<float const , int=1, int=1, int>, int=16, Eigen::MakePointer> const > const > const , Eigen::GpuDevice>, int>(float, int=1)
+        164                             sm_efficiency                   Multiprocessor Activity       2.30%      96.48%      19.71%
+    Kernel: void tensorflow::functor::SwapDimension1And2InTensor3UsingTiles<unsigned int, int=1024, int=1024, int=2, bool=0>(unsigned int const *, tensorflow::functor::Dimension<int=3>, tensorflow::functor::SwapDimension1And2InTensor3UsingTiles<unsigned int, int=1024, int=1024, int=2, bool=0>*)
+        110                             sm_efficiency                   Multiprocessor Activity      98.77%      99.03%      98.90%
+    Kernel: void cudnn::detail::wgrad_alg1_engine<float, int=512, int=6, int=5, int=3, int=3, int=3, bool=1, bool=1>(int, int, int, float const *, int, cudnn::detail::wgrad_alg1_engine<float, int=512, int=6, int=5, int=3, int=3, int=3, bool=1, bool=1>*, float const , kernel_grad_params, int, float, float, int, int, int*, kernel_grad_params, int, int)
+          4                             sm_efficiency                   Multiprocessor Activity      91.13%      98.90%      96.30%
+    Kernel: void cudnn::detail::wgrad_alg0_engine<float, int=128, int=6, int=8, int=3, int=3, int=5, bool=1, int=512>(int, int, int, float const *, int, cudnn::detail::wgrad_alg0_engine<float, int=128, int=6, int=8, int=3, int=3, int=5, bool=1, int=512>*, float const , kernel_grad_params, int, float, int, int, int, int)
+       3106                             sm_efficiency                   Multiprocessor Activity      92.17%      99.86%      97.12%
+    Kernel: void cudnn::detail::dgrad_engine<float, int=128, int=6, int=7, int=3, int=3, int=5, bool=1>(int, int, int, float const *, int, float const , int, cudnn::detail::dgrad_engine<float, int=128, int=6, int=7, int=3, int=3, int=5, bool=1>*, kernel_grad_params, int, int, float, int, int, int)
+       1769                             sm_efficiency                   Multiprocessor Activity      91.31%      99.65%      97.62%
+    Kernel: void Eigen::internal::EigenMetaKernel<Eigen::TensorEvaluator<Eigen::TensorAssignOp<Eigen::TensorMap<Eigen::Tensor<float, int=1, int=1, long>, int=16, Eigen::MakePointer>, Eigen::TensorCwiseBinaryOp<Eigen::internal::scalar_max_op<float const , float const >, Eigen::TensorMap<Eigen::Tensor<float const , int=1, int=1, long>, int=16, Eigen::MakePointer> const , Eigen::TensorCwiseNullaryOp<Eigen::internal::scalar_constant_op<float const >, Eigen::TensorMap<Eigen::Tensor<float const , int=1, int=1, long>, int=16, Eigen::MakePointer> const > const > const > const , Eigen::GpuDevice>, long>(float, int=1)
+       5390                             sm_efficiency                   Multiprocessor Activity      79.54%      99.28%      92.87%
+    Kernel: void Eigen::internal::EigenMetaKernel<Eigen::TensorEvaluator<Eigen::TensorAssignOp<Eigen::TensorMap<Eigen::Tensor<float, int=1, int=1, long>, int=16, Eigen::MakePointer>, Eigen::TensorCwiseBinaryOp<Eigen::internal::scalar_difference_op<float const , float const >, Eigen::TensorMap<Eigen::Tensor<float, int=1, int=1, long>, int=16, Eigen::MakePointer> const , Eigen::TensorMap<Eigen::Tensor<float const , int=1, int=1, long>, int=16, Eigen::MakePointer> const > const > const , Eigen::GpuDevice>, long>(float, int=1)
+      11660                             sm_efficiency                   Multiprocessor Activity       1.44%       4.23%       2.17%
+    Kernel: void fft2d_c2r_32x32<float, bool=0, unsigned int=0, bool=0, bool=0>(float*, float2 const *, int, int, int, int, int, int, int, int, int, float, float, cudnn::reduced_divisor, bool, float*, float*)
+         16                             sm_efficiency                   Multiprocessor Activity      91.91%      98.59%      94.20%
+    Kernel: cgemm_strided_batched_sm35_ldg_nt_64x8x64x16x16
+         38                             sm_efficiency                   Multiprocessor Activity      95.99%      99.69%      98.08%
+    Kernel: sgemm_sm35_ldg_nt_128x16x64x16x16
+        110                             sm_efficiency                   Multiprocessor Activity      76.56%      77.60%      77.38%
+    Kernel: _ZN5Eigen8internal15EigenMetaKernelINS_15TensorEvaluatorIKNS_14TensorAssignOpINS_9TensorMapINS_6TensorIfLi1ELi1EiEELi16ENS_11MakePointerEEEKNS_14TensorSelectOpIKNS_20TensorBroadcastingOpIKNS_5arrayIiLm1EEEKNS_17TensorReshapingOpIKNS_9IndexListINS_10type2indexILl1EEEJEEEKNS4_INS_15TensorFixedSizeIKbNS_5SizesIJEEELi1ElEELi16ES7_EEEEEEKNS4_INS5_IKfLi1ELi1ElEELi16ES7_EESY_EEEENS_9GpuDeviceEEElEEvT_T0_
+        110                             sm_efficiency                   Multiprocessor Activity       2.30%       2.70%       2.56%
+    Kernel: void cudnn::detail::implicit_convolve_sgemm<float, float, int=1024, int=5, int=5, int=3, int=3, int=3, int=1, bool=1, bool=0, bool=1>(int, int, int, float const *, int, float*, cudnn::detail::implicit_convolve_sgemm<float, float, int=1024, int=5, int=5, int=3, int=3, int=3, int=1, bool=1, bool=0, bool=1>*, kernel_conv_params, int, float, float, int, float, float, int, int)
+        778                             sm_efficiency                   Multiprocessor Activity      99.01%      99.90%      99.58%
+    Kernel: void fft1d_r2c_32<float, float, float2, bool=0, bool=0>(float2*, float const *, int, int3, int3, int2, int2)
+         33                             sm_efficiency                   Multiprocessor Activity      79.76%      99.71%      97.09%
+    Kernel: void fft1d_r2c_32<float, float, float2, bool=1, bool=0>(float2*, float const *, int, int3, int3, int2, int2)
+          9                             sm_efficiency                   Multiprocessor Activity      82.01%      99.76%      94.58%
+    Kernel: void cudnn::detail::wgrad_alg1_engine<float, int=128, int=6, int=8, int=3, int=3, int=5, bool=1, bool=1>(int, int, int, float const *, int, cudnn::detail::wgrad_alg1_engine<float, int=128, int=6, int=8, int=3, int=3, int=5, bool=1, bool=1>*, float const , kernel_grad_params, int, float, float, int, int, int*, kernel_grad_params, int, int)
+          8                             sm_efficiency                   Multiprocessor Activity      88.08%      98.12%      91.90%
+    Kernel: void tensorflow::functor::BlockReduceKernel<cub::TransformInputIterator<float, tensorflow::squareHalf<float>, float*, long>, float*, int=256, cub::Sum>(float, float, int, float*, std::iterator_traits<tensorflow::functor::BlockReduceKernel<cub::TransformInputIterator<float, tensorflow::squareHalf<float>, float*, long>, float*, int=256, cub::Sum>>::value_type)
+      15950                             sm_efficiency                   Multiprocessor Activity       1.34%      85.27%      16.47%
+    Kernel: void cudnn::winograd_nonfused::winogradForwardData4x4<float, float>(cudnn::winograd_nonfused::WinogradDataParams<float, float>)
+          8                             sm_efficiency                   Multiprocessor Activity      95.66%      98.67%      96.92%
+    Kernel: void cudnn::winograd::winograd3x3Kernel<float, float, int=1, int=4, int=8, bool=0>(cudnn::maxwell::winograd::KernelParams)
+        332                             sm_efficiency                   Multiprocessor Activity      99.15%      99.73%      99.54%
+    Kernel: void fft2d_c2r_64x64<float, bool=0>(float*, float2*, int, int, int, int, int, int, int, int, int, int, float, float, int, float*, float*)
+         12                             sm_efficiency                   Multiprocessor Activity      98.36%      99.75%      98.97%
+    Kernel: void fft2d_r2c_16x16<float>(float2*, float const *, int, int, int, int, int, int, int, int)
+         36                             sm_efficiency                   Multiprocessor Activity      93.66%      99.95%      97.81%
+    Kernel: void tensorflow::functor::FillPhiloxRandomKernelLaunch<tensorflow::random::TruncatedNormalDistribution<tensorflow::random::SingleSampleAdapter<tensorflow::random::PhiloxRandom>, float>>(tensorflow::random::PhiloxRandom, tensorflow::random::PhiloxRandomResultElementType*, __int64, tensorflow::functor::FillPhiloxRandomKernelLaunch<tensorflow::random::TruncatedNormalDistribution<tensorflow::random::SingleSampleAdapter<tensorflow::random::PhiloxRandom>, float>>)
+          2                             sm_efficiency                   Multiprocessor Activity      91.63%      92.70%      92.17%
+    Kernel: void cudnn::detail::pooling_fw_4d_kernel<float, float, cudnn::detail::maxpooling_func<float, cudnnNanPropagation_t=0>, int=0, bool=0>(cudnnTensorStruct, float const *, cudnn::detail::pooling_fw_4d_kernel<float, float, cudnn::detail::maxpooling_func<float, cudnnNanPropagation_t=0>, int=0, bool=0>, cudnnTensorStruct*, cudnnPoolingStruct, float, cudnnPoolingStruct, int, cudnn::reduced_divisor, float)
+        110                             sm_efficiency                   Multiprocessor Activity      99.55%      99.61%      99.58%
+    Kernel: void Eigen::internal::EigenMetaKernel<Eigen::TensorEvaluator<Eigen::TensorAssignOp<Eigen::TensorMap<Eigen::Tensor<float, int=2, int=1, int>, int=16, Eigen::MakePointer>, Eigen::TensorCwiseBinaryOp<Eigen::internal::scalar_product_op<float, float>, Eigen::TensorBroadcastingOp<Eigen::array<long, unsigned long=2> const , Eigen::TensorMap<Eigen::Tensor<float const , int=2, int=1, int>, int=16, Eigen::MakePointer> const > const , Eigen::TensorMap<Eigen::Tensor<float const , int=2, int=1, int>, int=16, Eigen::MakePointer> const > const > const , Eigen::GpuDevice>, int>(float, int=2)
+        110                             sm_efficiency                   Multiprocessor Activity      34.11%      36.33%      35.10%
+    Kernel: void Eigen::internal::EigenMetaKernel<Eigen::TensorEvaluator<Eigen::TensorAssignOp<Eigen::TensorMap<Eigen::Tensor<float, int=1, int=1, int>, int=16, Eigen::MakePointer>, Eigen::TensorCwiseBinaryOp<Eigen::internal::scalar_sum_op<float, float>, Eigen::TensorMap<Eigen::Tensor<float const , int=1, int=1, int>, int=16, Eigen::MakePointer> const , Eigen::TensorMap<Eigen::Tensor<float const , int=1, int=1, long>, int=16, Eigen::MakePointer> const > const > const , Eigen::GpuDevice>, long>(float, int=1)
+       1760                             sm_efficiency                   Multiprocessor Activity      93.66%      97.87%      95.99%
+    Kernel: void fft2d_r2c_32x32<float, unsigned int=0, bool=0>(float2*, float const *, int, int, int, int, int, int, int, int, int, cudnn::reduced_divisor, bool)
+         22                             sm_efficiency                   Multiprocessor Activity      88.38%      98.77%      94.41%
+    Kernel: void fft2d_r2c_32x32<float, unsigned int=1, bool=1>(float2*, float const *, int, int, int, int, int, int, int, int, int, cudnn::reduced_divisor, bool)
+          4                             sm_efficiency                   Multiprocessor Activity      94.25%      99.91%      98.01%
+    Kernel: void cudnn::winograd::generateWinogradTilesKernel<int=0, float, float>(cudnn::winograd::GenerateWinogradTilesParams<float, float>)
+       1438                             sm_efficiency                   Multiprocessor Activity      52.54%      96.47%      72.93%
+    Kernel: void cudnn::detail::wgrad_alg1_engine<float, int=128, int=6, int=7, int=3, int=3, int=5, bool=1, bool=1>(int, int, int, float const *, int, cudnn::detail::wgrad_alg1_engine<float, int=128, int=6, int=7, int=3, int=3, int=5, bool=1, bool=1>*, float const , kernel_grad_params, int, float, float, int, int, int*, kernel_grad_params, int, int)
+          3                             sm_efficiency                   Multiprocessor Activity      83.91%      98.52%      91.20%
+    Kernel: void Eigen::internal::EigenMetaKernel<Eigen::TensorEvaluator<Eigen::TensorAssignOp<Eigen::TensorMap<Eigen::Tensor<float, int=2, int=1, int>, int=16, Eigen::MakePointer>, Eigen::TensorGeneratorOp<tensorflow::generator::SparseXentGradGenerator<float, int>, Eigen::TensorMap<Eigen::Tensor<float, int=2, int=1, int>, int=16, Eigen::MakePointer> const > const > const , Eigen::GpuDevice>, int>(float, int=2)
+        110                             sm_efficiency                   Multiprocessor Activity      46.62%      50.06%      49.02%
+    Kernel: void tensorflow::functor::SwapDimension0And2InTensor3Simple<float, bool=0>(int, float const *, tensorflow::functor::Dimension<int=3>, tensorflow::functor::SwapDimension0And2InTensor3Simple<float, bool=0>*)
+      17380                             sm_efficiency                   Multiprocessor Activity       7.55%      98.00%      71.65%
+    Kernel: void tensorflow::functor::FillPhiloxRandomKernelLaunch<tensorflow::random::UniformDistribution<tensorflow::random::PhiloxRandom, float>>(tensorflow::random::PhiloxRandom, tensorflow::random::PhiloxRandomResultElementType*, __int64, tensorflow::functor::FillPhiloxRandomKernelLaunch<tensorflow::random::UniformDistribution<tensorflow::random::PhiloxRandom, float>>)
+         53                             sm_efficiency                   Multiprocessor Activity      42.86%      91.89%      67.49%
+    Kernel: void cudnn::detail::dgrad_engine<float, int=128, int=6, int=8, int=3, int=3, int=5, bool=1>(int, int, int, float const *, int, float const , int, cudnn::detail::dgrad_engine<float, int=128, int=6, int=8, int=3, int=3, int=5, bool=1>*, kernel_grad_params, int, int, float, int, int, int)
+        226                             sm_efficiency                   Multiprocessor Activity      84.58%      98.29%      96.36%
+    Kernel: void Eigen::internal::EigenMetaKernel<Eigen::TensorEvaluator<Eigen::TensorAssignOp<Eigen::TensorMap<Eigen::Tensor<int, int=1, int=1, long>, int=16, Eigen::MakePointer>, Eigen::TensorConversionOp<int, Eigen::TensorMap<Eigen::Tensor<bool const , int=1, int=1, long>, int=16, Eigen::MakePointer> const > const > const , Eigen::GpuDevice>, long>(int, int=1)
+        110                             sm_efficiency                   Multiprocessor Activity       1.64%       1.98%       1.82%
+    Kernel: void cudnn::detail::bn_bw_1C11_singleread<float, int=512, bool=1, int=1, int=2, int=7>(float, float, float, float, cudnnTensorStruct, float const *, cudnn::detail::bn_bw_1C11_singleread<float, int=512, bool=1, int=1, int=2, int=7>, float const , cudnn::detail::bn_bw_1C11_singleread<float, int=512, bool=1, int=1, int=2, int=7>, cudnnTensorStruct*, float const *, float*, float const *, float const , float const , float, cudnn::reduced_divisor, int, float*, cudnn::detail::bnBwPersistentState*, int, float, float, float, int, float, cudnnStatus_t*, bool)
+       2090                             sm_efficiency                   Multiprocessor Activity      92.68%      98.99%      95.73%
+    Kernel: void Eigen::internal::EigenMetaKernel<Eigen::TensorEvaluator<Eigen::TensorAssignOp<Eigen::TensorMap<Eigen::Tensor<bool, int=1, int=1, int>, int=16, Eigen::MakePointer>, Eigen::TensorCwiseUnaryOp<Eigen::internal::scalar_right<bool, bool, Eigen::internal::scalar_boolean_and_op>, Eigen::TensorMap<Eigen::Tensor<bool const , int=1, int=1, int>, int=16, Eigen::MakePointer> const > const > const , Eigen::GpuDevice>, int>(bool, int=1)
+        330                             sm_efficiency                   Multiprocessor Activity       1.36%       1.95%       1.64%
+    Kernel: void Eigen::internal::EigenMetaKernel<Eigen::TensorEvaluator<Eigen::TensorAssignOp<Eigen::TensorMap<Eigen::Tensor<float, int=2, int=1, int>, int=16, Eigen::MakePointer>, Eigen::TensorCwiseUnaryOp<Eigen::internal::scalar_exp_op<float>, Eigen::TensorMap<Eigen::Tensor<float, int=2, int=1, int>, int=16, Eigen::MakePointer> const > const > const , Eigen::GpuDevice>, int>(float, int=2)
+        110                             sm_efficiency                   Multiprocessor Activity      29.83%      32.03%      30.83%
+    Kernel: void tensorflow::functor::BlockReduceKernel<float*, float*, int=256, tensorflow::functor::Sum<float>>(float*, float*, int, float, std::iterator_traits<tensorflow::functor::BlockReduceKernel<float*, float*, int=256, tensorflow::functor::Sum<float>>>::value_type)
+        110                             sm_efficiency                   Multiprocessor Activity       2.18%       2.33%       2.25%
+    Kernel: void tensorflow::functor::CleanupSegments<float*, float*, cub::Sum>(float*, float*, int, int, int, cub::Sum, std::iterator_traits<tensorflow::functor::CleanupSegments<float*, float*, cub::Sum>>::value_type)
+       4070                             sm_efficiency                   Multiprocessor Activity       1.62%       2.34%       1.75%
+    Kernel: void cudnn::winograd_nonfused::winogradForwardOutput4x4<float, float>(cudnn::winograd_nonfused::WinogradOutputParams<float, float>)
+          8                             sm_efficiency                   Multiprocessor Activity      95.13%      98.73%      96.92%
+    Kernel: void Eigen::internal::EigenMetaKernel<Eigen::TensorEvaluator<Eigen::TensorAssignOp<Eigen::TensorMap<Eigen::Tensor<bool, int=1, int=1, int>, int=16, Eigen::MakePointer>, Eigen::TensorCwiseUnaryOp<Eigen::internal::scalar_right<bool, __int64, Eigen::internal::less<__int64>>, Eigen::TensorMap<Eigen::Tensor<__int64 const , int=1, int=1, int>, int=16, Eigen::MakePointer> const > const > const , Eigen::GpuDevice>, int>(bool, int=1)
+        110                             sm_efficiency                   Multiprocessor Activity       2.11%       2.33%       2.21%
+    Kernel: _ZN5Eigen8internal15EigenMetaKernelINS_15TensorEvaluatorIKNS_14TensorAssignOpINS_9TensorMapINS_6TensorIfLi2ELi1EiEELi16ENS_11MakePointerEEEKNS_19TensorCwiseBinaryOpINS0_20scalar_difference_opIKfSB_EEKNS4_INS5_ISB_Li2ELi1EiEELi16ES7_EEKNS_20TensorBroadcastingOpIKNS_9IndexListINS_10type2indexILl1EEEJiEEEKNS_17TensorReshapingOpIKNSH_IiJSJ_EEENS4_INS5_IfLi1ELi1EiEELi16ES7_EEEEEEEEEENS_9GpuDeviceEEEiEEvT_T0_
+        110                             sm_efficiency                   Multiprocessor Activity      33.01%      34.65%      33.99%
+    Kernel: void cub::DeviceReduceKernel<cub::DeviceReducePolicy<float, int, cub::Sum>::Policy600, cub::TransformInputIterator<float, tensorflow::squareHalf<float>, float*, long>, float*, int, cub::Sum>(int, cub::Sum, cub::DeviceReducePolicy<float, int, cub::Sum>::Policy600, cub::GridEvenShare<cub::Sum>, float)
+       1760                             sm_efficiency                   Multiprocessor Activity      62.56%      90.20%      79.29%
+    Kernel: void cudnn::detail::implicit_convolve_sgemm<float, float, int=512, int=6, int=8, int=3, int=3, int=5, int=1, bool=1, bool=0, bool=1>(int, int, int, float const *, int, float*, cudnn::detail::implicit_convolve_sgemm<float, float, int=512, int=6, int=8, int=3, int=3, int=5, int=1, bool=1, bool=0, bool=1>*, kernel_conv_params, int, float, float, int, float, float, int, int)
+        332                             sm_efficiency                   Multiprocessor Activity      88.89%      95.05%      94.53%
+    Kernel: void cudnn::detail::bn_fw_tr_1C11_kernel_new<float, float, int=512, bool=1, int=1>(cudnnTensorStruct, float const *, cudnn::detail::bn_fw_tr_1C11_kernel_new<float, float, int=512, bool=1, int=1>, cudnnTensorStruct*, float const *, float const , cudnnTensorStruct*, cudnnTensorStruct*, cudnnTensorStruct**, float const *, float const *, float const *, cudnnTensorStruct*, cudnnTensorStruct*)
+       2640                             sm_efficiency                   Multiprocessor Activity      78.27%      99.55%      93.41%
+    Kernel: void fft2d_r2c_32x32<float, unsigned int=1, bool=0>(float2*, float const *, int, int, int, int, int, int, int, int, int, cudnn::reduced_divisor, bool)
+         14                             sm_efficiency                   Multiprocessor Activity      93.41%      99.90%      98.16%
+    Kernel: void Eigen::internal::EigenMetaKernel<Eigen::TensorEvaluator<Eigen::TensorAssignOp<Eigen::TensorMap<Eigen::Tensor<bool, int=1, int=1, int>, int=16, Eigen::MakePointer>, Eigen::TensorCwiseUnaryOp<Eigen::internal::scalar_right<bool, __int64, Eigen::internal::less_equal<__int64>>, Eigen::TensorMap<Eigen::Tensor<__int64 const , int=1, int=1, int>, int=16, Eigen::MakePointer> const > const > const , Eigen::GpuDevice>, int>(bool, int=1)
+        440                             sm_efficiency                   Multiprocessor Activity       1.35%       2.35%       1.63%
+    Kernel: void cudnn::detail::bn_bw_1C11_kernel_new<float, float, float2, int=512, bool=1, int=1>(float, cudnn::detail::bn_bw_1C11_kernel_new<float, float, float2, int=512, bool=1, int=1>, cudnn::detail::bn_bw_1C11_kernel_new<float, float, float2, int=512, bool=1, int=1>, cudnn::detail::bn_bw_1C11_kernel_new<float, float, float2, int=512, bool=1, int=1>, cudnnTensorStruct, float const *, float, float const , float, cudnnTensorStruct*, cudnn::detail::bn_bw_1C11_kernel_new<float, float, float2, int=512, bool=1, int=1> const *, cudnn::detail::bn_bw_1C11_kernel_new<float, float, float2, int=512, bool=1, int=1>*, cudnn::detail::bn_bw_1C11_kernel_new<float, float, float2, int=512, bool=1, int=1> const *, cudnn::detail::bn_bw_1C11_kernel_new<float, float, float2, int=512, bool=1, int=1> const , cudnn::detail::bn_bw_1C11_kernel_new<float, float, float2, int=512, bool=1, int=1> const , cudnn::detail::bn_bw_1C11_kernel_new<float, float, float2, int=512, bool=1, int=1>)
+       2640                             sm_efficiency                   Multiprocessor Activity      78.07%      98.94%      91.14%
+    Kernel: void sgemm_largek_lds64<bool=0, bool=0, int=5, int=5, int=4, int=4, int=4, int=32>(float*, float const *, float const *, int, int, int, int, int, int, float const *, float const *, float, float, int, int, int*, int*)
+        110                             sm_efficiency                   Multiprocessor Activity      90.93%      96.17%      94.69%
+    Kernel: void cudnn::detail::bn_bw_1C11_singleread<float, int=512, bool=1, int=1, int=2, int=0>(float, float, float, float, cudnnTensorStruct, float const *, cudnn::detail::bn_bw_1C11_singleread<float, int=512, bool=1, int=1, int=2, int=0>, float const , cudnn::detail::bn_bw_1C11_singleread<float, int=512, bool=1, int=1, int=2, int=0>, cudnnTensorStruct*, float const *, float*, float const *, float const , float const , float, cudnn::reduced_divisor, int, float*, cudnn::detail::bnBwPersistentState*, int, float, float, float, int, float, cudnnStatus_t*, bool)
+       1100                             sm_efficiency                   Multiprocessor Activity      92.85%      98.52%      95.85%
+    Kernel: sgemm_sm35_ldg_nn_64x16x64x16x16
+        144                             sm_efficiency                   Multiprocessor Activity      72.84%      86.43%      80.22%
+    Kernel: void tensorflow::BiasGradNHWC_SharedAtomics<float>(int, float const *, tensorflow::BiasGradNHWC_SharedAtomics<float>*, int)
+        110                             sm_efficiency                   Multiprocessor Activity      34.88%      36.77%      35.83%
+    Kernel: void fft2d_r2c_64x64<float>(float2*, float const *, int, int, int, int, int, int, int, int)
+         24                             sm_efficiency                   Multiprocessor Activity      97.77%      99.76%      98.74%
+    Kernel: void cudnn::detail::pooling_bw_kernel_max<float, float, cudnn::detail::maxpooling_func<float, cudnnNanPropagation_t=0>, bool=0>(cudnnTensorStruct, float const *, cudnn::detail::pooling_bw_kernel_max<float, float, cudnn::detail::maxpooling_func<float, cudnnNanPropagation_t=0>, bool=0>, float const , cudnn::detail::pooling_bw_kernel_max<float, float, cudnn::detail::maxpooling_func<float, cudnnNanPropagation_t=0>, bool=0>, float const , cudnn::detail::pooling_bw_kernel_max<float, float, cudnn::detail::maxpooling_func<float, cudnnNanPropagation_t=0>, bool=0>, cudnnTensorStruct*, cudnnPoolingStruct, float, cudnnPoolingStruct, int, cudnn::reduced_divisor, float)
+        110                             sm_efficiency                   Multiprocessor Activity      99.77%      99.81%      99.79%
+    Kernel: void cudnn::detail::implicit_convolve_sgemm<float, float, int=128, int=6, int=7, int=3, int=3, int=5, int=1, bool=1, bool=0, bool=1>(int, int, int, float const *, int, float*, cudnn::detail::implicit_convolve_sgemm<float, float, int=128, int=6, int=7, int=3, int=3, int=5, int=1, bool=1, bool=0, bool=1>*, kernel_conv_params, int, float, float, int, float, float, int, int)
+       1878                             sm_efficiency                   Multiprocessor Activity      80.35%      98.25%      91.39%
+    Kernel: cudnn_dgrad_sm35_ldg_nt_64x16x64x16x16
+          2                             sm_efficiency                   Multiprocessor Activity      99.79%      99.84%      99.81%
+    Kernel: sgemm_sm35_ldg_nt_128x8x128x16x16
+         36                             sm_efficiency                   Multiprocessor Activity      74.98%      78.59%      76.51%
+    Kernel: void im2col4d_kernel<float, int>(im2col4d_params, cudnnConvolutionStruct, cudnnTensor4dStruct, float const *, float*, int)
+         20                             sm_efficiency                   Multiprocessor Activity      59.20%      99.26%      92.75%
+    Kernel: void cudnn::detail::implicit_convolve_sgemm<float, float, int=1024, int=6, int=7, int=3, int=3, int=5, int=1, bool=1, bool=0, bool=1>(int, int, int, float const *, int, float*, cudnn::detail::implicit_convolve_sgemm<float, float, int=1024, int=6, int=7, int=3, int=3, int=5, int=1, bool=1, bool=0, bool=1>*, kernel_conv_params, int, float, float, int, float, float, int, int)
+       2882                             sm_efficiency                   Multiprocessor Activity      88.38%      99.67%      97.26%
+    Kernel: void tensorflow::functor::RowReduceKernel<float*, tensorflow::TransformOutputIterator<float, float, tensorflow::functor::DividesBy<float, float>, long>, tensorflow::functor::Sum<float>>(float*, float, int, int, float, std::iterator_traits<tensorflow::functor::RowReduceKernel<float*, tensorflow::TransformOutputIterator<float, float, tensorflow::functor::DividesBy<float, float>, long>, tensorflow::functor::Sum<float>>>::value_type)
+        110                             sm_efficiency                   Multiprocessor Activity      97.34%      97.49%      97.44%
+    Kernel: void cudnn::winograd::winograd3x3Kernel<float, float, int=4, int=1, int=8, bool=0>(cudnn::maxwell::winograd::KernelParams)
+        664                             sm_efficiency                   Multiprocessor Activity      96.26%      98.79%      96.92%
+    Kernel: void sgemm_largek_lds64<bool=0, bool=1, int=5, int=5, int=4, int=4, int=4, int=32>(float*, float const *, float const *, int, int, int, int, int, int, float const *, float const *, float, float, int, int, int*, int*)
+         72                             sm_efficiency                   Multiprocessor Activity      80.61%      88.55%      84.48%
+    Kernel: void cudnn::detail::dgrad_engine<float, int=512, int=6, int=5, int=3, int=3, int=3, bool=1>(int, int, int, float const *, int, float const , int, cudnn::detail::dgrad_engine<float, int=512, int=6, int=5, int=3, int=3, int=3, bool=1>*, kernel_grad_params, int, int, float, int, int, int)
+        226                             sm_efficiency                   Multiprocessor Activity      89.51%      99.05%      97.44%
+    Kernel: compute_gemm_pointers(float2**, float2 const *, int, float2 const *, int, float2 const *, int, int)
+         19                             sm_efficiency                   Multiprocessor Activity      18.79%      30.95%      23.73%
+    Kernel: void cudnn::detail::wgrad_alg0_engine<float, int=128, int=6, int=7, int=3, int=3, int=5, bool=1, int=512>(int, int, int, float const *, int, cudnn::detail::wgrad_alg0_engine<float, int=128, int=6, int=7, int=3, int=3, int=5, bool=1, int=512>*, float const , kernel_grad_params, int, float, int, int, int, int)
+        886                             sm_efficiency                   Multiprocessor Activity      91.23%      99.38%      97.38%
+    Kernel: void cudnn::winograd_nonfused::winogradWgradOutput4x4<float, float>(cudnn::winograd_nonfused::WinogradWgradOutputParams<float, float>)
+          4                             sm_efficiency                   Multiprocessor Activity      59.83%      97.85%      81.60%
+    Kernel: void Eigen::internal::EigenMetaKernel<Eigen::TensorEvaluator<Eigen::TensorAssignOp<Eigen::TensorMap<Eigen::Tensor<float, int=1, int=1, long>, int=16, Eigen::MakePointer>, Eigen::TensorCwiseBinaryOp<Eigen::internal::scalar_sum_op<float, float>, Eigen::TensorCwiseBinaryOp<Eigen::internal::scalar_sum_op<float, float>, Eigen::TensorCwiseBinaryOp<Eigen::internal::scalar_sum_op<float, float>, Eigen::TensorCwiseBinaryOp<Eigen::internal::scalar_sum_op<float, float>, Eigen::TensorCwiseBinaryOp<Eigen::internal::scalar_sum_op<float, float>, Eigen::TensorCwiseBinaryOp<Eigen::internal::scalar_sum_op<float, float>, Eigen::TensorCwiseBinaryOp<Eigen::internal::scalar_sum_op<float, float>, Eigen::TensorCwiseBinaryOp<Eigen::internal::scalar_sum_op<float const , float const >, Eigen::TensorMap<Eigen::Tensor<float const , int=1, int=1, long>, int=16, Eigen::MakePointer> const , Eigen::TensorMap<Eigen::Tensor<float const , int=1, int=1, long>, int=16, Eigen::MakePointer> const > const , Eigen::TensorMap<Eigen::Tensor<float const , int=1, int=1, long>, int=16, Eigen::MakePointer> const > const , Eigen::TensorMap<Eigen::Tensor<float const , int=1, int=1, long>, int=16, Eigen::MakePointer> const > const , Eigen::TensorMap<Eigen::Tensor<float const , int=1, int=1, long>, int=16, Eigen::MakePointer> const > const , Eigen::TensorMap<Eigen::Tensor<float const , int=1, int=1, long>, int=16, Eigen::MakePointer> const > const , Eigen::TensorMap<Eigen::Tensor<float const , int=1, int=1, long>, int=16, Eigen::MakePointer> const > const , Eigen::TensorMap<Eigen::Tensor<float const , int=1, int=1, long>, int=16, Eigen::MakePointer> const > const , Eigen::TensorMap<Eigen::Tensor<float const , int=1, int=1, long>, int=16, Eigen::MakePointer> const > const > const , Eigen::GpuDevice>, long>(float, int=1)
+        110                             sm_efficiency                   Multiprocessor Activity       2.99%       3.29%       3.21%
+    Kernel: _ZN5Eigen8internal20InnerReductionKernelILi128ENS_15TensorEvaluatorIKNS_17TensorReductionOpINS0_10SumReducerIfEEKNS_9IndexListINS_10type2indexILl1EEEJEEEKNS_17TensorGeneratorOpIN10tensorflow9generator23SparseXentLossGeneratorIfiEEKNS_9TensorMapINS_6TensorIfLi2ELi1EiEELi16ENS_11MakePointerEEEEESJ_EENS_9GpuDeviceEEES5_iEEvT1_T0_T2_SU_PNST_15CoeffReturnTypeE
+        110                             sm_efficiency                   Multiprocessor Activity       7.41%       7.45%       7.43%
+    Kernel: void fft1d_c2r_32<float2, float, float, bool=0, bool=1, bool=0, bool=0>(float*, float2 const *, int, int3, int3, int2, int, float, float, float*, float*)
+         24                             sm_efficiency                   Multiprocessor Activity      96.53%      99.41%      98.10%
+    Kernel: void scal_kernel<float, float, int=1, bool=1, int=6, int=5, int=5, int=3>(cublasTransposeParams<float>, float const *, float*, float const *)
+        182                             sm_efficiency                   Multiprocessor Activity       3.00%      33.73%      22.52%
+    Kernel: cudnn_dgrad_sm35_ldg_nt_64x16x128x8x32
+          1                             sm_efficiency                   Multiprocessor Activity      99.34%      99.34%      99.34%
+    Kernel: void cudnn::detail::bn_fw_tr_1C11_singleread<float, int=512, bool=1, int=1, int=2, int=10>(cudnnTensorStruct, float const *, cudnn::detail::bn_fw_tr_1C11_singleread<float, int=512, bool=1, int=1, int=2, int=10>, cudnnTensorStruct*, float const *, float const , float, float, float*, float const *, float const *, float const *, float, float, cudnn::reduced_divisor, int, float*, cudnn::detail::bnFwPersistentState*, int, float, float, float, int, float, float, cudnnStatus_t*, bool)
+       2090                             sm_efficiency                   Multiprocessor Activity      89.14%      98.48%      94.44%
+    Kernel: void cub::DeviceReduceSingleTileKernel<cub::DeviceReducePolicy<float, int, cub::Sum>::Policy600, float*, float*, int, cub::Sum, float>(int, cub::Sum, cub::DeviceReducePolicy<float, int, cub::Sum>::Policy600, float*, float*)
+       1760                             sm_efficiency                   Multiprocessor Activity       2.41%       3.34%       2.89%
+    Kernel: void Eigen::internal::EigenMetaKernel<Eigen::TensorEvaluator<Eigen::TensorAssignOp<Eigen::TensorMap<Eigen::Tensor<float, int=4, int=1, int>, int=16, Eigen::MakePointer>, Eigen::TensorBroadcastingOp<Eigen::array<int, unsigned long=4> const , Eigen::TensorMap<Eigen::Tensor<float const , int=4, int=1, int>, int=16, Eigen::MakePointer> const > const > const , Eigen::GpuDevice>, int>(float, int=4)
+        110                             sm_efficiency                   Multiprocessor Activity      95.64%      96.27%      95.95%
+    Kernel: void cudnn::winograd_nonfused::winogradForwardFilter4x4<float, float>(cudnn::winograd_nonfused::WinogradFilterParams<float, float>)
+          8                             sm_efficiency                   Multiprocessor Activity      55.11%      97.08%      77.99%
+    Kernel: void cudnn::detail::dgrad_alg1_engine<float, int=512, int=6, int=5, int=3, int=3, int=3, bool=1, bool=0>(int, int, int, float const *, int, float const , int, cudnn::detail::dgrad_alg1_engine<float, int=512, int=6, int=5, int=3, int=3, int=3, bool=1, bool=0>*, kernel_grad_params, int, int, float, int)
+          3                             sm_efficiency                   Multiprocessor Activity      98.53%      99.39%      99.04%
+    Kernel: sgemm_sm35_ldg_tn_32x16x64x8x16
+        110                             sm_efficiency                   Multiprocessor Activity      93.17%      95.58%      94.73%
+    Kernel: sgemm_sm_heavy_nt_ldg
+        110                             sm_efficiency                   Multiprocessor Activity      75.09%      78.87%      77.21%
+    Kernel: cudnn_dgrad_sm35_ldg_nt_32x16x64x8x16
+          1                             sm_efficiency                   Multiprocessor Activity      99.56%      99.56%      99.56%
+    Kernel: void cudnn::detail::wgrad_alg1_engine<float, int=128, int=6, int=8, int=3, int=3, int=5, bool=1, bool=0>(int, int, int, float const *, int, cudnn::detail::wgrad_alg1_engine<float, int=128, int=6, int=8, int=3, int=3, int=5, bool=1, bool=0>*, float const , kernel_grad_params, int, float, float, int, int, int*, kernel_grad_params, int, int)
+       1105                             sm_efficiency                   Multiprocessor Activity      62.77%      95.13%      83.56%
+    Kernel: void Eigen::internal::EigenMetaKernel<Eigen::TensorEvaluator<Eigen::TensorAssignOp<Eigen::TensorMap<Eigen::Tensor<float, int=1, int=1, int>, int=16, Eigen::MakePointer>, Eigen::TensorCwiseNullaryOp<Eigen::internal::scalar_constant_op<float>, Eigen::TensorMap<Eigen::Tensor<float, int=1, int=1, int>, int=16, Eigen::MakePointer> const > const > const , Eigen::GpuDevice>, int>(float, int=1)
+      11660                             sm_efficiency                   Multiprocessor Activity       0.84%       1.90%       1.50%
+    Kernel: void Eigen::internal::EigenMetaKernel<Eigen::TensorEvaluator<Eigen::TensorAssignOp<Eigen::TensorMap<Eigen::Tensor<float, int=1, int=1, long>, int=16, Eigen::MakePointer>, Eigen::TensorConversionOp<float, Eigen::TensorMap<Eigen::Tensor<__int64 const , int=1, int=1, long>, int=16, Eigen::MakePointer> const > const > const , Eigen::GpuDevice>, long>(float, int=1)
+        110                             sm_efficiency                   Multiprocessor Activity       1.62%       2.52%       2.03%
+    Kernel: cgemm_sm35_ldg_tn_64x8x64x16x16
+       1952                             sm_efficiency                   Multiprocessor Activity      71.15%      95.85%      78.90%
+    Kernel: void cudnn::winograd::winograd3x3Kernel<float, float, int=2, int=2, int=8, bool=0>(cudnn::maxwell::winograd::KernelParams)
+        442                             sm_efficiency                   Multiprocessor Activity      98.60%      99.73%      98.99%
+    Kernel: void Eigen::internal::EigenMetaKernel<Eigen::TensorEvaluator<Eigen::TensorAssignOp<Eigen::TensorMap<Eigen::Tensor<float, int=3, int=1, int>, int=16, Eigen::MakePointer>, Eigen::TensorPaddingOp<Eigen::array<Eigen::IndexPair<int>, unsigned long=3> const , Eigen::TensorMap<Eigen::Tensor<float const , int=3, int=1, int>, int=16, Eigen::MakePointer> const > const > const , Eigen::GpuDevice>, int>(float, int=3)
+        110                             sm_efficiency                   Multiprocessor Activity      94.46%      96.58%      95.57%
+    Kernel: sgemm_sm35_ldg_nt_64x16x64x16x16
+        180                             sm_efficiency                   Multiprocessor Activity      68.99%      86.08%      78.01%
+    Kernel: void fft2d_c2r_16x16<float, bool=0>(float*, float2*, int, int, int, int, int, int, int, int, int, int, float, float, int, float*, float*)
+         18                             sm_efficiency                   Multiprocessor Activity      94.83%      99.95%      98.11%
+    Kernel: void tensorflow::functor::FillPhiloxRandomKernelLaunch<tensorflow::random::UniformDistribution<tensorflow::random::PhiloxRandom, int>>(tensorflow::random::PhiloxRandom, tensorflow::random::PhiloxRandomResultElementType*, __int64, tensorflow::functor::FillPhiloxRandomKernelLaunch<tensorflow::random::UniformDistribution<tensorflow::random::PhiloxRandom, int>>)
+        110                             sm_efficiency                   Multiprocessor Activity      55.73%      59.20%      57.77%
+    Kernel: void Eigen::internal::EigenMetaKernel<Eigen::TensorEvaluator<Eigen::TensorAssignOp<Eigen::TensorMap<Eigen::Tensor<float, int=1, int=1, long>, int=16, Eigen::MakePointer>, Eigen::TensorCwiseBinaryOp<Eigen::internal::scalar_sum_op<float, float>, Eigen::TensorMap<Eigen::Tensor<float, int=1, int=1, long>, int=16, Eigen::MakePointer> const , Eigen::TensorCwiseBinaryOp<Eigen::internal::scalar_sum_op<float, float>, Eigen::TensorCwiseBinaryOp<Eigen::internal::scalar_sum_op<float, float>, Eigen::TensorCwiseBinaryOp<Eigen::internal::scalar_sum_op<float, float>, Eigen::TensorCwiseBinaryOp<Eigen::internal::scalar_sum_op<float, float>, Eigen::TensorCwiseBinaryOp<Eigen::internal::scalar_sum_op<float, float>, Eigen::TensorCwiseBinaryOp<Eigen::internal::scalar_sum_op<float, float>, Eigen::TensorCwiseBinaryOp<Eigen::internal::scalar_sum_op<float const , float const >, Eigen::TensorMap<Eigen::Tensor<float const , int=1, int=1, long>, int=16, Eigen::MakePointer> const , Eigen::TensorMap<Eigen::Tensor<float const , int=1, int=1, long>, int=16, Eigen::MakePointer> const > const , Eigen::TensorMap<Eigen::Tensor<float const , int=1, int=1, long>, int=16, Eigen::MakePointer> const > const , Eigen::TensorMap<Eigen::Tensor<float const , int=1, int=1, long>, int=16, Eigen::MakePointer> const > const , Eigen::TensorMap<Eigen::Tensor<float const , int=1, int=1, long>, int=16, Eigen::MakePointer> const > const , Eigen::TensorMap<Eigen::Tensor<float const , int=1, int=1, long>, int=16, Eigen::MakePointer> const > const , Eigen::TensorMap<Eigen::Tensor<float const , int=1, int=1, long>, int=16, Eigen::MakePointer> const > const , Eigen::TensorMap<Eigen::Tensor<float const , int=1, int=1, long>, int=16, Eigen::MakePointer> const > const > const > const , Eigen::GpuDevice>, long>(float, int=1)
+       2090                             sm_efficiency                   Multiprocessor Activity       2.19%       2.97%       2.42%
+    Kernel: void Eigen::internal::EigenMetaKernel<Eigen::TensorEvaluator<Eigen::TensorAssignOp<Eigen::TensorMap<Eigen::Tensor<bool, int=1, int=1, int>, int=16, Eigen::MakePointer>, Eigen::TensorCwiseUnaryOp<Eigen::internal::scalar_right<bool, __int64, Eigen::internal::greater<__int64>>, Eigen::TensorMap<Eigen::Tensor<__int64 const , int=1, int=1, int>, int=16, Eigen::MakePointer> const > const > const , Eigen::GpuDevice>, int>(bool, int=1)
+        440                             sm_efficiency                   Multiprocessor Activity       1.33%       2.30%       1.61%
+    Kernel: _ZN5Eigen8internal20InnerReductionKernelILi128ENS_15TensorEvaluatorIKNS_17TensorReductionOpINS0_10SumReducerIfEEKNS_9IndexListINS_10type2indexILl1EEEJEEEKNS_18TensorCwiseUnaryOpINS0_13scalar_exp_opIfEEKNS_9TensorMapINS_6TensorIfLi2ELi1EiEELi16ENS_11MakePointerEEEEESH_EENS_9GpuDeviceEEES5_iEEvT1_T0_T2_SS_PNSR_15CoeffReturnTypeE
+        110                             sm_efficiency                   Multiprocessor Activity       7.41%       7.44%       7.43%
+    Kernel: void fft2d_c2r_32x32<float, bool=0, unsigned int=1, bool=0, bool=0>(float*, float2 const *, int, int, int, int, int, int, int, int, int, float, float, cudnn::reduced_divisor, bool, float*, float*)
+          7                             sm_efficiency                   Multiprocessor Activity      96.83%      99.60%      98.23%
+    Kernel: void Eigen::internal::EigenMetaKernel<Eigen::TensorEvaluator<Eigen::TensorAssignOp<Eigen::TensorMap<Eigen::Tensor<float, int=1, int=1, long>, int=16, Eigen::MakePointer>, Eigen::TensorCwiseBinaryOp<Eigen::internal::scalar_product_op<float const , float const >, Eigen::TensorMap<Eigen::Tensor<float const , int=1, int=1, long>, int=16, Eigen::MakePointer> const , Eigen::TensorConversionOp<float, Eigen::TensorCwiseBinaryOp<Eigen::internal::scalar_cmp_op<float const , float const , Eigen::internal::ComparisonName>, Eigen::TensorMap<Eigen::Tensor<float const , int=1, int=1, long>, int=16, Eigen::MakePointer> const , Eigen::TensorCwiseNullaryOp<Eigen::internal::scalar_constant_op<float const >, Eigen::TensorMap<Eigen::Tensor<float const , int=1, int=1, long>, int=16, Eigen::MakePointer> const > const > const > const > const > const , Eigen::GpuDevice>, long>(float, int=1)
+       5390                             sm_efficiency                   Multiprocessor Activity      88.26%      99.32%      95.95%
