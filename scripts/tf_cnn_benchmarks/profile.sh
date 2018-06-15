@@ -11,7 +11,7 @@ fi
 
 VARIABLE_UPDATE=parameter_server
 NVLINK_FILE=nvlink_data/${VARIABLE_UPDATE}.csv
-python3 nvlink_logger.py 0.5 > $NVLINK_FILE &
+python3 nvlink_logger.py 0.5 $NVLINK_FILE &
 
 #nvprof --unified-memory-profiling off --metrics nvlink_transmit_throughput \
 python3 tf_cnn_benchmarks.py --data_format=NCHW --batch_size=256 \
