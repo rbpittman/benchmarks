@@ -1762,7 +1762,7 @@ class BenchmarkCNN(object):
           # reset times to ignore warm up batch
           step_train_times = []
           loop_start_time = time.time()
-        step_start_time = time.time()
+        # step_start_time = time.time()
         if (summary_writer and
             (local_step + 1) % self.params.save_summaries_steps == 0):
           fetch_summary = summary_op
@@ -1781,11 +1781,11 @@ class BenchmarkCNN(object):
         if summary_str is not None and is_chief:
           sv.summary_computed(sess, summary_str)
         local_step += 1
-        step_end_time = time.time()
-        step_dur = step_end_time - step_start_time
-        print("Step time:", step_dur)
-        print("Actual images/sec:", (self.batch_size * self.num_workers) / step_dur)
-        step_start_time = step_end_time
+        # step_end_time = time.time()
+        # step_dur = step_end_time - step_start_time
+        # print("Step time:", step_dur)
+        # print("Actual images/sec:", (self.batch_size * self.num_workers) / step_dur)
+        # step_start_time = step_end_time
         
       loop_end_time = time.time()
       # Waits for the global step to be done, regardless of done_fn.
