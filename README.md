@@ -1,30 +1,85 @@
-# Instructions for adding distributed benchmarks to continuous run:
+# tf_cnn_benchmarks: High performance benchmarks
 
-1. You can add your benchmark file under
-   [tensorflow/benchmarks/scripts](https://github.com/tensorflow/benchmarks/tree/master/scripts) directory. The benchmark should accept `task_index`, `job_name`, `ps_hosts` and `worker_hosts` flags. You can copy-paste the following flag definitions:
+tf_cnn_benchmarks contains implementations of several popular convolutional
+models, and is designed to be as fast as possible. tf_cnn_benchmarks supports
+both running on a single machine or running in distributed mode across multiple
+hosts. See the [High-Performance models
+guide](https://www.tensorflow.org/performance/performance_models) for more
+information.
 
-    ```python
-    tf.app.flags.DEFINE_integer("task_index", None, "Task index, should be >= 0.")
-    tf.app.flags.DEFINE_string("job_name", None, "job name: worker or ps")
-    tf.app.flags.DEFINE_string("ps_hosts", None, "Comma-separated list of hostname:port pairs")
-    tf.app.flags.DEFINE_string("worker_hosts", None, "Comma-separated list of hostname:port pairs")
-    ```
-2. Report benchmark values by calling `store_data_in_json` from your benchmark
-   code. This function is defined in
-   [benchmark\_util.py](https://github.com/tensorflow/benchmarks/blob/master/scripts/util/benchmark_util.py).
-3. Create a Dockerfile that sets up dependencies and runs your benchmark. For
-   example, see [Dockerfile.tf\_cnn\_benchmarks](https://github.com/tensorflow/benchmarks/blob/master/scripts/Dockerfile.tf_cnn_benchmarks).
-4. Add the benchmark to
-   [benchmark\_configs.yml](https://github.com/tensorflow/benchmarks/blob/master/scripts/benchmark_configs.yml)
-   * Set `benchmark_name` to a descriptive name for your benchmark and make sure
-     it is unique.
-   * Set `worker_count` and `ps_count`.
-   * Set `docker_file` to the Dockerfile path starting with `benchmarks/`
-     directory.
-   * Optionally, you can pass flags to your benchmark by adding `args` list.
-5. Send PR with the changes to annarev.
+These models utilize many of the strategies in the [TensorFlow Performance
+Guide](https://www.tensorflow.org/performance/performance_guide). Benchmark
+results can be found [here](https://www.tensorflow.org/performance/benchmarks).
 
-Currently running benchmarks:
-https://benchmarks-dot-tensorflow-testing.appspot.com/
+These models are designed for performance. For models that have clean and
+easy-to-read implementations, see the [TensorFlow Official
+Models](https://github.com/tensorflow/models/tree/master/official).
 
-For any questions, please contact annarev@google.com.
+## Getting Started
+
+To run ResNet50 with synthetic data without distortions with a single GPU, run
+
+```
+python tf_cnn_benchmarks.py --num_gpus=1 --batch_size=32 --model=resnet50 --variable_update=parameter_server
+```
+
+Note that tf_cnn_benchmarks currently requires the latest nightly version of
+TensorFlow. You can install the nightly version by running
+`pip install tf-nightly-gpu` in a clean environment, or by installing TensorFlow
+from source.
+
+Some important flags are
+
+*   model: Model to use, e.g. resnet50, inception3, vgg16, and alexnet.
+*   num_gpus: Number of GPUs to use.
+*   data_dir: Path to data to process. If not set, synthetic data is used. To
+    use Imagenet data use these
+    [instructions](https://github.com/tensorflow/models/tree/master/research/inception#getting-started)
+    as a starting point.
+*   batch_size: Batch size for each GPU.
+*   variable_update: The method for managing variables: parameter_server
+    ,replicated, distributed_replicated, independent
+*   local_parameter_device: Device to use as parameter server: cpu or gpu.
+
+To see the full list of flags, run `python tf_cnn_benchmarks.py --help`.
+
+To run ResNet50 with real data with 8 GPUs, run:
+
+```
+python tf_cnn_benchmarks.py --data_format=NCHW --batch_size=256 \
+--model=resnet50 --optimizer=momentum --variable_update=replicated \
+--nodistortions --gradient_repacking=8 --num_gpus=8 \
+--num_epochs=90 --weight_decay=1e-4 --data_dir=${DATA_DIR} --use_fp16 \
+--train_dir=${CKPT_DIR}
+```
+This will train a ResNet-50 model on ImageNet with 2048 batch size on 8
+GPUs. The model should train to around 76% accuracy.
+
+## Running the tests
+
+To run the tests, run
+
+```bash
+pip install portpicker
+python run_tests.py && python run_tests.py --run_distributed_tests
+```
+
+Note the tests require portpicker.
+
+The command above runs a subset of tests that is both fast and fairly
+comprehensive. Alternatively, all the tests can be run, but this will take a
+long time:
+
+```bash
+python run_tests.py --full_tests && python run_tests.py --full_tests --run_distributed_tests
+```
+
+We will run all tests on every PR before merging them, so it is not necessary
+to pass `--full_tests` when running tests yourself.
+
+To run an individual test, such as method `testParameterServer` of test class
+`TfCnnBenchmarksTest` of module `benchmark_cnn_test`, run
+
+```bash
+python -m unittest -v benchmark_cnn_test.TfCnnBenchmarksTest.testParameterServer
+```
