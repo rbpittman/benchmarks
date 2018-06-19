@@ -51,6 +51,8 @@ def get_link_util():
             link_index += 1
             line_data = line.split(' ')
             #TODO: verify link_index == get_link_index(line_data)
+            if link_index != int(line_data[1][:-1]):
+                log("Out of order or missing link index")
             rx_data.append(int(line_data[ 3]))
             tx_data.append(int(line_data[-2]))
             # total_rx_kb += int(line_data[3])
