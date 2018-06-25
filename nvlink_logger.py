@@ -44,8 +44,8 @@ def get_link_util(logger):
             #TODO: verify link_index == get_link_index(line_data)
             if link_index != int(line_data[1][:-1]):
                 logger.log("Out of order or missing link index")
-            rx_data.append(int(line_data[ 3]))
-            tx_data.append(int(line_data[-2]))
+            rx_data.append(int(line_data[ 3]) * 8000)
+            tx_data.append(int(line_data[-2]) * 8000)
             # total_rx_kb += int(line_data[3])
             # total_tx_kb += int(line_data[-2])
             # count += 1
