@@ -23,6 +23,11 @@ fi
 echo "Job name: $JOB_NAME";
 echo "Task index: $TASK_INDEX";
 
-echo "Starting net logger...";
-python3 net_logger.py 1 net_usage.csv &
+if [ "$JOB_NAME" = "worker" ]; then
+    echo "Starting net logger...";
+    python3 net_logger.py 1 net_usage.csv &
+    echo "Done"
+fi
+
+echo "Launching training"
 python tf_cnn_benchmarks.py --local_parameter_device=gpu --num_gpus=4 --batch_size=128 --model=resnet50 --variable_update=distributed_replicated --job_name=${JOB_NAME} --ps_hosts=${H1}:50000,${H2}:50000 --worker_hosts=${H1}:50001,${H2}:50001 --task_index=${TASK_INDEX} --allow_growth=1 --num_batches=200
