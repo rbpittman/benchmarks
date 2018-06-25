@@ -9,13 +9,31 @@ data = [[float(x) for x in line] for line in reader]
 column = 1
 
 slope_data = []
+print("WARNING: Assuming Kbytes is y unit!!!")
 for i in range(1, len(data)):
     entry1 = data[i-1]
     entry2 = data[i  ]
     elapsed_time = entry2[0] - entry1[0]
-    new_line = [entry2[0], (entry2[column] - entry1[column]) / elapsed_time]
+    delta_col = (entry2[column] - entry1[column]) / elapsed_time
+    new_line = [entry2[0], (delta_col * 8000) / (10 ** 9)]
     slope_data.append(new_line)
 x, y1 = [[row[i] for row in slope_data] for i in range(2)]
+# cropped_y = []
+# for i, x_value in enumerate(x):
+#     if 50 <= x <= 130:
+#         cropped_y.append(y1[i])
+# print("Average Gbps from 50 to 130 seconds:", sum(cropped_y)/float(len(cropped_y)*)
 plt.plot(x, y1)
 plt.xlim()
+plt.xlabel("Time (sec)")
+plt.ylabel("Gbps summed nvlink communication")
+plt.tight_layout()
 plt.show()
+
+# First  point at 50.95 ,  12235717 Kbytes
+# second point at 129.07, 120843316 Kbytes
+# Read 108607599 Kbytes in 78.12 seconds
+# Averaged 11Gbps during training.
+
+# gbps = [round(8000 * (second[i] - first[i])/(duration * 10**6), 3) for i in range(len(first))]
+# Average per link: [222.427, 277.605, 444.764, 320.368, 444.852, 533.704, 222.425, 277.599, 533.704, 444.852, 533.569, 555.149, 266.714, 160.064, 266.714, 160.062, 160.064, 266.714, 320.368, 444.764, 160.032, 277.522, 160.062, 266.714, 160.033, 277.513, 277.522, 160.032, 555.149, 533.509, 277.605, 222.413, 277.513, 160.019, 277.599, 222.412]
