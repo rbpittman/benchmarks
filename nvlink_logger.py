@@ -21,6 +21,7 @@ def send_output(msg):
     output_file_handle.write(msg + "\n")
 
 def get_link_util(logger):
+    global constant_num_gpus, constant_num_links_per_gpu
     # total_rx_kb = 0
     # total_tx_kb = 0
     # count = 0
@@ -64,7 +65,7 @@ def get_link_util(logger):
             return -1, -1
         if num_gpus != len(num_links_per_gpu):
             raise Exception("Program bug")
-        for i in range(len(num_gpus)):
+        for i in range(num_gpus):
             if num_links_per_gpu[i] != constant_num_links_per_gpu[i]:
                 logger.log("Error: nvidia-smi nvlink returned an inconsistant number of links for GPU index %d" % i)
                 return -1, -1
@@ -78,14 +79,17 @@ def get_link_util(logger):
     return all_data
 
 if __name__ == "__main__":
+    os.system("nvidia-smi nvlink -sc 0bz > /dev/null")
+    
     if len(sys.argv) <= 1:
         delay = 1
     else:
         delay = float(sys.argv[1])
         
-    if len(sys.argv) <= 2:
+    if len(sys.argv) > 2:
         output_file = sys.argv[2] #overwrites global
     logger = log_util.Log(LOG_FILENAME)
+    logger.log("Started new run")
     init_output()
     
     start_time = None
@@ -94,19 +98,20 @@ if __name__ == "__main__":
         data_row = get_link_util(logger)
         curr_time = time.time()
         if start_time == None:
+            logger.log("init start time")
             start_time = curr_time
             elapsed = 0
             # Construct csv file header
             header = "Time(sec)"
             for gpu_links in constant_num_links_per_gpu:
                 for link_i in range(gpu_links):
-                    header += ",GPU_%d_Link_%d_rx" % (gpu_links, link_i)
-                    header += ",GPU_%d_Link_%d_tx" % (gpu_links, link_i)
-                send_output(header)
+                    header += ",GPU%d_L%d_rx" % (gpu_links, link_i)
+                    header += ",GPU%d_L%d_tx" % (gpu_links, link_i)
+            send_output(header)
         else:
             elapsed = curr_time - start_time
         # send_output("%f,%f,%f" % (elapsed, rx_mb, tx_mb))
-        send_output(("%f" + (",%f") * len(all_data)) % (elapsed, *all_data))
+        send_output(("%f" + (",%f") * len(data_row)) % (elapsed, *data_row))
         time.sleep(delay)
     logger.log("Kill signal received, shutting down...")
     output_file_handle.close()
