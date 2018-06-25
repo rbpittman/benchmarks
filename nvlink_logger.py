@@ -103,15 +103,18 @@ if __name__ == "__main__":
             elapsed = 0
             # Construct csv file header
             header = "Time(sec)"
+            gpu_idx = 0
+            header += ",sum"
             for gpu_links in constant_num_links_per_gpu:
                 for link_i in range(gpu_links):
-                    header += ",GPU%d_L%d_rx" % (gpu_links, link_i)
-                    header += ",GPU%d_L%d_tx" % (gpu_links, link_i)
+                    header += ",GPU%d_L%d_rx" % (gpu_idx, link_i)
+                    header += ",GPU%d_L%d_tx" % (gpu_idx, link_i)
+                gpu_idx += 1
             send_output(header)
         else:
             elapsed = curr_time - start_time
         # send_output("%f,%f,%f" % (elapsed, rx_mb, tx_mb))
-        send_output(("%f" + (",%f") * len(data_row)) % (elapsed, *data_row))
+        send_output(("%f,%f" + (",%f") * len(data_row)) % (elapsed, sum(data_row), *data_row))
         time.sleep(delay)
     logger.log("Kill signal received, shutting down...")
     output_file_handle.close()
