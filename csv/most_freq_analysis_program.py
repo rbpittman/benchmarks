@@ -1,7 +1,7 @@
 ###
 # Author: Randall P (rbpittman)
-# Takes link data as csv for 4X V100, animates links
-# TODO: Better desc
+# Produces a frequency list that is helpful in figuring out which
+# links are connected. Used this to figure out all link IDs. 
 ###
 from __future__ import print_function
 
@@ -71,7 +71,10 @@ ID GPU Link Type Conn
 35 3 4 tx 6
 """
 
-
+#It appears there is dual transmission involved. If there are two
+#links going to the same location, both are used in parallel with an
+#even split. For example, link indices 0 and 6 are each other's most
+#frequent, followed by the pair they communicate with. 
 
 class V100X4:
     links = None #9 links, rx and tx, probably duplicated. 4X9=36 length list
@@ -96,29 +99,35 @@ class V100X4:
         self.t.goto(x + hsl, y - hsl)
         self.t.goto(x - hsl, y - hsl)
         self.t.pu()
-
-
-    #Post: Returns two tuples of coordinates for an arrow for link i
-    def _get_start_end(self, i):
-        pass
         
-    def draw(self, row):
+    def draw(self):
         turtle.clearscreen()
         self._square(-1, -1)
         self._square( 1, -1)
         self._square( 1,  1)
         self._square(-1,  1)
-        for i in range(1, 36, 2):
-            #only tx
-            start, end = self._get_start_end(i)
-            #TODO
+        
         turtle.update()
     
     def animate(self):
-        for row in self.data:
-            self.draw(row)
-            time.sleep(DELAY)
-        turtle.mainloop()
+        most_freq = []
+        for check_col in range(36):
+            cols = Counter()
+            for row_idx, row in enumerate(self.data):
+                self.links = row
+                max_dist = 100
+                value = row[check_col]
+                for i in range(len(row)):
+                    # print(row[i], value)
+                    if i != check_col and abs(row[i]-value) < max_dist:
+                        cols[i] += 1
+                # self.draw()
+                # time.sleep(DELAY)
+            common = cols.most_common(3)
+            most_freq.append([e[0] for e in common])
+        for i in range(len(most_freq)):
+            print(i, most_freq[i])
+            # turtle.mainloop()
         
 
 if __name__ == "__main__":

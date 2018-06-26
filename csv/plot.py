@@ -11,15 +11,27 @@ column = 1
 
 slope_data = []
 print("WARNING: Assuming Kbytes is y unit!!!")
+print("Output is in Mbps")
+
 for i in range(1, len(data)):
     entry1 = data[i-1]
     entry2 = data[i  ]
     elapsed_time = entry2[0] - entry1[0]
-    delta_col = (entry2[column] - entry1[column]) / elapsed_time
-    new_line = [entry2[0], (delta_col * 8000) / (10 ** 9)]
+    new_line = []
+    for column in range(3, 38, 2):
+        KBps = (entry2[column] - entry1[column]) / elapsed_time
+        # new_line = [entry2[0], (delta_col * 8000) / (10 ** 6)]
+        new_line.append((KBps * 8000) / (10 ** 6))
     slope_data.append(new_line)
-x, y1 = [[row[i] for row in slope_data] for i in range(2)]
+# x, y1 = [[row[i] for row in slope_data] for i in range(2)]
+# print("num columns:", len(slope_data[0]))
+# assert (len(slope_data[0]) == 18)
+# totals = [0] * 18
+# for row in slope_data:
+#     for i in range(len(row)):
+#         totals[i] += row[i]
 
+    
 
 
 #Analyze diff between sum rx and sum tx, turns out it hovers around
@@ -34,12 +46,12 @@ for i, x_value in enumerate(x):
 """
 
 # Plot data
-plt.plot(x, y1)
-plt.xlim()
-plt.xlabel("Time (sec)")
-plt.ylabel("Gbps summed nvlink communication")
-plt.tight_layout()
-plt.show()
+# plt.plot(x, y1)
+# plt.xlim()
+# plt.xlabel("Time (sec)")
+# plt.ylabel("Gbps summed nvlink communication")
+# plt.tight_layout()
+# plt.show()
 
 # First  point at 50.95 ,  12235717 Kbytes
 # second point at 129.07, 120843316 Kbytes
