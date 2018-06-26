@@ -3,8 +3,8 @@
 # Run the following commands on host_1 (10.0.0.2): 172.31.7.145
 
 #!/bin/bash
-H1=172.31.5.238
-H2=172.31.5.43
+H1=172.31.85.63
+H2=172.31.95.38
 
 if [ -z $1 ]; then
     echo "Need job name (worker/ps)";
