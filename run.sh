@@ -25,9 +25,9 @@ echo "Task index: $TASK_INDEX";
 
 if [ "$JOB_NAME" = "worker" ]; then
     echo "Starting net logger...";
-    python3 net_logger.py 1 net_usage.csv &
-    echo "Starting nvlink logger...";
-    python3 nvlink_logger.py 1 nvlink_usage.csv & 
+    python3 net_logger.py 0.2 net_usage.csv &
+    # echo "Starting nvlink logger...";
+    # python3 nvlink_logger.py 1 nvlink_usage.csv & 
     echo "Done"
 fi
 
