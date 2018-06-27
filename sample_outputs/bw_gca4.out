@@ -1,0 +1,25 @@
+gca04: 04:12 PM >> ~/NVIDIA_CUDA-9.0_Samples/1_Utilities/bandwidthTest$ ./bandwidthTest
+[CUDA Bandwidth Test] - Starting...
+Running on...
+
+ Device 0: Tesla K40m
+ Quick Mode
+
+ Host to Device Bandwidth, 1 Device(s)
+ PINNED Memory Transfers
+   Transfer Size (Bytes)	Bandwidth(MB/s)
+   33554432			10305.4
+
+ Device to Host Bandwidth, 1 Device(s)
+ PINNED Memory Transfers
+   Transfer Size (Bytes)	Bandwidth(MB/s)
+   33554432			10282.6
+
+ Device to Device Bandwidth, 1 Device(s)
+ PINNED Memory Transfers
+   Transfer Size (Bytes)	Bandwidth(MB/s)
+   33554432			207543.3
+
+Result = PASS
+
+NOTE: The CUDA Samples are not meant for performance measurements. Results may vary when GPU Boost is enabled.
