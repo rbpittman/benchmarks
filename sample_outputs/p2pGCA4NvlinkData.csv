@@ -1,0 +1,40 @@
+gca04: 11:28 AM >> ~/NVIDIA_CUDA-9.0_Samples/1_Utilities/p2pBandwidthLatencyTest$ ./p2pBandwidthLatencyTest 
+[P2P (Peer-to-Peer) GPU Bandwidth Latency Test]
+Device: 0, Tesla K40m, pciBusID: a, pciDeviceID: 0, pciDomainID:0
+Device: 1, Tesla K40m, pciBusID: 84, pciDeviceID: 0, pciDomainID:0
+Device=0 CANNOT Access Peer Device=1
+Device=1 CANNOT Access Peer Device=0
+
+***NOTE: In case a device doesn't have P2P access to other one, it falls back to normal memcopy procedure.
+So you can see lesser Bandwidth (GB/s) in those cases.
+
+P2P Connectivity Matrix
+     D\D     0     1
+     0	     1     0
+     1	     0     1
+Unidirectional P2P=Disabled Bandwidth Matrix (GB/s)
+   D\D     0      1 
+     0 209.05   8.89 
+     1   7.88 186.99 
+Unidirectional P2P=Enabled Bandwidth Matrix (GB/s)
+   D\D     0      1 
+     0 209.81   8.79 
+     1   7.96 187.42 
+Bidirectional P2P=Disabled Bandwidth Matrix (GB/s)
+   D\D     0      1 
+     0 210.08  15.58 
+     1  15.13 187.67 
+Bidirectional P2P=Enabled Bandwidth Matrix (GB/s)
+   D\D     0      1 
+     0 210.93  14.95 
+     1  14.98 187.24 
+P2P=Disabled Latency Matrix (us)
+   D\D     0      1 
+     0   4.80  17.92 
+     1  21.57   4.79 
+P2P=Enabled Latency Matrix (us)
+   D\D     0      1 
+     0   4.82  16.62 
+     1  20.08   4.87 
+
+NOTE: The CUDA Samples are not meant for performance measurements. Results may vary when GPU Boost is enabled.
