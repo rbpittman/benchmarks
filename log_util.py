@@ -12,7 +12,10 @@ class KillProcess:
 class Log:
     log_file_handle = None
     def __init__(self, log_filename):
-        self.log_file_handle = open(log_filename, 'a')
+        if os.path.isfile(log_filename):
+            self.log_file_handle = open(log_filename, 'a')
+        else:
+            self.log_file_handle = open(log_filename, 'w')
 
     def log(self, msg):
         self.log_file_handle.write("[%f] "%time.time() + msg + "\n")

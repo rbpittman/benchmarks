@@ -1,0 +1,22 @@
+GPU 0: Tesla V100-SXM2-16GB (UUID: GPU-115e1ebe-6983-5dc9-8348-fac8b7046307)
+	 Link 0: Rx0: 3067623 KBytes, Tx0: 3069718 KBytes
+	 Link 1: Rx0: 5679365 KBytes, Tx0: 5682463 KBytes
+	 Link 2: Rx0: 5675863 KBytes, Tx0: 5681805 KBytes
+	 Link 3: Rx0: 3067624 KBytes, Tx0: 3069725 KBytes
+GPU 1: Tesla V100-SXM2-16GB (UUID: GPU-9bd9200b-3727-50bb-25ae-af2ae38fc451)
+	 Link 0: Rx0: 5681805 KBytes, Tx0: 5675863 KBytes
+	 Link 1: Rx0: 5566630 KBytes, Tx0: 5566630 KBytes
+	 Link 2: Rx0: 2555380 KBytes, Tx0: 2555406 KBytes
+	 Link 3: Rx0: 2555368 KBytes, Tx0: 2555342 KBytes
+GPU 2: Tesla V100-SXM2-16GB (UUID: GPU-51d961b4-1daf-1260-55ee-c97fc80cc7c2)
+	 Link 0: Rx0: 2555406 KBytes, Tx0: 2555380 KBytes
+	 Link 1: Rx0: 5682463 KBytes, Tx0: 5679365 KBytes
+	 Link 2: Rx0: 2785088 KBytes, Tx0: 2785066 KBytes
+	 Link 3: Rx0: 2555342 KBytes, Tx0: 2555368 KBytes
+	 Link 4: Rx0: 2785044 KBytes, Tx0: 2785066 KBytes
+GPU 3: Tesla V100-SXM2-16GB (UUID: GPU-b4a4bd21-ce70-f5ac-4ba9-50d8e931746e)
+	 Link 0: Rx0: 2785066 KBytes, Tx0: 2785088 KBytes
+	 Link 1: Rx0: 5566630 KBytes, Tx0: 5566630 KBytes
+	 Link 2: Rx0: 3069718 KBytes, Tx0: 3067623 KBytes
+	 Link 3: Rx0: 2785066 KBytes, Tx0: 2785044 KBytes
+	 Link 4: Rx0: 3069725 KBytes, Tx0: 3067624 KBytes

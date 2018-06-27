@@ -42,7 +42,12 @@ def get_link_util(logger):
             link_index += 1
             line_data = line.split(' ')
             #TODO: verify link_index == get_link_index(line_data)
-            if link_index != int(line_data[1][:-1]):
+            link_str = line_data[1][:-1]
+            
+            if not link_str.isdigit():
+                logger.log("Invalid data")
+                return -1, -1
+            if link_index != int(link_str):
                 logger.log("Out of order or missing link index")
             rx_data.append(int(line_data[ 3]) * 8000)
             tx_data.append(int(line_data[-2]) * 8000)
