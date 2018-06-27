@@ -1,0 +1,15 @@
+Comparison between p2p_4XV100.out and p2p_gca04.out
+
+Unidirectional P2P=Disabled Bandwidth Matrix (GB/s)
+1.18
+Unidirectional P2P=Enabled Bandwidth Matrix (GB/s)
+2.83 or 5.62 depending on which GPUs communicate
+Bidirectional P2P=Disabled Bandwidth Matrix (GB/s)
+0.6 if 1 to 0 or 3 to 2 and vice versa
+1.08 otherwise
+Bidirectional P2P=Enabled Bandwidth Matrix (GB/s)
+3.21 or 6.35 
+P2P=Disabled Latency Matrix (us)
+0.95 faster than gca4 (actually slower)
+P2P=Enabled Latency Matrix (us)
+1.9 faster than gca4
