@@ -1,9 +1,10 @@
+from __future__ import print_function
 import matplotlib.pyplot as plt
 import turtle
 import csv
 
 # reader = csv.reader(open("4XV100_nvlink_usage.csv", 'r'))
-reader = csv.reader(open("../sample_outputs/p2pNvlinkData.csv", 'r'))
+reader = csv.reader(open("nvlink_p2p_4XV100_long_run.csv", 'r'))
 next(reader)
 data = [[float(x) for x in line] for line in reader]
 
@@ -23,7 +24,40 @@ for i in range(1, len(data)):
     slope_data.append(new_line)
 # x, y1 = [[row[i] for row in slope_data] for i in range(2)]
 x = [row[0] for row in data[:-1]]
-y = [sum(row) for row in slope_data]
+y = [row[4] for row in slope_data]
+
+
+print("PERFORMING SPIKE SCAN OF ALL TX LINKS")
+
+# scan_col = 5 + 2
+for scan_col in range(3, 38, 2):
+    start = None
+    prev_link = data[0]
+    spikes = []
+    for i in range(1, len(data)):
+        link = data[i][scan_col]
+        if link != prev_link:
+            if start == None:
+                start = i
+                prev_val = link
+        else:
+            if start != None:
+                end = i-1
+                if start == end:
+                    # print("found spike of size 1, no duration")
+                    pass
+                else:
+                    elapsed_time = data[end][0]-data[start][0]
+                    GBps = (data[end][scan_col] - data[start][scan_col])/(8 * 10 ** 9 * elapsed_time)
+                    if GBps > 0.001:
+                        spikes.append(round(GBps, 2))
+                        #print("Found spike with average rate %f with duration %f seconds." % (GBps, elapsed_time))
+                    start = None
+        prev_link = link
+    print("Link ID [0-35]:", scan_col-2, "Spikes:", spikes, "Avg:", round(sum(spikes)/len(spikes), 2))
+                
+        
+
 # print("num columns:", len(slope_data[0]))
 # assert (len(slope_data[0]) == 18)
 # totals = [0] * 18
@@ -48,7 +82,7 @@ for i, x_value in enumerate(x):
 #Plot data
 plt.plot(x, y)
 # plt.xlim(20, 70)
-plt.xlim(12, 13.5)
+# plt.xlim(12, 13.5)
 plt.xlabel("Time (sec)")
 plt.ylabel("Gbps summed tx nvlink communication")
 plt.tight_layout()

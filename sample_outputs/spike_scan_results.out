@@ -1,0 +1,26 @@
+Performed a spike scan of the 0.2 sec delay 4XV100 nvidia-smi nvlink
+data running the p2p BW test from CUDA samples. Shown is the
+significant automatically detected spikes and their average value. The
+link ID corresponds to that found in csv/most_freq_analysis.py 
+
+WARNING: Assuming bytes is y unit!!!
+Output is in Gbps
+PERFORMING SPIKE SCAN OF ALL TX LINKS
+Link ID [0-35]: 1 Spikes: [22.02, 22.32, 20.99] Avg: 21.78
+Link ID [0-35]: 3 Spikes: [23.25, 23.25, 22.89] Avg: 23.13
+Link ID [0-35]: 5 Spikes: [23.51, 23.26, 23.26] Avg: 23.34
+Link ID [0-35]: 7 Spikes: [22.01, 22.31, 20.98] Avg: 21.77
+Link ID [0-35]: 9 Spikes: [23.51, 23.26, 23.25] Avg: 23.34
+Link ID [0-35]: 11 Spikes: [23.06, 22.91, 22.55] Avg: 22.84
+Link ID [0-35]: 13 Spikes: [22.28, 21.6, 21.64] Avg: 21.84
+Link ID [0-35]: 15 Spikes: [22.27, 21.6, 21.63] Avg: 21.83
+Link ID [0-35]: 17 Spikes: [22.53, 21.61, 21.61] Avg: 21.92
+Link ID [0-35]: 19 Spikes: [23.48, 23.24, 22.87] Avg: 23.2
+Link ID [0-35]: 21 Spikes: [21.93, 20.83, 20.97] Avg: 21.24
+Link ID [0-35]: 23 Spikes: [22.52, 21.59, 21.6] Avg: 21.9
+Link ID [0-35]: 25 Spikes: [21.92, 20.82, 20.96] Avg: 21.23
+Link ID [0-35]: 27 Spikes: [21.94, 20.83, 20.93] Avg: 21.23
+Link ID [0-35]: 29 Spikes: [23.3, 22.89, 22.53] Avg: 22.91
+Link ID [0-35]: 31 Spikes: [22.8, 22.27, 20.9] Avg: 21.99
+Link ID [0-35]: 33 Spikes: [21.92, 20.82, 20.92] Avg: 21.22
+Link ID [0-35]: 35 Spikes: [22.8, 22.26, 20.89] Avg: 21.98
