@@ -4,12 +4,12 @@ import turtle
 import csv
 
 # reader = csv.reader(open("4XV100_nvlink_usage.csv", 'r'))
-reader = csv.reader(open("nvlink_p2p_4XV100_long_run.csv", 'r'))
+reader = csv.reader(open("nvlink_4XV100_imagenet_replicated.csv", 'r'))
 next(reader)
 data = [[float(x) for x in line] for line in reader]
 
 slope_data = []
-print("WARNING: Assuming bytes is y unit!!!")
+print("WARNING: Assuming bits is y unit!!!")
 print("Output is in Gbps")
 
 for i in range(1, len(data)):
@@ -24,9 +24,19 @@ for i in range(1, len(data)):
     slope_data.append(new_line)
 # x, y1 = [[row[i] for row in slope_data] for i in range(2)]
 x = [row[0] for row in data[:-1]]
-y = [row[4] for row in slope_data]
 
+SUMMED = False
 
+if SUMMED:
+    y = [sum(row) for row in slope_data]
+    plot_data = [x,y]
+else:
+    plot_data = []
+    for i in range(18):
+        y = [row[i] for row in slope_data]
+        plot_data += [x, y]
+
+"""
 print("PERFORMING SPIKE SCAN OF ALL TX LINKS")
 
 # scan_col = 5 + 2
@@ -55,8 +65,9 @@ for scan_col in range(3, 38, 2):
                     start = None
         prev_link = link
     print("Link ID [0-35]:", scan_col-2, "Spikes:", spikes, "Avg:", round(sum(spikes)/len(spikes), 2))
-                
-        
+
+"""
+
 
 # print("num columns:", len(slope_data[0]))
 # assert (len(slope_data[0]) == 18)
@@ -80,19 +91,15 @@ for i, x_value in enumerate(x):
 """
 
 #Plot data
-plt.plot(x, y)
+# plt.plot(x, y)
+plt.title("Variables replicated and all-reduced over each GPU")
+plt.plot(*plot_data)
 # plt.xlim(20, 70)
 # plt.xlim(12, 13.5)
 plt.xlabel("Time (sec)")
-plt.ylabel("Gbps summed tx nvlink communication")
+if SUMMED:
+    plt.ylabel("Gbps summed tx nvlink")
+else:
+    plt.ylabel("Gbps all 18 tx nvlinks overlayed")
 plt.tight_layout()
 plt.show()
-
-# First  point at 50.95 ,  12235717 Kbytes
-# second point at 129.07, 120843316 Kbytes
-# Read 108607599 Kbytes in 78.12 seconds
-# Averaged 11Gbps during training.
-
-# gbps = [round(8000 * (second[i] - first[i])/(duration * 10**6), 3) for i in range(len(first))]
-# GPU0_L0_rx,GPU0_L0_tx,GPU0_L1_rx,GPU0_L1_tx,GPU0_L2_rx,GPU0_L2_tx,GPU0_L3_rx,GPU0_L3_tx,GPU1_L0_rx,GPU1_L0_tx,GPU1_L1_rx,GPU1_L1_tx,GPU1_L2_rx,GPU1_L2_tx,GPU1_L3_rx,GPU1_L3_tx,GPU2_L0_rx,GPU2_L0_tx,GPU2_L1_rx,GPU2_L1_tx,GPU2_L2_rx,GPU2_L2_tx,GPU2_L3_rx,GPU2_L3_tx,GPU2_L4_rx,GPU2_L4_tx,GPU3_L0_rx,GPU3_L0_tx,GPU3_L1_rx,GPU3_L1_tx,GPU3_L2_rx,GPU3_L2_tx,GPU3_L3_rx,GPU3_L3_tx,GPU3_L4_rx,GPU3_L4_tx
-# Average per link: [222.427, 277.605, 444.764, 320.368, 444.852, 533.704, 222.425, 277.599, 533.704, 444.852, 533.569, 555.149, 266.714, 160.064, 266.714, 160.062, 160.064, 266.714, 320.368, 444.764, 160.032, 277.522, 160.062, 266.714, 160.033, 277.513, 277.522, 160.032, 555.149, 533.509, 277.605, 222.413, 277.513, 160.019, 277.599, 222.412]

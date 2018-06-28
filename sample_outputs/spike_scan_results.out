@@ -2,9 +2,8 @@ Performed a spike scan of the 0.2 sec delay 4XV100 nvidia-smi nvlink
 data running the p2p BW test from CUDA samples. Shown is the
 significant automatically detected spikes and their average value. The
 link ID corresponds to that found in csv/most_freq_analysis.py 
+Units are GBps
 
-WARNING: Assuming bytes is y unit!!!
-Output is in Gbps
 PERFORMING SPIKE SCAN OF ALL TX LINKS
 Link ID [0-35]: 1 Spikes: [22.02, 22.32, 20.99] Avg: 21.78
 Link ID [0-35]: 3 Spikes: [23.25, 23.25, 22.89] Avg: 23.13
