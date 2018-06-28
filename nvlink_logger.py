@@ -119,7 +119,7 @@ if __name__ == "__main__":
         else:
             elapsed = curr_time - start_time
         # send_output("%f,%f,%f" % (elapsed, rx_mb, tx_mb))
-        send_output(("%f,%f" + (",%f") * len(data_row)) % (elapsed, sum(data_row), *data_row))
+        send_output(("%f,%d" + (",%d") * len(data_row)) % (elapsed, sum(data_row), *data_row))
         time.sleep(delay)
     logger.log("Kill signal received, shutting down...")
     output_file_handle.close()
