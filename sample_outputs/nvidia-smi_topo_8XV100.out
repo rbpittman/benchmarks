@@ -1,0 +1,20 @@
+(tensorflow_p27) ubuntu@ip-172-31-3-35:~/NVIDIA_CUDA-9.0_Samples/1_Utilities/p2pBandwidthLatencyTest$ nvidia-smi topo -m
+	GPU0	GPU1	GPU2	GPU3	GPU4	GPU5	GPU6	GPU7	CPU Affinity
+GPU0	 X 	NV1	NV1	NV2	NV2	PHB	PHB	PHB	0-63
+GPU1	NV1	 X 	NV2	NV1	PHB	NV2	PHB	PHB	0-63
+GPU2	NV1	NV2	 X 	NV2	PHB	PHB	NV1	PHB	0-63
+GPU3	NV2	NV1	NV2	 X 	PHB	PHB	PHB	NV1	0-63
+GPU4	NV2	PHB	PHB	PHB	 X 	NV1	NV1	NV2	0-63
+GPU5	PHB	NV2	PHB	PHB	NV1	 X 	NV2	NV1	0-63
+GPU6	PHB	PHB	NV1	PHB	NV1	NV2	 X 	NV2	0-63
+GPU7	PHB	PHB	PHB	NV1	NV2	NV1	NV2	 X 	0-63
+
+Legend:
+
+  X    = Self
+  SYS  = Connection traversing PCIe as well as the SMP interconnect between NUMA nodes (e.g., QPI/UPI)
+  NODE = Connection traversing PCIe as well as the interconnect between PCIe Host Bridges within a NUMA node
+  PHB  = Connection traversing PCIe as well as a PCIe Host Bridge (typically the CPU)
+  PXB  = Connection traversing multiple PCIe switches (without traversing the PCIe Host Bridge)
+  PIX  = Connection traversing a single PCIe switch
+  NV#  = Connection traversing a bonded set of # NVLinks
