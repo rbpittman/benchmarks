@@ -4,7 +4,7 @@ import turtle
 import csv
 
 # reader = csv.reader(open("4XV100_nvlink_usage.csv", 'r'))
-reader = csv.reader(open("nvlink_4XV100_imagenet_replicated.csv", 'r'))
+reader = csv.reader(open("nvlink_inception3_4XV100.csv", 'r'))
 next(reader)
 data = [[float(x) for x in line] for line in reader]
 
@@ -25,7 +25,7 @@ for i in range(1, len(data)):
 # x, y1 = [[row[i] for row in slope_data] for i in range(2)]
 x = [row[0] for row in data[:-1]]
 
-SUMMED = False
+SUMMED = True
 
 if SUMMED:
     y = [sum(row) for row in slope_data]
