@@ -248,13 +248,21 @@ int main(int argc, char ** argv) {
   double curr_time;
   while(!kill_process) {
     col = 0;
+    curr_time = get_time();
+    if(start_time == -1.0) {
+      start_time = curr_time;
+      fprintf(file_handle, "time(sec)");
+      for(int gpu_i = 0; gpu_i < num_devices; gpu_i++) {
+	for(int link_i = 0; link_i < num_links[gpu_i]; link_i++) {
+	  fprintf(file_handle, ",GPU%d_L%d", gpu_i, link_i);
+	}
+      }
+      fprintf(file_handle, "\n");
+    }
+
     for(int gpu_i = 0; gpu_i < num_devices; gpu_i++) {
       for(int link_i = 0; link_i < num_links[gpu_i]; link_i++) {
 	NVML_CHECK(nvmlDeviceGetNvLinkUtilizationCounter(devices[gpu_i], link_i, COUNTER, &rx, &tx));
-	curr_time = get_time();
-	if(start_time == -1.0) {
-	  start_time = curr_time;
-	}
 	data_row[col++] = tx;
       }
     }
