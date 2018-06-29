@@ -123,10 +123,21 @@ invalid
 
 #include "nvml.h"
 #include <stdio.h>
+#include <unistd.h>
+#include <signal.h>
 
 #define MAX_NUM_DEVICES 32
 
 #define NVML_CHECK(error) nvml_check(error,__FILE__,__LINE__)
+
+
+//This value is not defined in the nvml.h header for cuda-9.0, but is
+//included in the docs...
+#define NVML_FI_DEV_NVLINK_LINK_COUNT 91
+
+//Nvlink counter to use (0 or 1)
+#define COUNTER 0
+
 
 void nvml_check(nvmlReturn_t error, const char * filename, unsigned int line_num) {
   if(error == NVML_SUCCESS) {
@@ -136,7 +147,35 @@ void nvml_check(nvmlReturn_t error, const char * filename, unsigned int line_num
   }
 }
 
-int main() {
+FILE * file_handle = NULL;
+bool kill_process = false;
+
+void sig_term_handler(int signum, siginfo_t *info, void *ptr) {
+  file_handle = fopen("datasets.py", "r");
+  if (file_handle != NULL) fclose(file_handle);
+  printf("Caught kill signal, closing data file\n");
+  kill_process = true;
+}
+
+void catch_sigterm() {
+  static struct sigaction _sigact;
+
+  memset(&_sigact, 0, sizeof(_sigact));
+  _sigact.sa_sigaction = sig_term_handler;
+  _sigact.sa_flags = SA_SIGINFO;
+
+  sigaction(SIGTERM, &_sigact, NULL);
+  sigaction(SIGINT, &_sigact, NULL);
+}
+
+
+int main(int argc, char ** argv) {
+  useconds_t delay = 1000000;//micro seconds
+  if(argc >= 2) {
+    delay = (useconds_t) (atof(argv[1]) * 1000000);
+  }
+  printf("Delay %d microseconds\n", delay);
+  
   NVML_CHECK(nvmlInit());
   
   nvmlDevice_t devices[MAX_NUM_DEVICES];
@@ -154,16 +193,52 @@ int main() {
   unsigned int * num_links = new unsigned int[num_devices];
   
   nvmlFieldValue_t field_value;
-  field_value.fieldId = 91;//NVML_FI_DEV_NVLINK_LINK_COUNT;
+  field_value.fieldId = NVML_FI_DEV_NVLINK_LINK_COUNT;
   for(int i = 0; i < num_devices; i++) {
     NVML_CHECK(nvmlDeviceGetFieldValues (devices[i], 1, &field_value));
     num_links[i] = field_value.value.uiVal;
     printf("num links: %d\n", num_links[i]);
   }
+  
+  // char str[200];
+  // nvmlSystemGetNVMLVersion(str, 200);
+  // printf("%s\n", str);
+  nvmlEnableState_t enabled_state;
+  for(int gpu_i = 0; gpu_i < num_devices; gpu_i++) {
+    for(int link_i = 0; link_i < num_links[gpu_i]; link_i++) {
+      NVML_CHECK(nvmlDeviceGetNvLinkState(devices[gpu_i], link_i, &enabled_state));
+      if(enabled_state == NVML_FEATURE_ENABLED) {
+	// printf("yepyepyep\n");
+      } else {
+	// printf("nopenopenope\n");
+	fprintf(stderr, "Link not enabled\n");
+	return(1);
+      }
+    }
+  }
 
-  char str[200];
-  nvmlSystemGetNVMLVersion(str, 200);
-  printf("%s\n", str);
+  nvmlNvLinkUtilizationControl_t control;
+  control.pktfilter = NVML_NVLINK_COUNTER_PKTFILTER_ALL;//All types of packets
+  control.units     = NVML_NVLINK_COUNTER_UNIT_BYTES;   //units of bytes
+  for(int gpu_i = 0; gpu_i < num_devices; gpu_i++) {
+    for(int link_i = 0; link_i < num_links[gpu_i]; link_i++) {
+      //Set utilization counter for device gpu_i, link_i, specified
+      //COUNTER, with all packets and units of bytes control, and true
+      //reset counter to 0. 
+      NVML_CHECK(nvmlDeviceSetNvLinkUtilizationControl(devices[gpu_i], link_i,
+						       COUNTER, &control, true));
+    }
+  }
+  
+  catch_sigterm();
+  while(!kill_process) {
+    usleep(delay);
+  }
+  // nvmlReturn_t nvmlDeviceGetNvLinkUtilizationControl
+  //   (nvmlDevice_t device, unsigned int link, unsigned int
+  //    counter, nvmlNvLinkUtilizationControl_t *control)
+    
+
   
   delete[] num_links;
   nvmlShutdown();
