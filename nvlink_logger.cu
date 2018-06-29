@@ -122,22 +122,45 @@ invalid
 */
 
 #include "nvml.h"
+#include <stdio.h>
 
-#define NUM_DEVICES 4
+#define MAX_NUM_DEVICES 32
 
-#define NVML_CHECK(error,line) nvml_check(#error,#line)
+#define NVML_CHECK(error) nvml_check(error,__FILE__,__LINE__)
 
-void nvml_check(nvmlReturn_t error, unsigned int line_num) {
-  
+void nvml_check(nvmlReturn_t error, const char * filename, unsigned int line_num) {
+  if(error == NVML_SUCCESS) {
+    //success
+  } else {
+    fprintf(stderr, "NVML error code %d in file %s line %d\n", (int) error, filename, line_num);
+  }
 }
 
 int main() {
   NVML_CHECK(nvmlInit());
-
-  nvmlDevice_t devices[4];
-  for(int i = 0; i < NUM_DEVICES; i++) {
-    error = nvmlDeviceGetHandleByIndex (0, devices + i);
+  
+  nvmlDevice_t devices[MAX_NUM_DEVICES];
+  unsigned int num_devices = 0;
+  while(nvmlDeviceGetHandleByIndex (num_devices, devices + num_devices) == NVML_SUCCESS) {
+    num_devices++;
   }
+
+  if(num_devices == 0) {
+    fprintf(stderr, "Error: No devices found\n");
+    nvmlShutdown();
+    return(1);
+  }
+
+  unsigned int * num_links = new unsigned int[num_devices];
+
+  nvmlFieldValue_t field_value = NVML_FI_DEV_NVLINK_LINK_COUNT;
+  for(int i = 0; i < num_devices; i++) {
+    NVML_CHECK(nvmlDeviceGetFieldValues (devices[i], 1, &field_value));
+    
+  }
+
+  
+  delete[] num_links;
   nvmlShutdown();
   return(0);
 }
