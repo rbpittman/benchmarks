@@ -154,11 +154,11 @@ int main() {
   unsigned int * num_links = new unsigned int[num_devices];
   
   nvmlFieldValue_t field_value;
-  // field_value.fieldId = NVML_FI_DEV_NVLINK_LINK_COUNT;
+  field_value.fieldId = 91;//NVML_FI_DEV_NVLINK_LINK_COUNT;
   for(int i = 0; i < num_devices; i++) {
     NVML_CHECK(nvmlDeviceGetFieldValues (devices[i], 1, &field_value));
     num_links[i] = field_value.value.uiVal;
-    printf("%d\n", num_links[i]);
+    printf("num links: %d\n", num_links[i]);
   }
 
   char str[200];
