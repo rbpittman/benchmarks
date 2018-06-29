@@ -30,7 +30,12 @@ def get_link_util(logger):
     num_links_per_gpu = []
     rx_data = []
     tx_data = []
-    for line in os.popen("nvidia-smi nvlink -g 0").readlines():
+    curr_time1 = time.time()
+    nvlink_output = os.popen("nvidia-smi nvlink -g 0").readlines()
+    curr_time2 = time.time()
+    curr_time = (curr_time1 + curr_time2) / 2.
+    
+    for line in nvlink_output:
         line = line.strip()
         if "GPU" == line[:3]:
             gpu_index += 1
@@ -81,7 +86,7 @@ def get_link_util(logger):
     # avg_tx_kb = total_tx_kb / float(count)
     # avg_rx_mb = avg_rx_kb / 1024
     # avg_tx_mb = avg_tx_kb / 1024
-    return all_data
+    return [curr_time] + all_data
 
 if __name__ == "__main__":
     os.system("nvidia-smi nvlink -sc 0bz > /dev/null")
@@ -101,7 +106,7 @@ if __name__ == "__main__":
     kill_process = log_util.KillProcess()
     while not kill_process.kill_now:
         data_row = get_link_util(logger)
-        curr_time = time.time()
+        curr_time = data_row[0]
         if start_time == None:
             logger.log("init start time")
             start_time = curr_time
