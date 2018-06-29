@@ -125,6 +125,7 @@ invalid
 #include <stdio.h>
 #include <unistd.h>
 #include <signal.h>
+#include <sys/time.h>
 
 #define MAX_NUM_DEVICES 32
 
@@ -138,13 +139,18 @@ invalid
 //Nvlink counter to use (0 or 1)
 #define COUNTER 0
 
-
 void nvml_check(nvmlReturn_t error, const char * filename, unsigned int line_num) {
   if(error == NVML_SUCCESS) {
     //success
   } else {
     fprintf(stderr, "NVML error code %d in file %s line %d\n", (int) error, filename, line_num);
   }
+}
+
+double get_time() {
+  struct timeval tv;
+  gettimeofday(&tv, NULL);
+  return(tv.tv_sec + (tv.tv_usec/1000000.));
 }
 
 FILE * file_handle = NULL;
@@ -194,10 +200,11 @@ int main(int argc, char ** argv) {
   
   nvmlFieldValue_t field_value;
   field_value.fieldId = NVML_FI_DEV_NVLINK_LINK_COUNT;
+  unsigned int total_links = 0;
   for(int i = 0; i < num_devices; i++) {
     NVML_CHECK(nvmlDeviceGetFieldValues (devices[i], 1, &field_value));
     num_links[i] = field_value.value.uiVal;
-    printf("num links: %d\n", num_links[i]);
+    total_links += field_value.value.uiVal;
   }
   
   // char str[200];
@@ -207,10 +214,7 @@ int main(int argc, char ** argv) {
   for(int gpu_i = 0; gpu_i < num_devices; gpu_i++) {
     for(int link_i = 0; link_i < num_links[gpu_i]; link_i++) {
       NVML_CHECK(nvmlDeviceGetNvLinkState(devices[gpu_i], link_i, &enabled_state));
-      if(enabled_state == NVML_FEATURE_ENABLED) {
-	// printf("yepyepyep\n");
-      } else {
-	// printf("nopenopenope\n");
+      if(enabled_state != NVML_FEATURE_ENABLED) {
 	fprintf(stderr, "Link not enabled\n");
 	return(1);
       }
@@ -229,17 +233,41 @@ int main(int argc, char ** argv) {
 						       COUNTER, &control, true));
     }
   }
+
+  file_handle = fopen("nvlink_usage.csv", "w");
+  if(file_handle == NULL) {
+    fprintf(stderr, "Could not open output file\n");
+    return(1);
+  }
   
+  unsigned long long * data_row = new unsigned long long[total_links];
+  int col = 0;
+  unsigned long long rx, tx;
   catch_sigterm();
+  double start_time = -1.0;
+  double curr_time;
   while(!kill_process) {
+    col = 0;
+    for(int gpu_i = 0; gpu_i < num_devices; gpu_i++) {
+      for(int link_i = 0; link_i < num_links[gpu_i]; link_i++) {
+	NVML_CHECK(nvmlDeviceGetNvLinkUtilizationCounter(devices[gpu_i], link_i, COUNTER, &rx, &tx));
+	curr_time = get_time();
+	if(start_time == -1.0) {
+	  start_time = curr_time;
+	}
+	data_row[col++] = tx;
+      }
+    }
+    fprintf(file_handle, "%f", curr_time - start_time);
+    for(int i = 0; i < total_links; i++) {
+      fprintf(file_handle, ",%llu", data_row[i]);
+    }
+    fprintf(file_handle, "\n");
     usleep(delay);
   }
-  // nvmlReturn_t nvmlDeviceGetNvLinkUtilizationControl
-  //   (nvmlDevice_t device, unsigned int link, unsigned int
-  //    counter, nvmlNvLinkUtilizationControl_t *control)
     
 
-  
+  delete[] data_row;
   delete[] num_links;
   nvmlShutdown();
   return(0);
