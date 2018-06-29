@@ -6,7 +6,7 @@ echo "Starting nvlink logger...";
 python3 nvlink_logger.py 0 nvlink_usage.csv & 
 echo "Done"
 
-python tf_cnn_benchmarks.py --num_gpus=4 --batch_size=64 --model=resnet152_v2 --variable_update=replicated --data_dir=/home/ubuntu/imagenet
+python tf_cnn_benchmarks.py --num_gpus=4 --batch_size=4 --model=resnet152_v2 --variable_update=replicated --data_dir=/home/ubuntu/imagenet
 
 kill $(jobs -rp)
 
