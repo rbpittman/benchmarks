@@ -2458,7 +2458,17 @@ class BenchmarkCNN(object):
             grad * tf.cast(1. / self.loss_scale, grad.dtype) for grad in grads
         ]
       for i, grad in enumerate(grads):
-        print(i, "=", grad.name, '|'. grad.shape, '|', grad.dtype)
+        assert grad.dtype == tf.float32
+        # print(i, "=", grad.name, '|', grad.shape, '|', grad.dtype)
+      shapes = [[dim.value for dim in grad.shape] for grad in grads]
+      total_data = 0
+      for shape in shapes:
+        num_elements = 1
+        for dim in shape:
+          num_elements *= dim
+        total_data += 4 * num_elements
+      mbytes = round(total_data/float(2**20), 4)
+      print("Total data = %d bytes, or %f MBytes" % (total_data, mbytes))
       if self.params.variable_update == 'horovod':
         import horovod.tensorflow as hvd  # pylint: disable=g-import-not-at-top
         if self.params.horovod_device:
