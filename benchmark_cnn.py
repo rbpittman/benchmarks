@@ -2457,7 +2457,8 @@ class BenchmarkCNN(object):
         grads = [
             grad * tf.cast(1. / self.loss_scale, grad.dtype) for grad in grads
         ]
-
+      for i, grad in enumerate(grads):
+        print(i, "=", grad.name, '|'. grad.shape, '|', grad.dtype)
       if self.params.variable_update == 'horovod':
         import horovod.tensorflow as hvd  # pylint: disable=g-import-not-at-top
         if self.params.horovod_device:
