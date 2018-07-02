@@ -2459,7 +2459,7 @@ class BenchmarkCNN(object):
         ]
       for i, grad in enumerate(grads):
         assert grad.dtype == tf.float32
-        # print(i, "=", grad.name, '|', grad.shape, '|', grad.dtype)
+        print(i, "=", grad.name, '|', grad.shape, '|', grad.dtype)
       shapes = [[dim.value for dim in grad.shape] for grad in grads]
       total_data = 0
       for shape in shapes:
