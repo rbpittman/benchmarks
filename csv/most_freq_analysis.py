@@ -111,7 +111,7 @@ class V100X4:
     
     def animate(self):
         most_freq = []
-        for check_col in range(36):
+        for check_col in range(len(self.data[1])):
             cols = Counter()
             for row_idx, row in enumerate(self.data):
                 self.links = row
@@ -131,19 +131,20 @@ class V100X4:
         
 
 if __name__ == "__main__":
-    reader = csv.reader(open("nvlink_usage_H1.csv", 'r'))
+    reader = csv.reader(open("nvlink_8XV100_bs64.csv", 'r'))
 
     next(reader)
     data = [[float(x) for x in line] for line in reader]
 
     slope_data = []
     print("WARNING: Assuming Kbytes is y unit!!!")
+    print(len(data[0]))
     for i in range(1, len(data)):
         entry1 = data[i-1]
         entry2 = data[i  ]
         elapsed_time = entry2[0] - entry1[0]
         new_line = []
-        for column in range(2, 38):
+        for column in range(2, len(data[0])):
             delta_col = (entry2[column] - entry1[column]) / elapsed_time
             # new_line.append((delta_col * 8000) / (10 ** 9))
             new_line.append(delta_col)
