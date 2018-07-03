@@ -138,7 +138,8 @@ using namespace std;
 #define NVML_FI_DEV_NVLINK_LINK_COUNT 91
 
 //Nvlink counter to use (0 or 1)
-#define COUNTER 0
+#define GET_BYTES 0
+#define GET_PACKETS 1
 
 void nvml_check(nvmlReturn_t error, const char * filename, unsigned int line_num) {
   if(error == NVML_SUCCESS) {
@@ -245,54 +246,57 @@ int main(int argc, char ** argv) {
     }
   }
 
-  nvmlNvLinkUtilizationControl_t control;
-  control.pktfilter = NVML_NVLINK_COUNTER_PKTFILTER_ALL;//All types of packets
-  control.units     = NVML_NVLINK_COUNTER_UNIT_BYTES;   //units of bytes
-  for(int gpu_i = 0; gpu_i < num_devices; gpu_i++) {
-    for(int link_i = 0; link_i < num_links[gpu_i]; link_i++) {
-      //Set utilization counter for device gpu_i, link_i, specified
-      //COUNTER, with all packets and units of bytes control, and true
-      //reset counter to 0. 
-      NVML_CHECK(nvmlDeviceSetNvLinkUtilizationControl(devices[gpu_i], link_i,
-						       COUNTER, &control, 1));
+  nvmlNvLinkUtilizationControl_t controls[2];
+  controls[0].pktfilter = NVML_NVLINK_COUNTER_PKTFILTER_ALL;//All types of packets
+  controls[0].units     = NVML_NVLINK_COUNTER_UNIT_BYTES;
+  controls[1].pktfilter = NVML_NVLINK_COUNTER_PKTFILTER_ALL;//All types of packets
+  controls[1].units     = NVML_NVLINK_COUNTER_UNIT_PACKETS;
+  
+  for(int control_idx = 0; control_idx < 2; control_idx++) {
+    for(int gpu_i = 0; gpu_i < num_devices; gpu_i++) {
+      for(int link_i = 0; link_i < num_links[gpu_i]; link_i++) {
+	//Set utilization counter for device gpu_i, link_i, specified
+	//COUNTER, with all packets and units of bytes control, and true
+	//reset counter to 0. 
+	NVML_CHECK(nvmlDeviceSetNvLinkUtilizationControl(devices[gpu_i], link_i,
+							 control_idx, controls + control_idx, 1));
+      }
     }
   }
-
+  
   int col = 0;
   unsigned long long rx, tx;
   unsigned long long * data_row;
   double start_time = -1.0;
   double curr_time;
   vector<double> times;
-  vector<unsigned long long *> data;
+  vector<unsigned long long *> data[2];
   
   catch_sigterm();
   while(!kill_process) {
-    data_row = new unsigned long long[total_links];
-    col = 0;
     curr_time = get_time();
     if(start_time == -1.0) {
       start_time = curr_time;
     }
-    
-    for(int gpu_i = 0; gpu_i < num_devices; gpu_i++) {
-      for(int link_i = 0; link_i < num_links[gpu_i]; link_i++) {
-	NVML_CHECK(nvmlDeviceGetNvLinkUtilizationCounter(devices[gpu_i], link_i, COUNTER, &rx, &tx));
-	data_row[col++] = 8 * tx;
+    for(int control_idx = 0; control_idx < 2; control_idx++) {
+      col = 0;
+      data_row = new unsigned long long[total_links];
+      for(int gpu_i = 0; gpu_i < num_devices; gpu_i++) {
+	for(int link_i = 0; link_i < num_links[gpu_i]; link_i++) {
+	  NVML_CHECK(nvmlDeviceGetNvLinkUtilizationCounter(devices[gpu_i], link_i, control_idx, &rx, &tx));
+	  if(controls[control_idx].units == NVML_NVLINK_COUNTER_UNIT_BYTES)
+	    data_row[col++] = 8 * tx;//convert bytes to bits
+	  else
+	    data_row[col++] = tx;
+	}
       }
+      data[control_idx].push_back(data_row);
     }
-    
-    data.push_back(data_row);
     times.push_back(curr_time-start_time);
-    // fprintf(file_handle, "%f", curr_time - start_time);
-    // for(int i = 0; i < total_links; i++) {
-    //   fprintf(file_handle, ",%llu", data_row[i]);
-    // }
-    // fprintf(file_handle, "\n");
     usleep(delay);
   }
   
-  //Write data
+  //Write data for control 1
   file_handle = fopen("nvlink_usage_bits.csv", "w");
   if(file_handle == NULL) {
     fprintf(stderr, "Could not open output file\n");
@@ -300,11 +304,24 @@ int main(int argc, char ** argv) {
   }
 
   write_header(file_handle, num_devices, num_links);
-  write_data(file_handle, times, data, total_links);
+  write_data(file_handle, times, data[0], total_links);
+  fclose(file_handle);
+  
+  file_handle = fopen("nvlink_usage_packets.csv", "w");
+  if(file_handle == NULL) {
+    fprintf(stderr, "Could not open output file\n");
+    return(1);
+  }
+  
+  write_header(file_handle, num_devices, num_links);
+  write_data(file_handle, times, data[1], total_links);
   fclose(file_handle);
 
-  for(int i = 0; i < data.size(); i++) {
-    delete[] data.at(i);
+  
+  for(int control_idx = 0; control_idx < 2; control_idx++) {
+    for(int i = 0; i < data[control_idx].size(); i++) {
+      delete[] data[control_idx].at(i);
+    }
   }
   delete[] num_links;
   nvmlShutdown();
