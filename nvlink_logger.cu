@@ -126,7 +126,8 @@ invalid
 #include <unistd.h>
 #include <signal.h>
 #include <sys/time.h>
-
+#include <vector>
+using namespace std;
 #define MAX_NUM_DEVICES 32
 
 #define NVML_CHECK(error) nvml_check(error,__FILE__,__LINE__)
@@ -157,8 +158,6 @@ FILE * file_handle = NULL;
 bool kill_process = false;
 
 void sig_term_handler(int signum, siginfo_t *info, void *ptr) {
-  file_handle = fopen("datasets.py", "r");
-  if (file_handle != NULL) fclose(file_handle);
   printf("Caught kill signal, closing data file\n");
   kill_process = true;
 }
@@ -174,6 +173,29 @@ void catch_sigterm() {
   sigaction(SIGINT, &_sigact, NULL);
 }
 
+void write_header(FILE * file_handle, int num_devices, unsigned int * num_links) {
+  fprintf(file_handle, "time(sec)");
+  for(int gpu_i = 0; gpu_i < num_devices; gpu_i++) {
+    for(int link_i = 0; link_i < num_links[gpu_i]; link_i++) {
+      fprintf(file_handle, ",GPU%d_L%d", gpu_i, link_i);
+    }
+  }
+  fprintf(file_handle, "\n");
+}
+
+//Writes times to first col, data to rest of cols. Uses num_cols for
+//the length of each row in data. 
+void write_data(FILE * file_handle, vector<double> & times, vector<unsigned long long *> & data, int num_cols) {
+  unsigned long long * data_row;
+  for(int i = 0; i < data.size(); ++i) {
+    data_row = data.at(i);
+    fprintf(file_handle, "%f", times.at(i));
+    for(int j = 0; j < num_cols; j++) {
+      fprintf(file_handle, ",%llu", data_row[j]);
+    }
+    fprintf(file_handle, "\n");
+  }
+}
 
 int main(int argc, char ** argv) {
   useconds_t delay = 1000000;//micro seconds
@@ -234,47 +256,51 @@ int main(int argc, char ** argv) {
     }
   }
 
-  file_handle = fopen("nvlink_usage.csv", "w");
-  if(file_handle == NULL) {
-    fprintf(stderr, "Could not open output file\n");
-    return(1);
-  }
-  
-  unsigned long long * data_row = new unsigned long long[total_links];
   int col = 0;
   unsigned long long rx, tx;
-  catch_sigterm();
+  unsigned long long * data_row;
   double start_time = -1.0;
   double curr_time;
+  vector<double> times;
+  vector<unsigned long long *> data;
+  
+  catch_sigterm();
   while(!kill_process) {
+    data_row = new unsigned long long[total_links];
     col = 0;
     curr_time = get_time();
     if(start_time == -1.0) {
       start_time = curr_time;
-      fprintf(file_handle, "time(sec)");
-      for(int gpu_i = 0; gpu_i < num_devices; gpu_i++) {
-	for(int link_i = 0; link_i < num_links[gpu_i]; link_i++) {
-	  fprintf(file_handle, ",GPU%d_L%d", gpu_i, link_i);
-	}
-      }
-      fprintf(file_handle, "\n");
     }
-
+    
     for(int gpu_i = 0; gpu_i < num_devices; gpu_i++) {
       for(int link_i = 0; link_i < num_links[gpu_i]; link_i++) {
 	NVML_CHECK(nvmlDeviceGetNvLinkUtilizationCounter(devices[gpu_i], link_i, COUNTER, &rx, &tx));
-	data_row[col++] = tx;
+	data_row[col++] = 8 * tx;
       }
     }
-    fprintf(file_handle, "%f", curr_time - start_time);
-    for(int i = 0; i < total_links; i++) {
-      fprintf(file_handle, ",%llu", data_row[i]);
-    }
-    fprintf(file_handle, "\n");
+    
+    data.push_back(data_row);
+    times.push_back(curr_time-start_time);
+    // fprintf(file_handle, "%f", curr_time - start_time);
+    // for(int i = 0; i < total_links; i++) {
+    //   fprintf(file_handle, ",%llu", data_row[i]);
+    // }
+    // fprintf(file_handle, "\n");
     usleep(delay);
   }
-    
+  
+  //Write data
+  file_handle = fopen("nvlink_usage_bits.csv", "w");
+  if(file_handle == NULL) {
+    fprintf(stderr, "Could not open output file\n");
+    return(1);
+  }
 
+  write_header(file_handle, num_devices, num_links);
+  write_data(file_handle, times, data, total_links);
+  fclose(file_handle);
+  
   delete[] data_row;
   delete[] num_links;
   nvmlShutdown();
