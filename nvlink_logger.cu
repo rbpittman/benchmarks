@@ -311,21 +311,22 @@ int main(int argc, char ** argv) {
     fprintf(stderr, "Could not open output file\n");
     return(1);
   }
-
+  
   write_header(file_handle, num_devices, num_links);
   write_data(file_handle, times, data[0], total_links);
   fclose(file_handle);
-  
-  file_handle = fopen("nvlink_usage_cycles.csv", "w");
-  if(file_handle == NULL) {
-    fprintf(stderr, "Could not open output file\n");
-    return(1);
-  }
-  
-  write_header(file_handle, num_devices, num_links);
-  write_data(file_handle, times, data[1], total_links);
-  fclose(file_handle);
 
+  if(NUM_CONTROLS > 1) {
+    file_handle = fopen("nvlink_usage_cycles.csv", "w");
+    if(file_handle == NULL) {
+      fprintf(stderr, "Could not open output file\n");
+      return(1);
+    }
+    
+    write_header(file_handle, num_devices, num_links);
+    write_data(file_handle, times, data[1], total_links);
+    fclose(file_handle);
+  }
   
   for(int control_idx = 0; control_idx < NUM_CONTROLS; control_idx++) {
     for(int i = 0; i < data[control_idx].size(); i++) {
