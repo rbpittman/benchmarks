@@ -2,9 +2,14 @@ from __future__ import print_function
 import matplotlib.pyplot as plt
 import turtle
 import csv
+import sys
+if len(sys.argv) < 2:
+    print("Expected csv filename")
+    sys.exit()
+filename = sys.argv[1]
 
 # reader = csv.reader(open("4XV100_nvlink_usage.csv", 'r'))
-reader = csv.reader(open("ultra_res_resnet152_v2_bs64_4XV100.csv", 'r'))
+reader = csv.reader(open(filename, 'r'))
 next(reader)
 data = [[float(x) for x in line] for line in reader]
 
