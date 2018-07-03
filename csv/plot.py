@@ -3,115 +3,152 @@ import matplotlib.pyplot as plt
 import turtle
 import csv
 import sys
-if len(sys.argv) < 2:
-    print("Expected csv filename")
-    sys.exit()
-filename = sys.argv[1]
+import argparse
+import os
 
-# reader = csv.reader(open("4XV100_nvlink_usage.csv", 'r'))
-reader = csv.reader(open(filename, 'r'))
-next(reader)
-data = [[float(x) for x in line] for line in reader]
+UNITS = ["bits", "packets", "cycles"]
 
-slope_data = []
-print("WARNING: Assuming bits is y unit!!!")
-print("Output is in Gbps")
+scaling = {"K":10**3, "M":10**6, "G":10**9}
 
-for i in range(1, len(data)):
-    entry1 = data[i-1]
-    entry2 = data[i  ]
-    elapsed_time = entry2[0] - entry1[0]
-    new_line = []
-    for column in range(1, len(data[0])):
-        bps = (entry2[column] - entry1[column]) / elapsed_time
-        # new_line = [entry2[0], (delta_col * 8000) / (10 ** 6)]
-        new_line.append(bps / (10 ** 9))
-    slope_data.append(new_line)
-# x, y1 = [[row[i] for row in slope_data] for i in range(2)]
-x = [row[0] for row in data[:-1]]
-
-SUMMED = True
-
-if SUMMED:
-    y = [sum(row) for row in slope_data]
-    plot_data = [x,y]
-else:
-    plot_data = []
-    for i in range(len(slope_data[0])):
-        y = [row[i] for row in slope_data]
-        plot_data += [x, y]
-
-"""
-print("PERFORMING SPIKE SCAN OF ALL TX LINKS")
-
-# scan_col = 5 + 2
-for scan_col in range(3, 38, 2):
-    start = None
-    prev_link = data[0]
-    spikes = []
-    for i in range(1, len(data)):
-        link = data[i][scan_col]
-        if link != prev_link:
-            if start == None:
-                start = i
-                prev_val = link
-        else:
-            if start != None:
-                end = i-1
-                if start == end:
-                    # print("found spike of size 1, no duration")
-                    pass
-                else:
-                    elapsed_time = data[end][0]-data[start][0]
-                    GBps = (data[end][scan_col] - data[start][scan_col])/(8 * 10 ** 9 * elapsed_time)
-                    if GBps > 0.001:
-                        spikes.append(round(GBps, 2))
-                        #print("Found spike with average rate %f with duration %f seconds." % (GBps, elapsed_time))
-                    start = None
-        prev_link = link
-    print("Link ID [0-35]:", scan_col-2, "Spikes:", spikes, "Avg:", round(sum(spikes)/len(spikes), 2))
-
-"""
-
-
-# print("num columns:", len(slope_data[0]))
-# assert (len(slope_data[0]) == 18)
-# totals = [0] * 18
-# for row in slope_data:
-#     for i in range(len(row)):
-#         totals[i] += row[i]
-
+def get_units(filename):
+    global UNITS
     
+    base = filename if "/" not in filename else filename[filename.rindex("/")+1:]
+    units_found = []
+    for unit in UNITS:
+        if unit in base:
+            units_found.append(unit)
+
+    if len(units_found) > 1:
+        print("Multiple units %s provided in filename, ambiguous." % ", ".join(units_found))
+        sys.exit()
+    if len(units_found) < 1:
+        print("No units found in filename")
+        sys.exit()
+    unit = units_found[0]
+    return unit
+
+def get_data(filename, summed):
+    unit = get_units(filename)
+    scale_fn = lambda x: x / (10 ** 9)
+    label = "G-" + unit + "/sec"
+    reader = csv.reader(open(filename, 'r'))
+    next(reader)#Skip header
+    data = [[float(x) for x in line] for line in reader]
+    slope_data = []
+    
+    for i in range(1, len(data)):
+        entry1 = data[i-1]
+        entry2 = data[i  ]
+        elapsed_time = entry2[0] - entry1[0]
+        new_line = []
+        for column in range(1, len(data[0])):
+            pre_scaled = (entry2[column] - entry1[column]) / elapsed_time
+            scaled = scale_fn(pre_scaled)
+            new_line.append(scaled)
+        slope_data.append(new_line)
+    x = [row[0] for row in data[:-1]]
+    
+    if summed:
+        y = [sum(row) for row in slope_data]
+        plot_data = [x,y]
+    else:
+        plot_data = []
+        for i in range(len(slope_data[0])):
+            y = [row[i] for row in slope_data]
+            plot_data += [x, y]
+    return plot_data, label, unit
 
 
-#Analyze diff between sum rx and sum tx, turns out it hovers around
-#0. Since the counters are cumulative, only the end matters, and its
-#0. 
-"""
-for i, x_value in enumerate(x):
-    row = data[i]
-    rx = [row[i] for i in range(2, 38, 2)]
-    tx = [row[i+1] for i in range(2, 38, 2)]
-    print(sum(tx) - sum(rx))
-"""
+def get_mean(data):
+    return sum(data) / len(data)
 
-#Plot data
-# plt.plot(x, y)
-plt.title("Variables replicated and all-reduced over each GPU")
-plt.plot(*plot_data)
-# plt.xlim(20, 70)
-# plt.xlim(12, 13.5)
-plt.xlabel("Time (sec)")
-if SUMMED:
-    plt.ylabel("Gbps summed tx nvlink")
-else:
-    plt.ylabel("Gbps all %d tx nvlinks overlayed" % len(slope_data[0]))
-plt.tight_layout()
-plt.show()
+def scale_data(data, factor):
+    for i in range(len(data)):
+        data[i] *= factor
+    
+if __name__ == "__main__":
+    filenames = []
+    parser = argparse.ArgumentParser(description="Plot csv graphs of nvlink utilization")
+    parser.add_argument("filenames", nargs='+', help="Space separated list of csv files")
+    parser.add_argument("--summed", action="store_true", help="If provided, all tx will be summed")
+    args = parser.parse_args()
+    if not args.summed and len(filenames) > 1:
+        print("Warning: plotting multiple filenames without summed mode may break the legend")
+    for filename in args.filenames:
+        if not os.path.isfile(filename):
+            print("Error reading file \"%s\"" % filename)
+            sys.exit()
+    
+    all_plot_data = []
+    all_labels = []
+    avg_gbps = -1
+    for filename in args.filenames:
+        print("Parsing \"%s\"" % filename)
+        plot_data, label, unit = get_data(filename, args.summed)
+        all_plot_data += plot_data
+        all_labels.append(label)
+        if unit == "bits" and args.summed:
+            avg_gbps = get_mean(plot_data[1])
 
+    if args.summed and avg_gbps != -1 and len(args.filenames) > 1:
+        #Found an avg gbps, so scale remaining data by that factor
+        for i, filename in enumerate(args.filenames):
+            if get_units(filename) != "bits":
+                y_data = all_plot_data[2 * i + 1]#[x,y,x,y,x,y...]
+                factor = round((avg_gbps / get_mean(y_data)), 2)
+                all_labels[i] = "%.2fX-%s" % (factor, all_labels[i])
+                scale_data(y_data, factor)
+    # Plot data
+    plt.title("Nvlink usage")
+    
+    lines = plt.plot(*all_plot_data)
+    plt.legend(lines, all_labels)
+    plt.xlabel("Time (sec)")
+    plt.ylabel(", ".join(all_labels))
+    plt.tight_layout()
+    plt.show()
+
+    """
+    print("PERFORMING SPIKE SCAN OF ALL TX LINKS")
+
+    # scan_col = 5 + 2
+    for scan_col in range(3, 38, 2):
+        start = None
+        prev_link = data[0]
+        spikes = []
+        for i in range(1, len(data)):
+            link = data[i][scan_col]
+            if link != prev_link:
+                if start == None:
+                    start = i
+                    prev_val = link
+            else:
+                if start != None:
+                    end = i-1
+                    if start == end:
+                        # print("found spike of size 1, no duration")
+                        pass
+                    else:
+                        elapsed_time = data[end][0]-data[start][0]
+                        GBps = (data[end][scan_col] - data[start][scan_col])/(8 * 10 ** 9 * elapsed_time)
+                        if GBps > 0.001:
+                            spikes.append(round(GBps, 2))
+                            #print("Found spike with average rate %f with duration %f seconds." % (GBps, elapsed_time))
+                        start = None
+            prev_link = link
+        print("Link ID [0-35]:", scan_col-2, "Spikes:", spikes, "Avg:", round(sum(spikes)/len(spikes), 2))
+
+    """
 
 #ultra_res_resnet152_v2_bs64_4XV100.csv, compute average bw during training
 #93.003733,168369832,364288932,305758280,168370688,64625316,117401512,72475300,72474624,72474880,123155968,87967748,72475044,87964416,87966976,117401508,47803136,87965184,47804416
 #140.002338,5327856620,13648900516,7272975992,5327909740,7000412372,12754937480,7875995132,7876017880,7851962768,13332201472,9543438764,7851974468,9543288840,9553371136,12736055508,5186709760,9553355776,5191580928
 
 # average = 3303451093 bps = 3.3Gbps
+
+
+
+#92 -> 139.4
+#92.001950,1346954528,2914311456,2446066240,1346969632,517002528,939212096,579798304,579801088,579796992,985247744,703725568,579802400,703731744,703717376,939212064,382437376,703739904,382423040
+#139.402139,43021170944,110284889376,58777786592,43021117920,56717849536,103160902016,63701737056,63701767520,63638848704,108098906112,77270652928,63638755072,77271322048,77361035264,103214453696,42016440320,77361043456,42016798720
