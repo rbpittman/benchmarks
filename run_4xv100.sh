@@ -1,9 +1,8 @@
 #!/bin/bash
 
-echo "Starting net logger...";
+# echo "Starting net logger...";
 # python3 net_logger.py 0.2 net_usage.csv &
 echo "Starting nvlink logger...";
-# python3 nvlink_logger.py 0 nvlink_usage.csv &
 ./nvlink_logger 0 &
 echo "Done"
 
