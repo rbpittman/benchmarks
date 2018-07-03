@@ -250,7 +250,7 @@ int main(int argc, char ** argv) {
   controls[0].pktfilter = NVML_NVLINK_COUNTER_PKTFILTER_ALL;//All types of packets
   controls[0].units     = NVML_NVLINK_COUNTER_UNIT_BYTES;
   controls[1].pktfilter = NVML_NVLINK_COUNTER_PKTFILTER_ALL;//All types of packets
-  controls[1].units     = NVML_NVLINK_COUNTER_UNIT_PACKETS;
+  controls[1].units     = NVML_NVLINK_COUNTER_UNIT_CYCLES;
   
   for(int control_idx = 0; control_idx < 2; control_idx++) {
     for(int gpu_i = 0; gpu_i < num_devices; gpu_i++) {
@@ -307,7 +307,7 @@ int main(int argc, char ** argv) {
   write_data(file_handle, times, data[0], total_links);
   fclose(file_handle);
   
-  file_handle = fopen("nvlink_usage_packets.csv", "w");
+  file_handle = fopen("nvlink_usage_cycles.csv", "w");
   if(file_handle == NULL) {
     fprintf(stderr, "Could not open output file\n");
     return(1);
