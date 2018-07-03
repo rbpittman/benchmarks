@@ -211,7 +211,9 @@ int main(int argc, char ** argv) {
   while(nvmlDeviceGetHandleByIndex (num_devices, devices + num_devices) == NVML_SUCCESS) {
     num_devices++;
   }
-
+  //Only log first gpu
+  num_devices = 1;
+  
   if(num_devices == 0) {
     fprintf(stderr, "Error: No devices found\n");
     nvmlShutdown();
@@ -252,7 +254,7 @@ int main(int argc, char ** argv) {
       //COUNTER, with all packets and units of bytes control, and true
       //reset counter to 0. 
       NVML_CHECK(nvmlDeviceSetNvLinkUtilizationControl(devices[gpu_i], link_i,
-						       COUNTER, &control, true));
+						       COUNTER, &control, 1));
     }
   }
 
@@ -300,8 +302,10 @@ int main(int argc, char ** argv) {
   write_header(file_handle, num_devices, num_links);
   write_data(file_handle, times, data, total_links);
   fclose(file_handle);
-  
-  delete[] data_row;
+
+  for(int i = 0; i < data.size(); i++) {
+    delete[] data.at(i);
+  }
   delete[] num_links;
   nvmlShutdown();
   return(0);
