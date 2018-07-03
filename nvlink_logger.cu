@@ -129,6 +129,7 @@ invalid
 #include <vector>
 using namespace std;
 #define MAX_NUM_DEVICES 32
+#define NUM_CONTROLS 1
 
 #define NVML_CHECK(error) nvml_check(error,__FILE__,__LINE__)
 
@@ -198,6 +199,11 @@ void write_data(FILE * file_handle, vector<double> & times, vector<unsigned long
   }
 }
 
+
+  //==================//
+ //==     MAIN     ==//
+//==================//
+
 int main(int argc, char ** argv) {
   useconds_t delay = 1000000;//micro seconds
   if(argc >= 2) {
@@ -213,7 +219,7 @@ int main(int argc, char ** argv) {
     num_devices++;
   }
   //Only log first gpu
-  num_devices = 1;
+  // num_devices = 1;
   
   if(num_devices == 0) {
     fprintf(stderr, "Error: No devices found\n");
@@ -245,14 +251,17 @@ int main(int argc, char ** argv) {
       }
     }
   }
-
-  nvmlNvLinkUtilizationControl_t controls[2];
+  
+  nvmlNvLinkUtilizationControl_t controls[NUM_CONTROLS];
   controls[0].pktfilter = NVML_NVLINK_COUNTER_PKTFILTER_ALL;//All types of packets
   controls[0].units     = NVML_NVLINK_COUNTER_UNIT_BYTES;
-  controls[1].pktfilter = NVML_NVLINK_COUNTER_PKTFILTER_ALL;//All types of packets
-  controls[1].units     = NVML_NVLINK_COUNTER_UNIT_CYCLES;
+  if(NUM_CONTROLS > 1) {
+    controls[1].pktfilter = NVML_NVLINK_COUNTER_PKTFILTER_ALL;//All types of packets
+    controls[1].units     = NVML_NVLINK_COUNTER_UNIT_CYCLES;
+  }
   
-  for(int control_idx = 0; control_idx < 2; control_idx++) {
+  
+  for(int control_idx = 0; control_idx < NUM_CONTROLS; control_idx++) {
     for(int gpu_i = 0; gpu_i < num_devices; gpu_i++) {
       for(int link_i = 0; link_i < num_links[gpu_i]; link_i++) {
 	//Set utilization counter for device gpu_i, link_i, specified
@@ -270,7 +279,7 @@ int main(int argc, char ** argv) {
   double start_time = -1.0;
   double curr_time;
   vector<double> times;
-  vector<unsigned long long *> data[2];
+  vector<unsigned long long *> data[NUM_CONTROLS];
   
   catch_sigterm();
   while(!kill_process) {
@@ -278,7 +287,7 @@ int main(int argc, char ** argv) {
     if(start_time == -1.0) {
       start_time = curr_time;
     }
-    for(int control_idx = 0; control_idx < 2; control_idx++) {
+    for(int control_idx = 0; control_idx < NUM_CONTROLS; control_idx++) {
       col = 0;
       data_row = new unsigned long long[total_links];
       for(int gpu_i = 0; gpu_i < num_devices; gpu_i++) {
@@ -318,7 +327,7 @@ int main(int argc, char ** argv) {
   fclose(file_handle);
 
   
-  for(int control_idx = 0; control_idx < 2; control_idx++) {
+  for(int control_idx = 0; control_idx < NUM_CONTROLS; control_idx++) {
     for(int i = 0; i < data[control_idx].size(); i++) {
       delete[] data[control_idx].at(i);
     }
