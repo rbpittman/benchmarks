@@ -16,6 +16,7 @@ trans_matrix = [[0, 1, 1, 1, 1, 2, 2, 2],
 
 #Data size for which ms scaling should be used instead of us. 
 MS_DATA_SIZE = 100 * 2**20
+SHOW_HIST = False
 
 def is_one_hop(start_gpu, end_gpu):
     global trans_matrix
@@ -55,18 +56,25 @@ def parse_bw(is_dma):
     while "======" not in line:
         #Grab size section
         if "Size:" in line or "Figure" in line:
+            #Log the data
             entry = [size_in_bytes, mean(data[0])]
             if not is_dma:
                 entry.append(mean(data[1]))
             results.append(entry)
-            """
-            data[0].sort()
-            data[1].sort()
-            print(size_in_bytes, data)
-            plt.hist(data[0])
-            plt.hist(data[1])
-            plt.show()
-            """
+            
+            if SHOW_HIST:
+                data[0].sort()
+                plt.hist(data[0], 20, label="1-hop")
+                if not is_dma:
+                    data[1].sort()
+                    plt.hist(data[1], 20, label='2-hop')
+                plt.title("Histogram of Bandwidths between various links (Data size - %d bytes)" % size_in_bytes)
+                plt.xlabel("Bandwidth (GBps)")
+                plt.ylabel("Occurences")
+                plt.legend()
+                plt.show()
+
+            #Reset
             data = [[], []]
             if "Size:" in line:
                 size_in_bytes = int(line.split(' ')[1])
@@ -81,10 +89,8 @@ def parse_bw(is_dma):
                     data[0].append(GBps)
                 else:
                     data[1].append(GBps)
-        
         line = f.readline()
     return results
-
 
 def parse_lat():
     global f, line
@@ -114,27 +120,26 @@ def parse_lat():
                     data.append([end_gpu, latency])
         line = f.readline()
     return results
-
 fig8a = parse_bw(False)
-fig8b = parse_bw(True)
+fig8b = parse_lat()
 fig9  = parse_lat()
 
 print("8a:")
 csv_print(fig8a)
 
-print("8b:")
-csv_print(fig8b)
+# print("8b:")
+# csv_print(fig8b)
 
-print("9:")
-print(fig9)
-for plot_data in fig9:
+# print("9:")
+# print(fig9)
+for plot_data in fig8b:
     data_size, data = plot_data
     # print(data_size, data)
     x = get_col(data, 0)
     print(x)
     y = get_col(data, 1)
     print(y)
-    plt.bar(x, y, color="orange", tick_label=["0-%d" % i for i in range(1, 8)], align='center')
+    plt.bar(x, y, color="orange", tick_label=["0-%d" % i for i in range(1, len(y)+1)], align='center')
     plt.title("Latency of GPU-to-GPU mem copy - data size %d" % data_size)
     plt.xlabel('Latency from GPU 0 to GPU n')
     if data_size == MS_DATA_SIZE:
