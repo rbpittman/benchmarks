@@ -120,32 +120,40 @@ def parse_lat():
                     data.append([end_gpu, latency])
         line = f.readline()
     return results
-fig8a = parse_bw(False)
-fig8b = parse_lat()
-fig9  = parse_lat()
+# fig8a = parse_lat(False)
+# fig8b = parse_bw(True)
+# fig9  = parse_lat()
 
-print("8a:")
-csv_print(fig8a)
-
-# print("8b:")
-# csv_print(fig8b)
-
-# print("9:")
-# print(fig9)
-for plot_data in fig8b:
-    data_size, data = plot_data
-    # print(data_size, data)
-    x = get_col(data, 0)
-    print(x)
-    y = get_col(data, 1)
-    print(y)
-    plt.bar(x, y, color="orange", tick_label=["0-%d" % i for i in range(1, len(y)+1)], align='center')
-    plt.title("Latency of GPU-to-GPU mem copy - data size %d" % data_size)
+#parse_lat returns list of [data_size, data] where data_size is the
+#size of the data being transferred, and data is a 2D list with
+#entries of the form [gpu_dest, latency]
+p2p_memcpy_data = parse_lat()
+dma_data = parse_lat()
+assert(len(p2p_memcpy_data) == len(dma_data))
+for i in range(len(p2p_memcpy_data)):
+    data_size0, data0 = p2p_memcpy_data[i]
+    data_size1, data1 = dma_data[i]
+    assert data_size0 == data_size1
+    
+    x = get_col(data0, 0)
+    x_left = [t-0.5 for t in x]
+    x_right = [t for t in x]
+    
+    y1 = get_col(data0, 1)
+    y2 = get_col(data1, 1)
+    y2 += [0,0,0]#3 GPUs don't support DMA
+    print(y1)
+    print(y2)
+    ax = plt.subplot(111)
+    ax.bar(x_left, y1, width=0.35, color="orange", tick_label=["0-%d" % i for i in range(1, len(y1)+1)], label="peer-to-peer")
+    ax.bar(x_right, y2, width=0.35, color="b"     , tick_label=["0-%d" % i for i in range(1, len(y1)+1)], label="DMA")
+    ax.autoscale(tight=True)
+    plt.title("Latency of GPU-to-GPU mem copy - data size %d" % data_size0)
     plt.xlabel('Latency from GPU 0 to GPU n')
-    if data_size == MS_DATA_SIZE:
-        plt.ylabel('Latency, ms')
-    else:
-        plt.ylabel('Latency, us')
+    # if data_size == MS_DATA_SIZE:
+    #     plt.ylabel('Latency, ms')
+    # else:
+    #     plt.ylabel('Latency, us')
     plt.show()
 
 """
