@@ -1,0 +1,42 @@
+Running Game of Life with 8 GPUs, starting with 1 GPUs
+Testing with 1 GPUs
+--------------------
+
+GoL - MAPS: 1.404458 ms
+MAPS-Multi: Done!
+Testing with 2 GPUs
+--------------------
+
+GoL - MAPS: 0.792581 ms
+MAPS-Multi: Done!
+Testing with 3 GPUs
+--------------------
+
+GoL - MAPS: 0.607421 ms
+MAPS-Multi: Done!
+Testing with 4 GPUs
+--------------------
+
+GoL - MAPS: 0.491636 ms
+MAPS-Multi: Done!
+Testing with 5 GPUs
+--------------------
+
+GoL - MAPS: 0.419681 ms
+MAPS-Multi: Done!
+Testing with 6 GPUs
+--------------------
+
+GoL - MAPS: 0.399448 ms
+MAPS-Multi: Done!
+Testing with 7 GPUs
+--------------------
+
+GoL - MAPS: 0.426293 ms
+MAPS-Multi: Done!
+Testing with 8 GPUs
+--------------------
+
+GoL - MAPS: 0.492971 ms
+MAPS-Multi: Done!
+Overall: Test passed

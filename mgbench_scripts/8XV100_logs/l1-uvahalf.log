@@ -1,0 +1,73 @@
+Inter-GPU DMA uni-directional exchange test
+Enabling peer-to-peer access
+GPUs: 8 (+ host)
+Data size: 100.00 MB
+Data type size: 4 bytes
+Block size: 32
+Access type: Coalesced
+Repetitions: 100
+
+Copying from host to GPU 0: 10491.94 MB/s (9.531130 ms)
+Copying from host to GPU 1: 10582.32 MB/s (9.449720 ms)
+Copying from host to GPU 2: 10499.17 MB/s (9.524560 ms)
+Copying from host to GPU 3: 10585.15 MB/s (9.447200 ms)
+Copying from host to GPU 4: 10525.72 MB/s (9.500540 ms)
+Copying from host to GPU 5: 10594.66 MB/s (9.438720 ms)
+Copying from host to GPU 6: 10517.06 MB/s (9.508360 ms)
+Copying from host to GPU 7: 10613.86 MB/s (9.421640 ms)
+Copying from GPU 0 to GPU 1: 21829.39 MB/s (4.580980 ms)
+Copying from GPU 0 to GPU 2: 21829.96 MB/s (4.580860 ms)
+Copying from GPU 0 to GPU 3: 43608.33 MB/s (2.293140 ms)
+Copying from GPU 0 to GPU 4: 43612.89 MB/s (2.292900 ms)
+Copying from GPU 0 to GPU 5: No DMA
+Copying from GPU 0 to GPU 6: No DMA
+Copying from GPU 0 to GPU 7: No DMA
+Copying from GPU 1 to GPU 0: 21829.63 MB/s (4.580930 ms)
+Copying from GPU 1 to GPU 2: 43608.71 MB/s (2.293120 ms)
+Copying from GPU 1 to GPU 3: 21830.25 MB/s (4.580800 ms)
+Copying from GPU 1 to GPU 4: No DMA
+Copying from GPU 1 to GPU 5: 43612.32 MB/s (2.292930 ms)
+Copying from GPU 1 to GPU 6: No DMA
+Copying from GPU 1 to GPU 7: No DMA
+Copying from GPU 2 to GPU 0: 21828.87 MB/s (4.581090 ms)
+Copying from GPU 2 to GPU 1: 43613.65 MB/s (2.292860 ms)
+Copying from GPU 2 to GPU 3: 43613.08 MB/s (2.292890 ms)
+Copying from GPU 2 to GPU 4: No DMA
+Copying from GPU 2 to GPU 5: No DMA
+Copying from GPU 2 to GPU 6: 21828.87 MB/s (4.581090 ms)
+Copying from GPU 2 to GPU 7: No DMA
+Copying from GPU 3 to GPU 0: 43612.32 MB/s (2.292930 ms)
+Copying from GPU 3 to GPU 1: 21830.11 MB/s (4.580830 ms)
+Copying from GPU 3 to GPU 2: 43614.03 MB/s (2.292840 ms)
+Copying from GPU 3 to GPU 4: No DMA
+Copying from GPU 3 to GPU 5: No DMA
+Copying from GPU 3 to GPU 6: No DMA
+Copying from GPU 3 to GPU 7: 21830.15 MB/s (4.580820 ms)
+Copying from GPU 4 to GPU 0: 43589.89 MB/s (2.294110 ms)
+Copying from GPU 4 to GPU 1: No DMA
+Copying from GPU 4 to GPU 2: No DMA
+Copying from GPU 4 to GPU 3: No DMA
+Copying from GPU 4 to GPU 5: 21828.68 MB/s (4.581130 ms)
+Copying from GPU 4 to GPU 6: 21829.63 MB/s (4.580930 ms)
+Copying from GPU 4 to GPU 7: 43607.57 MB/s (2.293180 ms)
+Copying from GPU 5 to GPU 0: No DMA
+Copying from GPU 5 to GPU 1: 43613.27 MB/s (2.292880 ms)
+Copying from GPU 5 to GPU 2: No DMA
+Copying from GPU 5 to GPU 3: No DMA
+Copying from GPU 5 to GPU 4: 21829.87 MB/s (4.580880 ms)
+Copying from GPU 5 to GPU 6: 43608.71 MB/s (2.293120 ms)
+Copying from GPU 5 to GPU 7: 21829.68 MB/s (4.580920 ms)
+Copying from GPU 6 to GPU 0: No DMA
+Copying from GPU 6 to GPU 1: No DMA
+Copying from GPU 6 to GPU 2: 21828.82 MB/s (4.581100 ms)
+Copying from GPU 6 to GPU 3: No DMA
+Copying from GPU 6 to GPU 4: 21829.72 MB/s (4.580910 ms)
+Copying from GPU 6 to GPU 5: 43612.51 MB/s (2.292920 ms)
+Copying from GPU 6 to GPU 7: 43613.27 MB/s (2.292880 ms)
+Copying from GPU 7 to GPU 0: No DMA
+Copying from GPU 7 to GPU 1: No DMA
+Copying from GPU 7 to GPU 2: No DMA
+Copying from GPU 7 to GPU 3: 21828.48 MB/s (4.581170 ms)
+Copying from GPU 7 to GPU 4: 43612.51 MB/s (2.292920 ms)
+Copying from GPU 7 to GPU 5: 21828.06 MB/s (4.581260 ms)
+Copying from GPU 7 to GPU 6: 43613.08 MB/s (2.292890 ms)

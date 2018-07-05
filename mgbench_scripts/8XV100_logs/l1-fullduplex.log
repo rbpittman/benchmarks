@@ -1,0 +1,34 @@
+Inter-GPU bi-directional memory exhange test
+Enabling peer-to-peer access
+GPUs: 8
+Data size: 100.00 MB
+Repetitions: 100
+
+Exchanging between GPU 0 and GPU 1: 23079.76 MB/s (4.332800 ms)
+Exchanging between GPU 0 and GPU 2: 23080.72 MB/s (4.332620 ms)
+Exchanging between GPU 0 and GPU 3: 46003.66 MB/s (2.173740 ms)
+Exchanging between GPU 0 and GPU 4: 46034.58 MB/s (2.172280 ms)
+Exchanging between GPU 0 and GPU 5: 8125.81 MB/s (12.306470 ms)
+Exchanging between GPU 0 and GPU 6: 8471.87 MB/s (11.803770 ms)
+Exchanging between GPU 0 and GPU 7: 8478.75 MB/s (11.794190 ms)
+Exchanging between GPU 1 and GPU 2: 46042.42 MB/s (2.171910 ms)
+Exchanging between GPU 1 and GPU 3: 23087.22 MB/s (4.331400 ms)
+Exchanging between GPU 1 and GPU 4: 8093.31 MB/s (12.355880 ms)
+Exchanging between GPU 1 and GPU 5: 46019.96 MB/s (2.172970 ms)
+Exchanging between GPU 1 and GPU 6: 8091.28 MB/s (12.358990 ms)
+Exchanging between GPU 1 and GPU 7: 8191.59 MB/s (12.207640 ms)
+Exchanging between GPU 2 and GPU 3: 46021.23 MB/s (2.172910 ms)
+Exchanging between GPU 2 and GPU 4: 8477.97 MB/s (11.795270 ms)
+Exchanging between GPU 2 and GPU 5: 8113.16 MB/s (12.325660 ms)
+Exchanging between GPU 2 and GPU 6: 23082.91 MB/s (4.332210 ms)
+Exchanging between GPU 2 and GPU 7: 8421.12 MB/s (11.874910 ms)
+Exchanging between GPU 3 and GPU 4: 8461.49 MB/s (11.818250 ms)
+Exchanging between GPU 3 and GPU 5: 8141.36 MB/s (12.282960 ms)
+Exchanging between GPU 3 and GPU 6: 8420.53 MB/s (11.875730 ms)
+Exchanging between GPU 3 and GPU 7: 23084.93 MB/s (4.331830 ms)
+Exchanging between GPU 4 and GPU 5: 23082.85 MB/s (4.332220 ms)
+Exchanging between GPU 4 and GPU 6: 23085.62 MB/s (4.331700 ms)
+Exchanging between GPU 4 and GPU 7: 46036.70 MB/s (2.172180 ms)
+Exchanging between GPU 5 and GPU 6: 46048.78 MB/s (2.171610 ms)
+Exchanging between GPU 5 and GPU 7: 23088.45 MB/s (4.331170 ms)
+Exchanging between GPU 6 and GPU 7: 46036.70 MB/s (2.172180 ms)

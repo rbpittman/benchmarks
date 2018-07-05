@@ -1,0 +1,97 @@
+
+GPU 0
+===========
+Running Game of Life with 1 GPUs, starting with 1 GPUs
+Testing with 1 GPUs
+--------------------
+
+GoL - MAPS: 19.702200 ms
+MAPS-Multi: Done!
+Comparing with CPU...
+Comparison OK: Errors: 0
+
+Overall: Test passed
+GPU 1
+===========
+Running Game of Life with 1 GPUs, starting with 1 GPUs
+Testing with 1 GPUs
+--------------------
+
+GoL - MAPS: 19.689199 ms
+MAPS-Multi: Done!
+Comparing with CPU...
+Comparison OK: Errors: 0
+
+Overall: Test passed
+GPU 2
+===========
+Running Game of Life with 1 GPUs, starting with 1 GPUs
+Testing with 1 GPUs
+--------------------
+
+GoL - MAPS: 19.716200 ms
+MAPS-Multi: Done!
+Comparing with CPU...
+Comparison OK: Errors: 0
+
+Overall: Test passed
+GPU 3
+===========
+Running Game of Life with 1 GPUs, starting with 1 GPUs
+Testing with 1 GPUs
+--------------------
+
+GoL - MAPS: 19.976601 ms
+MAPS-Multi: Done!
+Comparing with CPU...
+Comparison OK: Errors: 0
+
+Overall: Test passed
+GPU 4
+===========
+Running Game of Life with 1 GPUs, starting with 1 GPUs
+Testing with 1 GPUs
+--------------------
+
+GoL - MAPS: 17.901402 ms
+MAPS-Multi: Done!
+Comparing with CPU...
+Comparison OK: Errors: 0
+
+Overall: Test passed
+GPU 5
+===========
+Running Game of Life with 1 GPUs, starting with 1 GPUs
+Testing with 1 GPUs
+--------------------
+
+GoL - MAPS: 17.897800 ms
+MAPS-Multi: Done!
+Comparing with CPU...
+Comparison OK: Errors: 0
+
+Overall: Test passed
+GPU 6
+===========
+Running Game of Life with 1 GPUs, starting with 1 GPUs
+Testing with 1 GPUs
+--------------------
+
+GoL - MAPS: 19.695200 ms
+MAPS-Multi: Done!
+Comparing with CPU...
+Comparison OK: Errors: 0
+
+Overall: Test passed
+GPU 7
+===========
+Running Game of Life with 1 GPUs, starting with 1 GPUs
+Testing with 1 GPUs
+--------------------
+
+GoL - MAPS: 21.969601 ms
+MAPS-Multi: Done!
+Comparing with CPU...
+Comparison OK: Errors: 0
+
+Overall: Test passed

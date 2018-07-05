@@ -1,0 +1,50 @@
+Running Matrix Multiplication with 8 GPUs, starting with 1 GPUs
+Testing with 1 GPUs
+--------------------
+
+SGEMM - MAPS (unmodified routine): 9.949240 ms
+TEST passed
+
+Testing with 2 GPUs
+--------------------
+
+SGEMM - MAPS (unmodified routine): 10.376970 ms
+TEST passed
+
+Testing with 3 GPUs
+--------------------
+
+SGEMM - MAPS (unmodified routine): 10.929480 ms
+TEST passed
+
+Testing with 4 GPUs
+--------------------
+
+SGEMM - MAPS (unmodified routine): 11.097830 ms
+TEST passed
+
+Testing with 5 GPUs
+--------------------
+
+SGEMM - MAPS (unmodified routine): 11.158840 ms
+TEST passed
+
+Testing with 6 GPUs
+--------------------
+
+SGEMM - MAPS (unmodified routine): 11.665179 ms
+TEST passed
+
+Testing with 7 GPUs
+--------------------
+
+SGEMM - MAPS (unmodified routine): 12.024880 ms
+TEST passed
+
+Testing with 8 GPUs
+--------------------
+
+SGEMM - MAPS (unmodified routine): 12.502020 ms
+TEST passed
+
+Overall: OK

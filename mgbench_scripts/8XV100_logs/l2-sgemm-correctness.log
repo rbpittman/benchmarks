@@ -1,0 +1,58 @@
+Running Matrix Multiplication with 8 GPUs, starting with 1 GPUs
+Testing with 1 GPUs
+--------------------
+
+SGEMM - MAPS (unmodified routine): 0.312140 ms
+SUMMARY: 0/1048576 large differences, total mean normalized diff: 0.000000
+TEST passed
+
+Testing with 2 GPUs
+--------------------
+
+SGEMM - MAPS (unmodified routine): 0.185080 ms
+SUMMARY: 0/1048576 large differences, total mean normalized diff: 0.000000
+TEST passed
+
+Testing with 3 GPUs
+--------------------
+
+SGEMM - MAPS (unmodified routine): 0.240600 ms
+SUMMARY: 0/1048576 large differences, total mean normalized diff: 0.000000
+TEST passed
+
+Testing with 4 GPUs
+--------------------
+
+SGEMM - MAPS (unmodified routine): 0.192860 ms
+SUMMARY: 0/1048576 large differences, total mean normalized diff: 0.000000
+TEST passed
+
+Testing with 5 GPUs
+--------------------
+
+SGEMM - MAPS (unmodified routine): 0.247500 ms
+SUMMARY: 0/1048576 large differences, total mean normalized diff: 0.000000
+TEST passed
+
+Testing with 6 GPUs
+--------------------
+
+SGEMM - MAPS (unmodified routine): 0.303280 ms
+SUMMARY: 0/1048576 large differences, total mean normalized diff: 0.000000
+TEST passed
+
+Testing with 7 GPUs
+--------------------
+
+SGEMM - MAPS (unmodified routine): 0.356050 ms
+SUMMARY: 0/1048576 large differences, total mean normalized diff: 0.000000
+TEST passed
+
+Testing with 8 GPUs
+--------------------
+
+SGEMM - MAPS (unmodified routine): 0.547270 ms
+SUMMARY: 0/1048576 large differences, total mean normalized diff: 0.000000
+TEST passed
+
+Overall: OK
