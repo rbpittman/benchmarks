@@ -2468,7 +2468,8 @@ class BenchmarkCNN(object):
           num_elements *= dim
         total_data += 4 * num_elements
       mbytes = round(total_data/float(2**20), 4)
-      print("Total data = %d bytes, or %f MBytes" % (total_data, mbytes))
+      gbits = round(8 * total_data/float(10**9), 4)
+      print("Total data = %d bytes, or %.4f MBytes, or %.4f Gbits" % (total_data, mbytes, gbits))
       if self.params.variable_update == 'horovod':
         import horovod.tensorflow as hvd  # pylint: disable=g-import-not-at-top
         if self.params.horovod_device:
