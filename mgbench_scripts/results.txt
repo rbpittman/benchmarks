@@ -1740,3 +1740,6 @@ Copying from GPU 7 to GPU 3: 23026.35 MB/s (4.342850 ms)
 Copying from GPU 7 to GPU 4: 45844.64 MB/s (2.181280 ms)
 Copying from GPU 7 to GPU 5: 23028.95 MB/s (4.342360 ms)
 Copying from GPU 7 to GPU 6: 45853.47 MB/s (2.180860 ms)
+
+Figure nothing
+=========
