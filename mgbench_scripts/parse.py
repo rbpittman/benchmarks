@@ -145,9 +145,9 @@ for i in range(len(p2p_memcpy_data)):
     print(y1)
     print(y2)
     ax = plt.subplot(111)
-    ax.bar(x_left, y1, width=0.35, color="orange", tick_label=["0-%d" % i for i in range(1, len(y1)+1)], label="peer-to-peer")
+    ax.bar(x_left , y1, width=0.35, color="orange", tick_label=["0-%d" % i for i in range(1, len(y1)+1)], label="peer-to-peer")
     ax.bar(x_right, y2, width=0.35, color="b"     , tick_label=["0-%d" % i for i in range(1, len(y1)+1)], label="DMA")
-    ax.autoscale(tight=True)
+    # ax.autoscale(tight=True)
     plt.title("Latency of GPU-to-GPU mem copy - data size %d" % data_size0)
     plt.xlabel('Latency from GPU 0 to GPU n')
     # if data_size == MS_DATA_SIZE:
