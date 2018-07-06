@@ -4,9 +4,11 @@ import turtle
 import csv
 import sys
 import argparse
-import os
+import os, re, pickle
 
 UNITS = ["bits", "packets", "cycles"]
+
+USE_BYTES = True
 
 scaling = {"K":10**3, "M":10**6, "G":10**9}
 
@@ -28,12 +30,26 @@ def get_units(filename):
     unit = units_found[0]
     return unit
 
+gpu_link_ids = []
+gpu_link_to_dest = pickle.load(open("link_dict_8XV100.pkl", 'r'))
+def get_link_tag(gpu_i, link_i):
+    return "%d -> %d" % (gpu_i, gpu_link_to_dest[(gpu_i, link_i)])
+
 def get_data(filename, summed):
+    global gpu_link_ids
     unit = get_units(filename)
-    scale_fn = lambda x: x / (10 ** 9)
+    if unit == "bits" and USE_BYTES:
+        unit = "bytes"
+        scale_fn = lambda x: x / (10 ** 9 * 8)
+    else:
+        scale_fn = lambda x: x / (10 ** 9)
     label = "G-" + unit + "/sec"
     reader = csv.reader(open(filename, 'r'))
-    next(reader)#Skip header
+    header_list = reader.next()#Skip header
+    pattern = re.compile(r"GPU([0-9])+_L([0-9]+)")
+    for i in range(1, len(header_list)):
+        match = re.match(pattern, header_list[i])
+        gpu_link_ids.append([int(x) for x in match.groups()])
     data = [[float(x) for x in line] for line in reader]
     slope_data = []
     
@@ -66,7 +82,7 @@ def get_mean(data):
 def scale_data(data, factor):
     for i in range(len(data)):
         data[i] *= factor
-    
+
 if __name__ == "__main__":
     filenames = []
     parser = argparse.ArgumentParser(description="Plot csv graphs of nvlink utilization")
@@ -91,6 +107,17 @@ if __name__ == "__main__":
         if unit == "bits" and args.summed:
             avg_gbps = get_mean(plot_data[1])
 
+    if len(args.filenames) == 1 and not args.summed:
+        #Then make legend include every link 
+        assert len(all_labels) == 1
+        label = all_labels[0]
+        all_labels = []
+        assert len(gpu_link_ids) != 0
+        for i in range(min([len(gpu_link_ids), 16])):
+            # for i in range(6):
+            link_tag = get_link_tag(*gpu_link_ids[i])
+            all_labels.append(link_tag)
+
     if args.summed and avg_gbps != -1 and len(args.filenames) > 1:
         #Found an avg gbps, so scale remaining data by that factor
         for i, filename in enumerate(args.filenames):
@@ -102,11 +129,11 @@ if __name__ == "__main__":
     # Plot data
     plt.title("Nvlink usage")
     
-    lines = plt.plot(*all_plot_data)
+    lines = plt.plot(*all_plot_data, marker='o', markersize=5)
     plt.legend(lines, all_labels)
     plt.xlabel("Time (sec)")
     plt.ylabel(", ".join(all_labels))
-    plt.tight_layout()
+    # plt.tight_layout()
     plt.show()
 
     """

@@ -5,7 +5,7 @@
 ###
 from __future__ import print_function
 
-import turtle
+import turtle, re, pickle
 import csv
 import time
 from collections import Counter
@@ -77,38 +77,13 @@ ID GPU Link Type Conn
 #frequent, followed by the pair they communicate with. 
 
 class V100X4:
-    links = None #9 links, rx and tx, probably duplicated. 4X9=36 length list
-    link_locs = [(1, 1), (1, -1), (-1, -1), (-1, 1)]
-    link_labels = []#TODO
-    def __init__(self, data):
+    links = None #9 links, rx and tx, duplicated. 4X9=36 length list
+    # link_locs = [(1, 1), (1, -1), (-1, -1), (-1, 1)]
+    # link_labels = []#TODO
+    def __init__(self, data, gpu_link_ids):
         self.data = data
-        self.t = turtle.Turtle()
-        self.t.ht()
-        self.t.pu()
-        turtle.tracer(0)
-        turtle.ht()
+        self.gpu_link_ids = gpu_link_ids
         
-    def _square(self, x, y):
-        x *= FACTOR
-        y *= FACTOR
-        hsl = SQUARE_SIZE * FACTOR #Half side length
-        self.t.goto(x - hsl, y - hsl)
-        self.t.pd()
-        self.t.goto(x - hsl, y + hsl)
-        self.t.goto(x + hsl, y + hsl)
-        self.t.goto(x + hsl, y - hsl)
-        self.t.goto(x - hsl, y - hsl)
-        self.t.pu()
-        
-    def draw(self):
-        turtle.clearscreen()
-        self._square(-1, -1)
-        self._square( 1, -1)
-        self._square( 1,  1)
-        self._square(-1,  1)
-        
-        turtle.update()
-    
     def animate(self):
         most_freq = []
         for check_col in range(len(self.data[1])):
@@ -125,15 +100,49 @@ class V100X4:
                 # time.sleep(DELAY)
             common = cols.most_common(3)
             most_freq.append([e[0] for e in common])
+
+        all_mappings = []
         for i in range(len(most_freq)):
-            print(i, most_freq[i])
+            data = [i] + most_freq[i]
+            for check_idx in range(1, len(most_freq) + 1):
+                if data[check_idx] % 2 != data[0] % 2:
+                    new_mapping = (data[0], data[check_idx])
+                    print("%d -> %d" % new_mapping, "with confidence %d (where 1 is best, 3 is worst)" % check_idx)
+                    all_mappings.append(new_mapping)
+                    break
+            # print(i, most_freq[i])
             # turtle.mainloop()
-        
+        success = True
+        for mapping in all_mappings:
+            if (mapping[1], mapping[0]) not in all_mappings:
+                print("Reverse of", mapping, "not found")
+                success = False
+        link_matrix = []
+        dic_map = {}
+        if success:
+            print("PASSED TEST")
+            #pass each index as the index of gpu_link_ids, which will
+            #then return (gpu, link), but we only want gpu.
+            for mapping in all_mappings:
+                start_gpu, start_link = self.gpu_link_ids[mapping[0]]
+                end_gpu = self.gpu_link_ids[mapping[1]][0]
+                print("%d -> link %d -> %d" % (start_gpu, start_link, end_gpu))
+                dic_map[(start_gpu, start_link)] = end_gpu
+        else:
+            print("FAILED, not all reversals succeeded")
+        pickle.dump(dic_map, open("link_dict_8XV100.pkl", 'w'))
 
 if __name__ == "__main__":
-    reader = csv.reader(open("nvlink_8XV100_bs64.csv", 'r'))
+    reader = csv.reader(open("Old/nvlink_8XV100_bs64.csv", 'r'))
 
-    next(reader)
+    header_list = reader.next()
+    pattern = re.compile(r"GPU([0-9]+)_L([0-9]+)_.x")
+    gpu_link_ids = []
+    for i in range(2, len(header_list)):
+        match = re.match(pattern, header_list[i])
+        gpu_link_ids.append([int(x) for x in match.groups()])
+    #gpu_link_ids[overall_index] returns (gpu_idx, link_id)
+    
     data = [[float(x) for x in line] for line in reader]
 
     slope_data = []
@@ -149,5 +158,5 @@ if __name__ == "__main__":
             # new_line.append((delta_col * 8000) / (10 ** 9))
             new_line.append(delta_col)
         slope_data.append(new_line)
-    v100s = V100X4(slope_data)
+    v100s = V100X4(slope_data, gpu_link_ids)
     v100s.animate()
