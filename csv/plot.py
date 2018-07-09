@@ -6,11 +6,16 @@ import sys
 import argparse
 import os, re, pickle
 
+"""
+This is a multi-purpose utility file, useful primarily for plotting
+the data found in this csv folder. 
+"""
+
 UNITS = ["bits", "packets", "cycles"]
 
 USE_BYTES = True
 
-#Whether to filter out nvlinks that don't change enough to be useful information
+#Whether to filter out nvlinks that don't change enugoh to be useful information
 USE_MIN_FILTERING = False
 MIN_CHANGES_FOR_DISPLAY = 10
 
