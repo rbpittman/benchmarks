@@ -10,6 +10,10 @@ UNITS = ["bits", "packets", "cycles"]
 
 USE_BYTES = True
 
+#Whether to filter out nvlinks that don't change enough to be useful information
+USE_MIN_FILTERING = False
+MIN_CHANGES_FOR_DISPLAY = 10
+
 scaling = {"K":10**3, "M":10**6, "G":10**9}
 
 def get_units(filename):
@@ -32,8 +36,19 @@ def get_units(filename):
 
 gpu_link_ids = []
 gpu_link_to_dest = pickle.load(open("link_dict_8XV100.pkl", 'r'))
+
+#Takes tx index.
+#Returns src gpu, dest gpu
+def get_src_dest(i):
+    gpu_i, link_i = gpu_link_ids[i]
+    return (gpu_i, gpu_link_to_dest[(gpu_i, link_i)])
+
 def get_link_tag(gpu_i, link_i):
     return "%d -> %d" % (gpu_i, gpu_link_to_dest[(gpu_i, link_i)])
+
+def gpu_idx_to_tag(i):
+    return get_link_tag(*gpu_link_ids[i])
+
 
 def get_data(filename, summed):
     global gpu_link_ids
@@ -50,19 +65,32 @@ def get_data(filename, summed):
     for i in range(1, len(header_list)):
         match = re.match(pattern, header_list[i])
         gpu_link_ids.append([int(x) for x in match.groups()])
+    pickle.dump(gpu_link_ids, open("gpu_link_ids.pkl", 'w'))
     data = [[float(x) for x in line] for line in reader]
     slope_data = []
-    
+    column_changes = [0] * (len(data[0])-1)
     for i in range(1, len(data)):
         entry1 = data[i-1]
         entry2 = data[i  ]
         elapsed_time = entry2[0] - entry1[0]
         new_line = []
         for column in range(1, len(data[0])):
+            if entry2[column] != entry1[column]:
+                column_changes[column-1] += 1
             pre_scaled = (entry2[column] - entry1[column]) / elapsed_time
             scaled = scale_fn(pre_scaled)
             new_line.append(scaled)
         slope_data.append(new_line)
+    src_dest_with_no_change = []
+    for i, num_changes in enumerate(column_changes):
+        src, dest = get_src_dest(i)
+        if num_changes != 0:
+            print("GPU", src,"to GPU", dest, "had", num_changes, "changes")
+        else:
+            src_dest_with_no_change.append((src, dest))
+    print("src dest with no changes:", src_dest_with_no_change)
+    # use_column = [value >= MIN_CHANGES_FOR_DISPLAY for value in column_changes]
+    # print(use_column)
     x = [row[0] for row in data[:-1]]
     
     if summed:
@@ -74,7 +102,6 @@ def get_data(filename, summed):
             y = [row[i] for row in slope_data]
             plot_data += [x, y]
     return plot_data, label, unit
-
 
 def get_mean(data):
     return sum(data) / len(data)
@@ -106,18 +133,18 @@ if __name__ == "__main__":
         all_labels.append(label)
         if unit == "bits" and args.summed:
             avg_gbps = get_mean(plot_data[1])
-
+    
+    unit_label = all_labels[0]
+    plt.ylabel(unit_label)
     if len(args.filenames) == 1 and not args.summed:
         #Then make legend include every link 
         assert len(all_labels) == 1
-        label = all_labels[0]
         all_labels = []
         assert len(gpu_link_ids) != 0
         for i in range(min([len(gpu_link_ids), 16])):
-            # for i in range(6):
             link_tag = get_link_tag(*gpu_link_ids[i])
             all_labels.append(link_tag)
-
+            
     if args.summed and avg_gbps != -1 and len(args.filenames) > 1:
         #Found an avg gbps, so scale remaining data by that factor
         for i, filename in enumerate(args.filenames):
@@ -128,11 +155,16 @@ if __name__ == "__main__":
                 scale_data(y_data, factor)
     # Plot data
     plt.title("Nvlink usage")
-    
+
+    # x = all_plot_data[0]
+    # delta_x = [x[i]-x[i-1] for i in range(1, len(x))]
+    # plt.plot(delta_x)
     lines = plt.plot(*all_plot_data, marker='o', markersize=5)
     plt.legend(lines, all_labels)
+    
     plt.xlabel("Time (sec)")
-    plt.ylabel(", ".join(all_labels))
+    # plt.ylabel(", ".join(all_labels))
+    # plt.ylabel("GBytes per second")
     # plt.tight_layout()
     plt.show()
 
