@@ -28,8 +28,10 @@ done
 
 
 #8XV100_with_nccl_testing_models.out
+BS=64;
 for model in resnet50 resnet152_v2 inception3 vgg19; do
     echo "auto-log-parser-reset ===========================";
     echo "LocalBS: $BS";
     python tf_cnn_benchmarks.py --num_gpus=8 --batch_size=$BS --model=$model --variable_update=replicated --all_reduce_spec=nccl
 done
+#resnet152_v2 crashes for BS128. Reducing to 64

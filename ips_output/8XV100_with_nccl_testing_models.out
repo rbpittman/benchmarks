@@ -1,0 +1,436 @@
+auto-log-parser-reset ===========================
+LocalBS: 64
+TensorFlow:  1.10
+Model:       resnet50
+Dataset:     imagenet (synthetic)
+Mode:        training
+SingleSess:  False
+Batch size:  512 global
+             64 per device
+Num batches: 100
+Num epochs:  0.04
+Devices:     ['/gpu:0', '/gpu:1', '/gpu:2', '/gpu:3', '/gpu:4', '/gpu:5', '/gpu:6', '/gpu:7']
+Data format: NCHW
+Layout optimizer: False
+Optimizer:   sgd
+Variables:   replicated
+AllReduce:   nccl
+==========
+Generating model
+Total data = 102236324 bytes, or 97.5002 MBytes, or 0.8179 Gbits
+Total data = 102236324 bytes, or 97.5002 MBytes, or 0.8179 Gbits
+Total data = 102236324 bytes, or 97.5002 MBytes, or 0.8179 Gbits
+Total data = 102236324 bytes, or 97.5002 MBytes, or 0.8179 Gbits
+Total data = 102236324 bytes, or 97.5002 MBytes, or 0.8179 Gbits
+Total data = 102236324 bytes, or 97.5002 MBytes, or 0.8179 Gbits
+Total data = 102236324 bytes, or 97.5002 MBytes, or 0.8179 Gbits
+Total data = 102236324 bytes, or 97.5002 MBytes, or 0.8179 Gbits
+W0709 18:08:20.311558 140532498605888 tf_logging.py:125] From /home/ubuntu/benchmarks/benchmark_cnn.py:1678: __init__ (from tensorflow.python.training.supervisor) is deprecated and will be removed in a future version.
+Instructions for updating:
+Please switch to tf.train.MonitoredTrainingSession
+2018-07-09 18:08:27.799442: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2018-07-09 18:08:28.775312: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:883] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-07-09 18:08:28.777296: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1392] Found device 0 with properties: 
+name: Tesla V100-SXM2-16GB major: 7 minor: 0 memoryClockRate(GHz): 1.53
+pciBusID: 0000:00:17.0
+totalMemory: 15.78GiB freeMemory: 15.37GiB
+2018-07-09 18:08:29.020242: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:883] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-07-09 18:08:29.021827: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1392] Found device 1 with properties: 
+name: Tesla V100-SXM2-16GB major: 7 minor: 0 memoryClockRate(GHz): 1.53
+pciBusID: 0000:00:18.0
+totalMemory: 15.78GiB freeMemory: 15.37GiB
+2018-07-09 18:08:29.220883: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:883] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-07-09 18:08:29.222011: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1392] Found device 2 with properties: 
+name: Tesla V100-SXM2-16GB major: 7 minor: 0 memoryClockRate(GHz): 1.53
+pciBusID: 0000:00:19.0
+totalMemory: 15.78GiB freeMemory: 15.37GiB
+2018-07-09 18:08:29.426353: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:883] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-07-09 18:08:29.427854: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1392] Found device 3 with properties: 
+name: Tesla V100-SXM2-16GB major: 7 minor: 0 memoryClockRate(GHz): 1.53
+pciBusID: 0000:00:1a.0
+totalMemory: 15.78GiB freeMemory: 15.37GiB
+2018-07-09 18:08:29.637428: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:883] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-07-09 18:08:29.638720: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1392] Found device 4 with properties: 
+name: Tesla V100-SXM2-16GB major: 7 minor: 0 memoryClockRate(GHz): 1.53
+pciBusID: 0000:00:1b.0
+totalMemory: 15.78GiB freeMemory: 15.37GiB
+2018-07-09 18:08:29.861707: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:883] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-07-09 18:08:29.863256: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1392] Found device 5 with properties: 
+name: Tesla V100-SXM2-16GB major: 7 minor: 0 memoryClockRate(GHz): 1.53
+pciBusID: 0000:00:1c.0
+totalMemory: 15.78GiB freeMemory: 15.37GiB
+2018-07-09 18:08:30.124366: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:883] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-07-09 18:08:30.125499: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1392] Found device 6 with properties: 
+name: Tesla V100-SXM2-16GB major: 7 minor: 0 memoryClockRate(GHz): 1.53
+pciBusID: 0000:00:1d.0
+totalMemory: 15.78GiB freeMemory: 15.37GiB
+2018-07-09 18:08:30.368712: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:883] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-07-09 18:08:30.370231: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1392] Found device 7 with properties: 
+name: Tesla V100-SXM2-16GB major: 7 minor: 0 memoryClockRate(GHz): 1.53
+pciBusID: 0000:00:1e.0
+totalMemory: 15.78GiB freeMemory: 15.37GiB
+2018-07-09 18:08:30.370595: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1471] Adding visible gpu devices: 0, 1, 2, 3, 4, 5, 6, 7
+2018-07-09 18:08:33.264495: I tensorflow/core/common_runtime/gpu/gpu_device.cc:952] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-07-09 18:08:33.264569: I tensorflow/core/common_runtime/gpu/gpu_device.cc:958]      0 1 2 3 4 5 6 7 
+2018-07-09 18:08:33.264579: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] 0:   N Y Y Y Y N N N 
+2018-07-09 18:08:33.264585: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] 1:   Y N Y Y N Y N N 
+2018-07-09 18:08:33.264591: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] 2:   Y Y N Y N N Y N 
+2018-07-09 18:08:33.264598: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] 3:   Y Y Y N N N N Y 
+2018-07-09 18:08:33.264604: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] 4:   Y N N N N Y Y Y 
+2018-07-09 18:08:33.264612: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] 5:   N Y N N Y N Y Y 
+2018-07-09 18:08:33.264618: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] 6:   N N Y N Y Y N Y 
+2018-07-09 18:08:33.264625: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] 7:   N N N Y Y Y Y N 
+2018-07-09 18:08:33.266868: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1084] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 14879 MB memory) -> physical GPU (device: 0, name: Tesla V100-SXM2-16GB, pci bus id: 0000:00:17.0, compute capability: 7.0)
+2018-07-09 18:08:33.430425: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1084] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:1 with 14879 MB memory) -> physical GPU (device: 1, name: Tesla V100-SXM2-16GB, pci bus id: 0000:00:18.0, compute capability: 7.0)
+2018-07-09 18:08:33.595973: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1084] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:2 with 14879 MB memory) -> physical GPU (device: 2, name: Tesla V100-SXM2-16GB, pci bus id: 0000:00:19.0, compute capability: 7.0)
+2018-07-09 18:08:33.798615: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1084] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:3 with 14879 MB memory) -> physical GPU (device: 3, name: Tesla V100-SXM2-16GB, pci bus id: 0000:00:1a.0, compute capability: 7.0)
+2018-07-09 18:08:33.957876: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1084] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:4 with 14879 MB memory) -> physical GPU (device: 4, name: Tesla V100-SXM2-16GB, pci bus id: 0000:00:1b.0, compute capability: 7.0)
+2018-07-09 18:08:34.140372: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1084] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:5 with 14879 MB memory) -> physical GPU (device: 5, name: Tesla V100-SXM2-16GB, pci bus id: 0000:00:1c.0, compute capability: 7.0)
+2018-07-09 18:08:34.299045: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1084] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:6 with 14879 MB memory) -> physical GPU (device: 6, name: Tesla V100-SXM2-16GB, pci bus id: 0000:00:1d.0, compute capability: 7.0)
+2018-07-09 18:08:34.457610: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1084] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:7 with 14879 MB memory) -> physical GPU (device: 7, name: Tesla V100-SXM2-16GB, pci bus id: 0000:00:1e.0, compute capability: 7.0)
+I0709 18:08:41.252969 140532498605888 tf_logging.py:115] Running local_init_op.
+I0709 18:08:47.186671 140532498605888 tf_logging.py:115] Done running local_init_op.
+Running warm up
+Done warm up
+Step	Img/sec	total_loss
+1	images/sec: 2423.3 +/- 0.0 (jitter = 0.0)	8.235
+10	images/sec: 2527.4 +/- 14.6 (jitter = 45.8)	8.226
+20	images/sec: 2512.6 +/- 12.8 (jitter = 43.8)	8.155
+30	images/sec: 2503.7 +/- 12.1 (jitter = 45.6)	8.158
+40	images/sec: 2498.6 +/- 10.5 (jitter = 42.3)	8.145
+50	images/sec: 2506.7 +/- 8.8 (jitter = 35.3)	8.196
+60	images/sec: 2502.0 +/- 8.6 (jitter = 42.3)	8.088
+70	images/sec: 2502.7 +/- 7.6 (jitter = 43.3)	8.090
+80	images/sec: 2499.7 +/- 7.5 (jitter = 50.2)	8.091
+90	images/sec: 2499.4 +/- 6.8 (jitter = 51.7)	8.066
+100	images/sec: 2500.9 +/- 6.3 (jitter = 49.1)	8.052
+----------------------------------------------------------------
+total images/sec: 2498.88
+----------------------------------------------------------------
+auto-log-parser-reset ===========================
+LocalBS: 64
+TensorFlow:  1.10
+Model:       resnet152_v2
+Dataset:     imagenet (synthetic)
+Mode:        training
+SingleSess:  False
+Batch size:  512 global
+             64 per device
+Num batches: 100
+Num epochs:  0.04
+Devices:     ['/gpu:0', '/gpu:1', '/gpu:2', '/gpu:3', '/gpu:4', '/gpu:5', '/gpu:6', '/gpu:7']
+Data format: NCHW
+Layout optimizer: False
+Optimizer:   sgd
+Variables:   replicated
+AllReduce:   nccl
+==========
+Generating model
+Total data = 240557476 bytes, or 229.4135 MBytes, or 1.9245 Gbits
+Total data = 240557476 bytes, or 229.4135 MBytes, or 1.9245 Gbits
+Total data = 240557476 bytes, or 229.4135 MBytes, or 1.9245 Gbits
+Total data = 240557476 bytes, or 229.4135 MBytes, or 1.9245 Gbits
+Total data = 240557476 bytes, or 229.4135 MBytes, or 1.9245 Gbits
+Total data = 240557476 bytes, or 229.4135 MBytes, or 1.9245 Gbits
+Total data = 240557476 bytes, or 229.4135 MBytes, or 1.9245 Gbits
+Total data = 240557476 bytes, or 229.4135 MBytes, or 1.9245 Gbits
+W0709 18:11:10.534163 139788415067968 tf_logging.py:125] From /home/ubuntu/benchmarks/benchmark_cnn.py:1678: __init__ (from tensorflow.python.training.supervisor) is deprecated and will be removed in a future version.
+Instructions for updating:
+Please switch to tf.train.MonitoredTrainingSession
+2018-07-09 18:11:31.781829: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2018-07-09 18:11:32.797691: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:883] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-07-09 18:11:32.799626: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1392] Found device 0 with properties: 
+name: Tesla V100-SXM2-16GB major: 7 minor: 0 memoryClockRate(GHz): 1.53
+pciBusID: 0000:00:17.0
+totalMemory: 15.78GiB freeMemory: 15.37GiB
+2018-07-09 18:11:33.007328: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:883] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-07-09 18:11:33.008471: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1392] Found device 1 with properties: 
+name: Tesla V100-SXM2-16GB major: 7 minor: 0 memoryClockRate(GHz): 1.53
+pciBusID: 0000:00:18.0
+totalMemory: 15.78GiB freeMemory: 15.37GiB
+2018-07-09 18:11:33.197767: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:883] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-07-09 18:11:33.199709: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1392] Found device 2 with properties: 
+name: Tesla V100-SXM2-16GB major: 7 minor: 0 memoryClockRate(GHz): 1.53
+pciBusID: 0000:00:19.0
+totalMemory: 15.78GiB freeMemory: 15.37GiB
+2018-07-09 18:11:33.398197: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:883] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-07-09 18:11:33.399334: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1392] Found device 3 with properties: 
+name: Tesla V100-SXM2-16GB major: 7 minor: 0 memoryClockRate(GHz): 1.53
+pciBusID: 0000:00:1a.0
+totalMemory: 15.78GiB freeMemory: 15.37GiB
+2018-07-09 18:11:33.649677: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:883] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-07-09 18:11:33.651354: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1392] Found device 4 with properties: 
+name: Tesla V100-SXM2-16GB major: 7 minor: 0 memoryClockRate(GHz): 1.53
+pciBusID: 0000:00:1b.0
+totalMemory: 15.78GiB freeMemory: 15.37GiB
+2018-07-09 18:11:33.873712: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:883] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-07-09 18:11:33.874859: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1392] Found device 5 with properties: 
+name: Tesla V100-SXM2-16GB major: 7 minor: 0 memoryClockRate(GHz): 1.53
+pciBusID: 0000:00:1c.0
+totalMemory: 15.78GiB freeMemory: 15.37GiB
+2018-07-09 18:11:34.162995: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:883] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-07-09 18:11:34.164280: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1392] Found device 6 with properties: 
+name: Tesla V100-SXM2-16GB major: 7 minor: 0 memoryClockRate(GHz): 1.53
+pciBusID: 0000:00:1d.0
+totalMemory: 15.78GiB freeMemory: 15.37GiB
+2018-07-09 18:11:34.389116: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:883] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-07-09 18:11:34.390244: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1392] Found device 7 with properties: 
+name: Tesla V100-SXM2-16GB major: 7 minor: 0 memoryClockRate(GHz): 1.53
+pciBusID: 0000:00:1e.0
+totalMemory: 15.78GiB freeMemory: 15.37GiB
+2018-07-09 18:11:34.390505: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1471] Adding visible gpu devices: 0, 1, 2, 3, 4, 5, 6, 7
+2018-07-09 18:11:37.490529: I tensorflow/core/common_runtime/gpu/gpu_device.cc:952] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-07-09 18:11:37.490604: I tensorflow/core/common_runtime/gpu/gpu_device.cc:958]      0 1 2 3 4 5 6 7 
+2018-07-09 18:11:37.490615: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] 0:   N Y Y Y Y N N N 
+2018-07-09 18:11:37.490621: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] 1:   Y N Y Y N Y N N 
+2018-07-09 18:11:37.490630: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] 2:   Y Y N Y N N Y N 
+2018-07-09 18:11:37.490636: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] 3:   Y Y Y N N N N Y 
+2018-07-09 18:11:37.490644: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] 4:   Y N N N N Y Y Y 
+2018-07-09 18:11:37.490650: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] 5:   N Y N N Y N Y Y 
+2018-07-09 18:11:37.490658: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] 6:   N N Y N Y Y N Y 
+2018-07-09 18:11:37.490664: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] 7:   N N N Y Y Y Y N 
+2018-07-09 18:11:37.492895: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1084] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 14879 MB memory) -> physical GPU (device: 0, name: Tesla V100-SXM2-16GB, pci bus id: 0000:00:17.0, compute capability: 7.0)
+2018-07-09 18:11:37.679165: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1084] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:1 with 14879 MB memory) -> physical GPU (device: 1, name: Tesla V100-SXM2-16GB, pci bus id: 0000:00:18.0, compute capability: 7.0)
+2018-07-09 18:11:37.881793: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1084] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:2 with 14879 MB memory) -> physical GPU (device: 2, name: Tesla V100-SXM2-16GB, pci bus id: 0000:00:19.0, compute capability: 7.0)
+2018-07-09 18:11:38.068008: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1084] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:3 with 14879 MB memory) -> physical GPU (device: 3, name: Tesla V100-SXM2-16GB, pci bus id: 0000:00:1a.0, compute capability: 7.0)
+2018-07-09 18:11:38.227236: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1084] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:4 with 14879 MB memory) -> physical GPU (device: 4, name: Tesla V100-SXM2-16GB, pci bus id: 0000:00:1b.0, compute capability: 7.0)
+2018-07-09 18:11:38.458500: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1084] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:5 with 14879 MB memory) -> physical GPU (device: 5, name: Tesla V100-SXM2-16GB, pci bus id: 0000:00:1c.0, compute capability: 7.0)
+2018-07-09 18:11:38.664745: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1084] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:6 with 14879 MB memory) -> physical GPU (device: 6, name: Tesla V100-SXM2-16GB, pci bus id: 0000:00:1d.0, compute capability: 7.0)
+2018-07-09 18:11:38.833410: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1084] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:7 with 14879 MB memory) -> physical GPU (device: 7, name: Tesla V100-SXM2-16GB, pci bus id: 0000:00:1e.0, compute capability: 7.0)
+I0709 18:11:58.340102 139788415067968 tf_logging.py:115] Running local_init_op.
+I0709 18:12:10.211720 139788415067968 tf_logging.py:115] Done running local_init_op.
+Running warm up
+Done warm up
+Step	Img/sec	total_loss
+1	images/sec: 1051.2 +/- 0.0 (jitter = 0.0)	8.514
+10	images/sec: 1058.4 +/- 2.1 (jitter = 3.7)	8.507
+20	images/sec: 1058.0 +/- 1.1 (jitter = 2.7)	8.489
+30	images/sec: 1057.4 +/- 0.9 (jitter = 2.8)	8.524
+40	images/sec: 1057.5 +/- 0.8 (jitter = 3.7)	8.527
+50	images/sec: 1058.1 +/- 0.6 (jitter = 3.1)	8.495
+60	images/sec: 1057.1 +/- 0.7 (jitter = 3.6)	8.528
+70	images/sec: 1056.8 +/- 0.8 (jitter = 4.1)	8.530
+80	images/sec: 1056.7 +/- 0.8 (jitter = 4.2)	8.547
+90	images/sec: 1056.8 +/- 0.7 (jitter = 4.5)	8.506
+100	images/sec: 1057.0 +/- 0.7 (jitter = 4.3)	8.509
+----------------------------------------------------------------
+total images/sec: 1056.69
+----------------------------------------------------------------
+auto-log-parser-reset ===========================
+LocalBS: 64
+TensorFlow:  1.10
+Model:       inception3
+Dataset:     imagenet (synthetic)
+Mode:        training
+SingleSess:  False
+Batch size:  512 global
+             64 per device
+Num batches: 100
+Num epochs:  0.04
+Devices:     ['/gpu:0', '/gpu:1', '/gpu:2', '/gpu:3', '/gpu:4', '/gpu:5', '/gpu:6', '/gpu:7']
+Data format: NCHW
+Layout optimizer: False
+Optimizer:   sgd
+Variables:   replicated
+AllReduce:   nccl
+==========
+Generating model
+Total data = 95277604 bytes, or 90.8638 MBytes, or 0.7622 Gbits
+Total data = 95277604 bytes, or 90.8638 MBytes, or 0.7622 Gbits
+Total data = 95277604 bytes, or 90.8638 MBytes, or 0.7622 Gbits
+Total data = 95277604 bytes, or 90.8638 MBytes, or 0.7622 Gbits
+Total data = 95277604 bytes, or 90.8638 MBytes, or 0.7622 Gbits
+Total data = 95277604 bytes, or 90.8638 MBytes, or 0.7622 Gbits
+Total data = 95277604 bytes, or 90.8638 MBytes, or 0.7622 Gbits
+Total data = 95277604 bytes, or 90.8638 MBytes, or 0.7622 Gbits
+W0709 18:14:54.632405 140269423642432 tf_logging.py:125] From /home/ubuntu/benchmarks/benchmark_cnn.py:1678: __init__ (from tensorflow.python.training.supervisor) is deprecated and will be removed in a future version.
+Instructions for updating:
+Please switch to tf.train.MonitoredTrainingSession
+2018-07-09 18:15:05.863140: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2018-07-09 18:15:06.856621: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:883] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-07-09 18:15:06.857784: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1392] Found device 0 with properties: 
+name: Tesla V100-SXM2-16GB major: 7 minor: 0 memoryClockRate(GHz): 1.53
+pciBusID: 0000:00:17.0
+totalMemory: 15.78GiB freeMemory: 15.37GiB
+2018-07-09 18:15:07.061193: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:883] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-07-09 18:15:07.062744: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1392] Found device 1 with properties: 
+name: Tesla V100-SXM2-16GB major: 7 minor: 0 memoryClockRate(GHz): 1.53
+pciBusID: 0000:00:18.0
+totalMemory: 15.78GiB freeMemory: 15.37GiB
+2018-07-09 18:15:07.275936: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:883] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-07-09 18:15:07.277899: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1392] Found device 2 with properties: 
+name: Tesla V100-SXM2-16GB major: 7 minor: 0 memoryClockRate(GHz): 1.53
+pciBusID: 0000:00:19.0
+totalMemory: 15.78GiB freeMemory: 15.37GiB
+2018-07-09 18:15:07.490383: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:883] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-07-09 18:15:07.491514: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1392] Found device 3 with properties: 
+name: Tesla V100-SXM2-16GB major: 7 minor: 0 memoryClockRate(GHz): 1.53
+pciBusID: 0000:00:1a.0
+totalMemory: 15.78GiB freeMemory: 15.37GiB
+2018-07-09 18:15:07.686579: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:883] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-07-09 18:15:07.687705: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1392] Found device 4 with properties: 
+name: Tesla V100-SXM2-16GB major: 7 minor: 0 memoryClockRate(GHz): 1.53
+pciBusID: 0000:00:1b.0
+totalMemory: 15.78GiB freeMemory: 15.37GiB
+2018-07-09 18:15:07.909967: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:883] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-07-09 18:15:07.911464: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1392] Found device 5 with properties: 
+name: Tesla V100-SXM2-16GB major: 7 minor: 0 memoryClockRate(GHz): 1.53
+pciBusID: 0000:00:1c.0
+totalMemory: 15.78GiB freeMemory: 15.37GiB
+2018-07-09 18:15:08.144960: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:883] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-07-09 18:15:08.146109: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1392] Found device 6 with properties: 
+name: Tesla V100-SXM2-16GB major: 7 minor: 0 memoryClockRate(GHz): 1.53
+pciBusID: 0000:00:1d.0
+totalMemory: 15.78GiB freeMemory: 15.37GiB
+2018-07-09 18:15:08.405839: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:883] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-07-09 18:15:08.406975: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1392] Found device 7 with properties: 
+name: Tesla V100-SXM2-16GB major: 7 minor: 0 memoryClockRate(GHz): 1.53
+pciBusID: 0000:00:1e.0
+totalMemory: 15.78GiB freeMemory: 15.37GiB
+2018-07-09 18:15:08.407243: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1471] Adding visible gpu devices: 0, 1, 2, 3, 4, 5, 6, 7
+2018-07-09 18:15:11.405170: I tensorflow/core/common_runtime/gpu/gpu_device.cc:952] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-07-09 18:15:11.405240: I tensorflow/core/common_runtime/gpu/gpu_device.cc:958]      0 1 2 3 4 5 6 7 
+2018-07-09 18:15:11.405250: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] 0:   N Y Y Y Y N N N 
+2018-07-09 18:15:11.405257: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] 1:   Y N Y Y N Y N N 
+2018-07-09 18:15:11.405264: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] 2:   Y Y N Y N N Y N 
+2018-07-09 18:15:11.405273: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] 3:   Y Y Y N N N N Y 
+2018-07-09 18:15:11.405279: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] 4:   Y N N N N Y Y Y 
+2018-07-09 18:15:11.405286: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] 5:   N Y N N Y N Y Y 
+2018-07-09 18:15:11.405292: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] 6:   N N Y N Y Y N Y 
+2018-07-09 18:15:11.405301: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] 7:   N N N Y Y Y Y N 
+2018-07-09 18:15:11.407781: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1084] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 14879 MB memory) -> physical GPU (device: 0, name: Tesla V100-SXM2-16GB, pci bus id: 0000:00:17.0, compute capability: 7.0)
+2018-07-09 18:15:11.615028: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1084] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:1 with 14879 MB memory) -> physical GPU (device: 1, name: Tesla V100-SXM2-16GB, pci bus id: 0000:00:18.0, compute capability: 7.0)
+2018-07-09 18:15:11.822682: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1084] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:2 with 14879 MB memory) -> physical GPU (device: 2, name: Tesla V100-SXM2-16GB, pci bus id: 0000:00:19.0, compute capability: 7.0)
+2018-07-09 18:15:12.022896: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1084] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:3 with 14879 MB memory) -> physical GPU (device: 3, name: Tesla V100-SXM2-16GB, pci bus id: 0000:00:1a.0, compute capability: 7.0)
+2018-07-09 18:15:12.202669: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1084] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:4 with 14879 MB memory) -> physical GPU (device: 4, name: Tesla V100-SXM2-16GB, pci bus id: 0000:00:1b.0, compute capability: 7.0)
+2018-07-09 18:15:12.443815: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1084] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:5 with 14879 MB memory) -> physical GPU (device: 5, name: Tesla V100-SXM2-16GB, pci bus id: 0000:00:1c.0, compute capability: 7.0)
+2018-07-09 18:15:12.649253: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1084] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:6 with 14879 MB memory) -> physical GPU (device: 6, name: Tesla V100-SXM2-16GB, pci bus id: 0000:00:1d.0, compute capability: 7.0)
+2018-07-09 18:15:12.813925: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1084] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:7 with 14879 MB memory) -> physical GPU (device: 7, name: Tesla V100-SXM2-16GB, pci bus id: 0000:00:1e.0, compute capability: 7.0)
+I0709 18:15:23.080414 140269423642432 tf_logging.py:115] Running local_init_op.
+I0709 18:15:32.389182 140269423642432 tf_logging.py:115] Done running local_init_op.
+Running warm up
+Done warm up
+Step	Img/sec	total_loss
+1	images/sec: 1716.8 +/- 0.0 (jitter = 0.0)	7.395
+10	images/sec: 1710.2 +/- 2.6 (jitter = 7.5)	7.393
+20	images/sec: 1710.8 +/- 2.6 (jitter = 14.4)	7.362
+30	images/sec: 1710.1 +/- 1.9 (jitter = 11.0)	7.374
+40	images/sec: 1706.8 +/- 2.8 (jitter = 9.5)	7.364
+50	images/sec: 1707.9 +/- 2.3 (jitter = 7.8)	7.362
+60	images/sec: 1708.4 +/- 1.9 (jitter = 7.4)	7.362
+70	images/sec: 1708.5 +/- 1.8 (jitter = 6.9)	7.376
+80	images/sec: 1709.0 +/- 1.6 (jitter = 7.1)	7.364
+90	images/sec: 1708.5 +/- 1.7 (jitter = 7.4)	7.361
+100	images/sec: 1708.4 +/- 1.6 (jitter = 7.7)	7.347
+----------------------------------------------------------------
+total images/sec: 1707.54
+----------------------------------------------------------------
+auto-log-parser-reset ===========================
+LocalBS: 64
+TensorFlow:  1.10
+Model:       vgg19
+Dataset:     imagenet (synthetic)
+Mode:        training
+SingleSess:  False
+Batch size:  512 global
+             64 per device
+Num batches: 100
+Num epochs:  0.04
+Devices:     ['/gpu:0', '/gpu:1', '/gpu:2', '/gpu:3', '/gpu:4', '/gpu:5', '/gpu:6', '/gpu:7']
+Data format: NCHW
+Layout optimizer: False
+Optimizer:   sgd
+Variables:   replicated
+AllReduce:   nccl
+==========
+Generating model
+Total data = 574685348 bytes, or 548.0627 MBytes, or 4.5975 Gbits
+Total data = 574685348 bytes, or 548.0627 MBytes, or 4.5975 Gbits
+Total data = 574685348 bytes, or 548.0627 MBytes, or 4.5975 Gbits
+Total data = 574685348 bytes, or 548.0627 MBytes, or 4.5975 Gbits
+Total data = 574685348 bytes, or 548.0627 MBytes, or 4.5975 Gbits
+Total data = 574685348 bytes, or 548.0627 MBytes, or 4.5975 Gbits
+Total data = 574685348 bytes, or 548.0627 MBytes, or 4.5975 Gbits
+Total data = 574685348 bytes, or 548.0627 MBytes, or 4.5975 Gbits
+W0709 18:16:52.268290 140438509074240 tf_logging.py:125] From /home/ubuntu/benchmarks/benchmark_cnn.py:1678: __init__ (from tensorflow.python.training.supervisor) is deprecated and will be removed in a future version.
+Instructions for updating:
+Please switch to tf.train.MonitoredTrainingSession
+2018-07-09 18:16:53.408706: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2018-07-09 18:16:54.242670: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:883] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-07-09 18:16:54.243787: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1392] Found device 0 with properties: 
+name: Tesla V100-SXM2-16GB major: 7 minor: 0 memoryClockRate(GHz): 1.53
+pciBusID: 0000:00:17.0
+totalMemory: 15.78GiB freeMemory: 15.37GiB
+2018-07-09 18:16:54.464191: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:883] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-07-09 18:16:54.466163: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1392] Found device 1 with properties: 
+name: Tesla V100-SXM2-16GB major: 7 minor: 0 memoryClockRate(GHz): 1.53
+pciBusID: 0000:00:18.0
+totalMemory: 15.78GiB freeMemory: 15.37GiB
+2018-07-09 18:16:54.671133: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:883] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-07-09 18:16:54.672485: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1392] Found device 2 with properties: 
+name: Tesla V100-SXM2-16GB major: 7 minor: 0 memoryClockRate(GHz): 1.53
+pciBusID: 0000:00:19.0
+totalMemory: 15.78GiB freeMemory: 15.37GiB
+2018-07-09 18:16:54.897356: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:883] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-07-09 18:16:54.899145: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1392] Found device 3 with properties: 
+name: Tesla V100-SXM2-16GB major: 7 minor: 0 memoryClockRate(GHz): 1.53
+pciBusID: 0000:00:1a.0
+totalMemory: 15.78GiB freeMemory: 15.37GiB
+2018-07-09 18:16:55.142762: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:883] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-07-09 18:16:55.144063: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1392] Found device 4 with properties: 
+name: Tesla V100-SXM2-16GB major: 7 minor: 0 memoryClockRate(GHz): 1.53
+pciBusID: 0000:00:1b.0
+totalMemory: 15.78GiB freeMemory: 15.37GiB
+2018-07-09 18:16:55.403575: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:883] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-07-09 18:16:55.404698: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1392] Found device 5 with properties: 
+name: Tesla V100-SXM2-16GB major: 7 minor: 0 memoryClockRate(GHz): 1.53
+pciBusID: 0000:00:1c.0
+totalMemory: 15.78GiB freeMemory: 15.37GiB
+2018-07-09 18:16:55.605995: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:883] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-07-09 18:16:55.607117: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1392] Found device 6 with properties: 
+name: Tesla V100-SXM2-16GB major: 7 minor: 0 memoryClockRate(GHz): 1.53
+pciBusID: 0000:00:1d.0
+totalMemory: 15.78GiB freeMemory: 15.37GiB
+2018-07-09 18:16:55.888054: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:883] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-07-09 18:16:55.889309: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1392] Found device 7 with properties: 
+name: Tesla V100-SXM2-16GB major: 7 minor: 0 memoryClockRate(GHz): 1.53
+pciBusID: 0000:00:1e.0
+totalMemory: 15.78GiB freeMemory: 15.37GiB
+2018-07-09 18:16:55.889617: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1471] Adding visible gpu devices: 0, 1, 2, 3, 4, 5, 6, 7
+2018-07-09 18:16:58.680091: I tensorflow/core/common_runtime/gpu/gpu_device.cc:952] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-07-09 18:16:58.680146: I tensorflow/core/common_runtime/gpu/gpu_device.cc:958]      0 1 2 3 4 5 6 7 
+2018-07-09 18:16:58.680156: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] 0:   N Y Y Y Y N N N 
+2018-07-09 18:16:58.680163: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] 1:   Y N Y Y N Y N N 
+2018-07-09 18:16:58.680168: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] 2:   Y Y N Y N N Y N 
+2018-07-09 18:16:58.680174: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] 3:   Y Y Y N N N N Y 
+2018-07-09 18:16:58.680183: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] 4:   Y N N N N Y Y Y 
+2018-07-09 18:16:58.680189: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] 5:   N Y N N Y N Y Y 
+2018-07-09 18:16:58.680196: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] 6:   N N Y N Y Y N Y 
+2018-07-09 18:16:58.680202: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] 7:   N N N Y Y Y Y N 
+2018-07-09 18:16:58.682697: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1084] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 14879 MB memory) -> physical GPU (device: 0, name: Tesla V100-SXM2-16GB, pci bus id: 0000:00:17.0, compute capability: 7.0)
+2018-07-09 18:16:58.893514: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1084] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:1 with 14879 MB memory) -> physical GPU (device: 1, name: Tesla V100-SXM2-16GB, pci bus id: 0000:00:18.0, compute capability: 7.0)
+2018-07-09 18:16:59.093760: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1084] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:2 with 14879 MB memory) -> physical GPU (device: 2, name: Tesla V100-SXM2-16GB, pci bus id: 0000:00:19.0, compute capability: 7.0)
+2018-07-09 18:16:59.300557: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1084] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:3 with 14879 MB memory) -> physical GPU (device: 3, name: Tesla V100-SXM2-16GB, pci bus id: 0000:00:1a.0, compute capability: 7.0)
+2018-07-09 18:16:59.466625: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1084] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:4 with 14879 MB memory) -> physical GPU (device: 4, name: Tesla V100-SXM2-16GB, pci bus id: 0000:00:1b.0, compute capability: 7.0)
+2018-07-09 18:16:59.681044: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1084] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:5 with 14879 MB memory) -> physical GPU (device: 5, name: Tesla V100-SXM2-16GB, pci bus id: 0000:00:1c.0, compute capability: 7.0)
+2018-07-09 18:16:59.885361: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1084] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:6 with 14879 MB memory) -> physical GPU (device: 6, name: Tesla V100-SXM2-16GB, pci bus id: 0000:00:1d.0, compute capability: 7.0)
+2018-07-09 18:17:00.083854: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1084] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:7 with 14879 MB memory) -> physical GPU (device: 7, name: Tesla V100-SXM2-16GB, pci bus id: 0000:00:1e.0, compute capability: 7.0)
+I0709 18:17:02.292113 140438509074240 tf_logging.py:115] Running local_init_op.
+I0709 18:17:05.789422 140438509074240 tf_logging.py:115] Done running local_init_op.
+Running warm up
+Done warm up
+Step	Img/sec	total_loss
+1	images/sec: 1380.4 +/- 0.0 (jitter = 0.0)	7.283
+10	images/sec: 1294.2 +/- 19.3 (jitter = 66.7)	7.281
+20	images/sec: 1330.9 +/- 13.7 (jitter = 34.7)	7.280
+30	images/sec: 1326.3 +/- 11.4 (jitter = 36.7)	7.281
+40	images/sec: 1332.2 +/- 9.1 (jitter = 38.8)	7.281
+50	images/sec: 1329.7 +/- 8.6 (jitter = 43.6)	7.282
+60	images/sec: 1332.6 +/- 7.8 (jitter = 42.7)	7.280
+70	images/sec: 1335.2 +/- 7.4 (jitter = 40.8)	7.279
+80	images/sec: 1334.5 +/- 7.0 (jitter = 45.0)	7.282
+90	images/sec: 1333.4 +/- 6.5 (jitter = 45.9)	7.281
+100	images/sec: 1333.3 +/- 6.2 (jitter = 41.6)	7.280
+----------------------------------------------------------------
+total images/sec: 1332.76
+----------------------------------------------------------------
