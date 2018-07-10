@@ -1,6 +1,6 @@
 from __future__ import print_function
 from matplotlib import pyplot as plt
-import re
+import re, math
 
 f = open("results.txt", 'r')
 line = f.readline()
@@ -29,6 +29,8 @@ MS_DATA_SIZE = 100 * 2**20
 SHOW_HIST = False
 
 LAT_TEST_SIZES = [4, 102400, 1048576, 104857600]
+LAT_TEST_SIZE_LABELS = ["4 bytes", "100KB", "1MB", "100MB"]
+
 BW_TEST_SIZES = [5] + [10 ** i for i in range(1, 9)]
 
 class Entry:
@@ -62,7 +64,11 @@ class Entry:
     def is_bw_size_test(self):
         global BW_TEST_SIZES
         return self.data_size in BW_TEST_SIZES
-    
+
+    def is_lat_size_test(self):
+        global LAT_TEST_SIZES
+        return self.data_size in LAT_TEST_SIZES
+
 # def is_one_hop(start_gpu, end_gpu):
 #     global trans_matrix
 #     return trans_matrix[start_gpu][end_gpu] == 1
@@ -160,29 +166,40 @@ def get_bw(entries):
 def get_lat(entries):
     return [entry.lat_ms for entry in entries]
 
-def plot_8a():
+def shift(x, value):
+    return [a + value for a in x]
+
+def plot_8(fig_id):
+    fig_id = fig_id.lower()
+    if fig_id not in ["a", "b"]:
+        raise Exception("Unexpected parameter \"%s\"" % fig_id)
+    is_dma = fig_id == "b"
+    
     global all_data
-    all_my_data = [entry for entry in all_data if entry.is_bw_size_test()]
+    all_my_data = [entry for entry in all_data if entry.is_bw_size_test() and entry.is_dma == is_dma]
     
     #Grab all the entries for a given type, including duplicates
-    all_one_hop = [entry for entry in all_my_data if not entry.is_dma and entry.is_one_hop()]
+    all_one_hop = [entry for entry in all_my_data if entry.is_one_hop()]
     all_one_hop_1link = [entry for entry in all_one_hop if entry.num_links() == 1]
     all_one_hop_2link = [entry for entry in all_one_hop if entry.num_links() == 2]
-    all_two_hop = [entry for entry in all_my_data if not entry.is_dma and not entry.is_one_hop()]
+    
 
     #Remove duplicates
     one_hop_1link = average_dup_entries(all_one_hop_1link, 2**10)
     one_hop_2link = average_dup_entries(all_one_hop_2link, 2**10)
-    two_hop       = average_dup_entries(all_two_hop      , 2**10)
     
     x  = BW_TEST_SIZES
     y_1hop_1link = get_bw(one_hop_1link)
     y_1hop_2link = get_bw(one_hop_2link)
-    y_2hop       = get_bw(two_hop      )
     
     plt.plot(x, y_1hop_1link, 's' , color='orange', linestyle='--', linewidth=3, markersize=10, label="Inter GPU 1-hop (1 nvlink)")
     plt.plot(x, y_1hop_2link, 'd' , color='orange', linestyle='--', linewidth=3, markersize=10, label="Inter GPU 1-hop (2 nvlinks)")
-    plt.plot(x, y_2hop      , 'bo', color='b'     , linestyle='--', linewidth=3, markersize=10, label="Inter GPU 2-hop")
+    
+    if not is_dma:
+        all_two_hop = [entry for entry in all_my_data if not entry.is_one_hop()]
+        two_hop = average_dup_entries(all_two_hop, 2**10)
+        y_2hop  = get_bw(two_hop)
+        plt.plot(x, y_2hop, 'bo', color='b', linestyle='--', linewidth=3, markersize=10, label="Inter GPU 2-hop")
     
     plt.legend(loc="upper left")
     plt.xscale("log")
@@ -192,7 +209,63 @@ def plot_8a():
     # plt.title("GPU-to-GPU DMA")
     plt.show()
 
-plot_8a()
+#index is in range [0-3]. Corresponds to each of the test sizes the paper has. 
+def plot_9(index):
+    my_data_size = LAT_TEST_SIZES[index]
+    increase_factor = 1 if my_data_size == 100 * 2 ** 20 else 1000
+    
+    global all_data
+    all_my_data = [entry for entry in all_data if entry.is_lat_size_test() and entry.data_size == my_data_size and entry.src_gpu == 0]
+    x = [entry.dest_gpu for entry in all_my_data]
+    y = [entry.lat_ms * increase_factor for entry in all_my_data]
+
+    ax = plt.subplot(111)
+    ax.bar(x, y, color="orange", tick_label=["0-%d" % i for i in range(1, len(y)+1)], label="p2p memcpy", align='center')
+    plt.xlabel("src-dest")
+    plt.ylabel("Latency, ms" if increase_factor == 1 else "Latency, us")
+    plt.title("Latency for p2p memcpy, data size: %s" % LAT_TEST_SIZE_LABELS[index])
+    plt.show()
+
+
+def plot_dma_lat_comp(data_size):
+    increase_factor = 1000
+    global all_data
+    all_my_data = [entry for entry in all_data if entry.is_bw_size_test() and entry.data_size == data_size and entry.src_gpu == 0]
+    dma = [entry for entry in all_my_data if entry.is_dma]
+    p2p = [entry for entry in all_my_data if not entry.is_dma]
+    
+    x = [entry.dest_gpu for entry in p2p]
+    y_p2p = [entry.lat_ms * 1000 for entry in p2p]
+    y_dma = [entry.lat_ms * 1000 for entry in dma]
+    #pad 0s for unsupported x values
+    y_dma += [0] * (len(x)-len(y_dma))
+    ax = plt.subplot(111)
+    tick_label = ["0-%d" % i for i in range(1, len(x)+1)]
+    
+    width = 0.4
+    space = 0.05
+    ax.bar(x                    , y_p2p, width, color="orange", tick_label=tick_label, label="p2p memcpy")
+    ax.bar(shift(x, width+space), y_dma, width, color="blue"  , tick_label=tick_label, label="DMA")
+    ax.set_xticks(shift(x, width+space/2))
+    plt.xlim(1-2*space, 8+space)
+    plt.legend(loc="upper left")
+    plt.xlabel("src-dest")
+    plt.ylabel("Latency, ms" if increase_factor == 1 else "Latency, us")
+    data_size_exp = int(round(math.log(data_size, 10)))
+    data_size_str = "5 bytes" if data_size == 5 else "10^%d bytes" % data_size_exp
+    plt.title("Latency for p2p memcpy, data size: %s" % data_size_str)
+    plt.show()
+
+# plot_8("a")
+# plot_8("b")
+
+#for i in range(4): plot_9(i)
+
+#for data_size in BW_TEST_SIZES:
+#    plot_dma_lat_comp(data_size)
+
+
+
 
 """
 def parse_bw(is_dma):
