@@ -146,7 +146,7 @@ if __name__ == "__main__":
         assert len(all_labels) == 1
         all_labels = []
         assert len(gpu_link_ids) != 0
-        for i in range(min([len(gpu_link_ids), 16])):
+        for i in range(min([len(gpu_link_ids), 6])):
             link_tag = get_link_tag(*gpu_link_ids[i])
             all_labels.append(link_tag)
             
@@ -165,7 +165,7 @@ if __name__ == "__main__":
     # delta_x = [x[i]-x[i-1] for i in range(1, len(x))]
     # plt.plot(delta_x)
     lines = plt.plot(*all_plot_data, marker='o', markersize=5)
-    plt.legend(lines, all_labels)
+    plt.legend(lines, all_labels, loc="best")
     
     plt.xlabel("Time (sec)")
     # plt.ylabel(", ".join(all_labels))
