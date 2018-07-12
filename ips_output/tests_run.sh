@@ -46,6 +46,5 @@ for NUM_GPUS in 1 2 4 8; do
 done
 
 
-
 #resnet50_bs256_8XV100_with_fp16.out
 python tf_cnn_benchmarks.py --num_gpus=8 --batch_size=256 --model=resnet50 --variable_update=replicated --all_reduce_spec=nccl --use_fp16=1
