@@ -29,5 +29,9 @@ plt.xticks(pos, map(str, x))
 plt.tick_params(top='Off', right='Off')
 plt.ylabel("images/sec")
 
-
+i = 0
+for spine in plt.gca().spines.values():
+    if i != 2:
+        spine.set_visible(False)
+    i += 1
 plt.show()
