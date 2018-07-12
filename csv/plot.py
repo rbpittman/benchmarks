@@ -11,6 +11,14 @@ This is a multi-purpose utility file, useful primarily for plotting
 the data found in this csv folder. 
 """
 
+# font = {'family' : 'normal',
+#         'weight' : 'bold',
+#         'size'   : 22}
+
+font = {'size' : 20}
+
+plt.rc('font', **font)
+
 UNITS = ["bits", "packets", "cycles"]
 
 USE_BYTES = True
@@ -160,7 +168,7 @@ if __name__ == "__main__":
                 scale_data(y_data, factor)
     # Plot data
     plt.title("Nvlink usage")
-
+    
     # x = all_plot_data[0]
     # delta_x = [x[i]-x[i-1] for i in range(1, len(x))]
     # plt.plot(delta_x)
@@ -172,7 +180,7 @@ if __name__ == "__main__":
     # plt.ylabel("GBytes per second")
     # plt.tight_layout()
     plt.show()
-
+    
     """
     print("PERFORMING SPIKE SCAN OF ALL TX LINKS")
 
