@@ -14,7 +14,9 @@ echo "Done"
 BS=128;
 echo "auto-log-parser-reset ===========================";
 echo "LocalBS: $BS";
-python tf_cnn_benchmarks.py --num_gpus=8 --batch_size=$BS --model=resnet50 --variable_update=replicated --all_reduce_spec=xring
+python tf_cnn_benchmarks.py --num_gpus=8 --batch_size=$BS --model=resnet50 --variable_update=replicated --all_reduce_spec=nccl
+
+#--all_reduce_spec=xring
 
 
 #--all_reduce_spec=nccl
